@@ -1,0 +1,169 @@
+<div class="flex flex-col w-full h-fit">
+  <div class="px-3 py-2 flex flex-col">
+    <div class="flex flex-col py-2">
+      <p class="font-m_black text-2xl">Update Your Information</p>
+      <p class="text-sm">Please, complete the form below to continue.</p>
+    </div>
+    <form
+      id="cpass-form-id"
+      class="flex flex-col space-y-4"
+      [formGroup]="cpassFormGroup"
+      (ngSubmit)="onSubmitForm($event)"
+    >
+      <div class="flex flex-col space-y-1">
+        <div class="flex flex-col w-full space-y-1 relative h-auto">
+          <p class="font-m_regular text-xs">Secret question</p>
+          <mat-form-field class="lg:w-1/2 w-full">
+            <mat-label> Pick a secret question </mat-label>
+            <mat-select [formControl]="secretQuestion" class="lg:w-1/2 w-full">
+              <ng-container *ngIf="$secretQuestions | async as secretQuestions">
+                <mat-option
+                  *ngFor="
+                    let question of secretQuestions | slice : 2;
+                    index as ind
+                  "
+                  [value]="question.value"
+                >
+                  {{ question.text }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+            @if (AppUtilities.hasFormControlError(secretQuestion)) {
+            <mat-error>
+              <span> Please, select a question. </span>
+            </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col w-full space-y-1 relative h-auto">
+          <p class="font-m_regular text-xs">Answer</p>
+          <mat-form-field class="lg:w-1/2 w-full h-auto">
+            <mat-label>Write your answer</mat-label>
+            <input
+              type="text"
+              class="font-m_light text-xs w-1/2"
+              matInput
+              [formControl]="answer"
+            />
+            @if (AppUtilities.hasFormControlError(answer)) {
+            <mat-error>
+              <span> Please, provide an answer. </span>
+            </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <p class="font-m_black text-lg p-x2">Change Password</p>
+      <div class="flex flex-col space-y-1">
+        <div class="flex flex-col w-full space-y-1 relative h-auto">
+          <p class="font-m_regular text-xs">New Password</p>
+          <mat-form-field class="lg:w-1/2 w-full h-auto">
+            <mat-label>Create Password</mat-label>
+            <input
+              #newPasswordInput
+              type="password"
+              class="font-m_light text-xs"
+              matInput
+              [formControl]="newPassword"
+              (paste)="$event.preventDefault()"
+              (copy)="$event.preventDefault()"
+              (cut)="$event.preventDefault()"
+            />
+            @if (AppUtilities.hasFormControlError(newPassword)) {
+            <mat-error>
+              <span>
+                @if (newPassword.hasError('required')) {
+                {{ "Please fill" }}
+                } @else if (newPassword.hasError('pattern')) {
+                {{
+                  "Use 8-14 characters with at least one number, special character, lowercase, and uppercase letter."
+                }}
+                } @else if (newPassword.hasError('matching')) {
+                {{ "Passwords do not match." }}
+                } @else {}
+              </span>
+            </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col w-full space-y-1 relative h-auto">
+          <p class="font-m_regular text-xs">Confirm Password</p>
+          <mat-form-field class="lg:w-1/2 w-full h-auto">
+            <mat-label>Confirm password</mat-label>
+            <input
+              #confirmPasswordField
+              type="password"
+              class="font-m_light text-xs"
+              matInput
+              [formControl]="confirmPassword"
+              (paste)="$event.preventDefault()"
+              (copy)="$event.preventDefault()"
+              (cut)="$event.preventDefault()"
+            />
+            @if (AppUtilities.hasFormControlError(confirmPassword)) {
+            <mat-error>
+              <span>
+                @if (confirmPassword.hasError('required')) {
+                {{ "Please fill" }}
+                } @else if (confirmPassword.hasError('pattern')) {
+                {{
+                  "Use 8-14 characters with at least one number, special character, lowercase, and uppercase letter."
+                }}
+                } @else if (confirmPassword.hasError('matching')) {
+                {{ "Passwords do not match." }}
+                } @else {}
+              </span>
+            </mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+      <p class="font-m_black text-lg p-x2">Capcha</p>
+      <div class="flex flex-col space-y-1">
+        <div class="flex flex-col w-full space-y-1 relative h-auto">
+          <p class="font-m_regular text-xs">Capcha</p>
+          <mat-form-field class="lg:w-1/2 w-full h-auto">
+            <mat-label>Enter below code</mat-label>
+            <input
+              type="text"
+              class="font-m_light text-xs w-1/2"
+              matInput
+              [formControl]="capcha"
+            />
+            @if (AppUtilities.hasFormControlError(capcha)) {
+            <mat-error>
+              <span> The capcha code you provided was invalid. </span>
+            </mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="flex flex-row items-center space-x-2 lg:w-1/2 w-full">
+          <ng-container *ngIf="$formInputs | async as inputs">
+            <img #capchaImage [src]="inputs.capchaImage.src" alt="" srcset="" />
+          </ng-container>
+          <button (click)="refreshCapcha()" type="button" mat-icon-button>
+            <mat-icon>autorenew</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="flex flex-row items-center justify-end lg:w-1/2 w-full py-2">
+        <button
+          mat-button
+          color="warn"
+          type="button"
+          (click)="resetCPassFormGroup()"
+        >
+          Reset
+        </button>
+        <button
+          form="cpass-form-id"
+          mat-flat-button
+          color="primary"
+          type="submit"
+        >
+          Update
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

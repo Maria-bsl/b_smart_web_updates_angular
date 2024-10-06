@@ -1,0 +1,61 @@
+<!-- <div class="w-full h-full flex flex-col py-8">
+  <div class="w-full grid place-items-center">
+    <img class="w-28" src="assets/images/b-smart-acamedia-logo.png" alt="" />
+  </div>
+  <div class="pt-8">
+    <mat-tree
+      [dataSource]="sidenavService.dataSource"
+      [treeControl]="sidenavService.treeControl"
+    >
+      <mat-tree-node
+        [@simpleFade]="node.level ? 1 : 0"
+        *matTreeNodeDef="let node"
+        matTreeNodePadding
+        class="!relative !mx-2"
+      >
+        <a class="btn btn-ghost w-full text-left relative">
+          <div
+            [routerLink]="sidenavService.getLink(node.name)"
+            [routerLinkActive]="'bg-primary font-m_bold text-white'"
+            class="absolute w-full h-full flex flex-row items-center p-4 space-x-2 font-m_light"
+          >
+            <mat-icon>{{ sidenavService.getIcon(node.name) }}</mat-icon>
+            <p class="text-sm">{{ node.name }}</p>
+          </div>
+        </a>
+      </mat-tree-node>
+      <mat-tree-node
+        [@simpleFade]="node.level ? 1 : 0"
+        *matTreeNodeDef="let node; when: sidenavService.hasChild"
+        matTreeNodePadding
+        class="!relative mx-2"
+      >
+        <a
+          (click)="nodeClicked(node)"
+          matTreeNodeToggle
+          class="btn btn-ghost w-full text-left relative group"
+        >
+          <div
+            [routerLink]="sidenavService.getLink(node.name)"
+            [routerLinkActive]="
+              'bg-primary font-m_bold text-white hover:text-white'
+            "
+            class="absolute w-full h-full flex flex-row items-center p-4 justify-between font-m_light hover:text-primary duration-200"
+          >
+            <div class="flex flex-row items-center space-x-2">
+              <mat-icon>{{ sidenavService.getIcon(node.name) }}</mat-icon>
+              <p class="text-sm">{{ node.name }}</p>
+            </div>
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{
+                sidenavService.treeControl.isExpanded(node)
+                  ? "arrow_drop_up"
+                  : "arrow_drop_down"
+              }}
+            </mat-icon>
+          </div>
+        </a>
+      </mat-tree-node>
+    </mat-tree>
+  </div>
+</div> -->

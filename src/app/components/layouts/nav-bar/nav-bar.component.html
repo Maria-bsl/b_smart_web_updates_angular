@@ -1,0 +1,48 @@
+<mat-toolbar color="primary" class="!h-16">
+  <button (click)="onMenuClicked()" class="btn btn-circle btn-ghost">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <img class="w-20" src="assets/images/logo-light-2.png" alt="" srcset="" />
+  <span class="example-spacer"></span>
+  <!-- <button class="btn btn-circle btn-ghost">
+    <mat-icon>notifications</mat-icon>
+  </button> -->
+  <button class="btn btn-ghost btn-circle">
+    <div class="indicator">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+        />
+      </svg>
+      <span class="badge badge-xs indicator-item"></span>
+    </div>
+  </button>
+  <button class="flex flex-row items-center space-x-2 btn btn-ghost">
+    <div class="flex flex-row items-center space-x-0.5">
+      <img
+        ngSrc="https://randomuser.me/api/portraits/women/16.jpg"
+        alt=""
+        srcset=""
+        width="48"
+        height="48"
+        class="w-12 h-12 object-fill rounded-full"
+      />
+      <div class="flex flex-col">
+        <p class="font-m_regular text-left">Amaye Kendrick</p>
+        <p class="font-m_light text-left">Administrator</p>
+      </div>
+    </div>
+    <button>
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+  </button>
+</mat-toolbar>

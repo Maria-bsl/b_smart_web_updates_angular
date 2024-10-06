@@ -1,0 +1,224 @@
+<form
+  id="admission-form"
+  [formGroup]="formGroup"
+  class="flex flex-col space-y-4 w-full"
+  (ngSubmit)="submitForm()"
+>
+  <div class="grid md:grid-cols-2 grid-cols-1 w-full gap-3">
+    <ng-container *ngIf="formInputs$ | async as formInputs">
+      <div class="grid grid-cols-1 md:grid-cols-12 w-full">
+        <p class="font-normal text-xs text-nowrap col-span-3">
+          School Name<span class="text-red-600">*</span>
+        </p>
+        <mat-form-field appearance="outline" class="w-full col-span-9">
+          <mat-select
+            placeholder="Pick a school"
+            (blur)="
+              matchHtmlElementToFormControl(
+                $event,
+                schoolName,
+                formInputs.schoolName
+              )
+            "
+            [formControl]="schoolName"
+          >
+            <ng-container *ngIf="schoolsNameList$ | async as schoolsNameList">
+              <mat-option
+                *ngFor="
+                  let schoolItem of schoolsNameList | slice : 1;
+                  index as ind
+                "
+                [value]="schoolItem.value"
+              >
+                {{ schoolItem.text }}
+              </mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="AppUtilities.hasFormControlError(schoolName)">
+            <span> Please, select school </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-12 w-full">
+        <p class="font-normal text-xs col-span-3">
+          Academic<span class="text-red-600">*</span>
+        </p>
+        <mat-form-field appearance="outline" class="w-full col-span-9">
+          <mat-select
+            placeholder="Select academic year"
+            (blur)="
+              matchHtmlElementToFormControl(
+                $event,
+                academicYear,
+                formInputs.academicYear
+              )
+            "
+            [formControl]="academicYear"
+          >
+            <ng-container *ngIf="academicYearList$ | async as academicYearList">
+              <mat-option
+                *ngFor="
+                  let academicItem of academicYearList | slice : 1;
+                  index as ind
+                "
+                [value]="academicItem.value"
+              >
+                {{ academicItem.text }}
+              </mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="AppUtilities.hasFormControlError(academicYear)">
+            <span> Please, select academic </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-12 w-full">
+        <p class="font-normal text-xs col-span-3">
+          Class Group<span class="text-red-600">*</span>
+        </p>
+        <mat-form-field appearance="outline" class="w-full col-span-9">
+          <mat-select
+            placeholder="Select class group"
+            (blur)="
+              matchHtmlElementToFormControl(
+                $event,
+                classGroup,
+                formInputs.classGroup
+              )
+            "
+            [formControl]="classGroup"
+          >
+            <ng-container *ngIf="classGroupsList$ | async as classGroupsList">
+              <mat-option
+                *ngFor="
+                  let classGroupsItem of classGroupsList | slice : 1;
+                  index as ind
+                "
+                [value]="classGroupsItem.value"
+              >
+                {{ classGroupsItem.text }}
+              </mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="AppUtilities.hasFormControlError(classGroup)">
+            <span> Please, select class </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-12 w-full">
+        <h6 class="text-left text-xs font-normal col-span-3">Index No</h6>
+        <mat-form-field appearance="outline" class="w-full col-span-9">
+          <input
+            placeholder="Enter Index No"
+            (blur)="
+              matchHtmlElementToFormControl($event, indexNo, formInputs.indexNo)
+            "
+            type="text"
+            matInput
+            [formControl]="indexNo"
+          />
+          <mat-error> Please, enter index number. </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-12 w-full">
+        <h6 class="text-left text-xs font-normal col-span-3">
+          Student Name<span class="text-red-600">*</span>
+        </h6>
+        <mat-form-field appearance="outline" class="w-full col-span-9">
+          <input
+            placeholder="Enter student name"
+            (blur)="
+              matchHtmlElementToFormControl(
+                $event,
+                studentName,
+                formInputs.studentName
+              )
+            "
+            type="text"
+            matInput
+            [formControl]="studentName"
+          />
+          <mat-error> Please, enter student name. </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-12 w-full">
+        <h6 class="text-left text-xs font-normal col-span-3">
+          Parent Name<span class="text-red-600">*</span>
+        </h6>
+        <mat-form-field appearance="outline" class="w-full col-span-9">
+          <input
+            placeholder="Enter parent name"
+            (blur)="
+              matchHtmlElementToFormControl(
+                $event,
+                parentName,
+                formInputs.parentName
+              )
+            "
+            type="text"
+            matInput
+            [formControl]="parentName"
+          />
+          <mat-error> Please, enter parent name. </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-12 w-full">
+        <h6 class="text-left text-xs font-normal col-span-3">
+          Parent Mobile<span class="text-red-600">*</span>
+        </h6>
+        <mat-form-field appearance="outline" class="w-full col-span-9">
+          <span matTextPrefix>+255 &nbsp;</span>
+          <input
+            placeholder="Enter parent mobile"
+            (blur)="
+              matchHtmlElementToFormControl(
+                $event,
+                parentMobile,
+                formInputs.parentMobile
+              )
+            "
+            type="text"
+            matInput
+            [formControl]="parentMobile"
+          />
+          <mat-error> Please, enter parent mobile. </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-12 w-full">
+        <h6 class="text-left text-xs font-normal col-span-3">Parent Email</h6>
+        <mat-form-field appearance="outline" class="w-full col-span-9">
+          <input
+            placeholder="Enter parent email"
+            (blur)="
+              matchHtmlElementToFormControl(
+                $event,
+                parentEmail,
+                formInputs.parentEmail
+              )
+            "
+            type="text"
+            matInput
+            [formControl]="parentEmail"
+          />
+          <mat-error> Please, enter parent email. </mat-error>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </div>
+  <div
+    *ngIf="formActions$ | async as formActions"
+    class="flex flex-row items-center justify-end w-full py-2"
+  >
+    <button
+      (click)="resetForm(formActions.cancelButton)"
+      mat-button
+      color="warn"
+      type="button"
+    >
+      Reset
+    </button>
+    <button type="submit" form="admission-form" mat-flat-button color="primary">
+      Register
+    </button>
+  </div>
+</form>

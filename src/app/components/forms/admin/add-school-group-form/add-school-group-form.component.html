@@ -1,0 +1,72 @@
+<div class="relative">
+  <form
+    id="school-group-form"
+    [formGroup]="formGroup"
+    class="py-4 px-4 flex flex-col divide-y h-full w-full"
+    (ngSubmit)="submitSchoolGroupForm()"
+  >
+    <h1 class="text-xl md:text-2xl p-0 font-m_black flex-none">
+      Add New School Group
+    </h1>
+    <div class="flex flex-col w-full py-2 space-y-4">
+      <div class="flex flex-row items-center space-x-2">
+        <div class="flex flex-col w-full">
+          <h6 class="text-xs font-bold">School Group</h6>
+          <mat-form-field>
+            <mat-label>Enter group name</mat-label>
+            <input matInput [formControl]="name" />
+            <mat-error> Please fill </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col w-full">
+          <h6 class="text-xs font-bold">Status</h6>
+          <mat-radio-group [formControl]="status" aria-label="Select an option">
+            <mat-radio-button color="primary" value="Active"
+              ><p class="text-xs">Active</p></mat-radio-button
+            >
+            <mat-radio-button color="primary" value="InActive"
+              ><p class="text-xs">InActive</p></mat-radio-button
+            >
+          </mat-radio-group>
+          <mat-error *ngIf="status && status.invalid && status.touched">
+            Please select a status
+          </mat-error>
+        </div>
+      </div>
+      <div class="flex flex-col space-y-1 w-full">
+        <h6 class="text-xs font-bold max-h-full">Registered Schools</h6>
+        <div class="flex flex-col w-full">
+          <ng-container *ngIf="$schoolsListView | async as schoolsListView">
+            <mat-selection-list
+              [formControl]="selectedSchools"
+              #schools
+              class="!overflow-auto max-h-40"
+            >
+              @for (school of schoolsListView; track school) {
+              <mat-list-option [value]="school.value" class="!text-xs">{{
+                school.text
+              }}</mat-list-option>
+              }
+            </mat-selection-list>
+            <p class="text-xs">
+              Schools selected: {{ schools.selectedOptions.selected.length }}
+            </p>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-row items-center justify-end w-full py-2">
+      <button mat-button color="warn" type="button" (click)="closeDialog()">
+        Close
+      </button>
+      <button
+        type="submit"
+        form="school-group-form"
+        mat-flat-button
+        color="primary"
+      >
+        Create
+      </button>
+    </div>
+  </form>
+</div>

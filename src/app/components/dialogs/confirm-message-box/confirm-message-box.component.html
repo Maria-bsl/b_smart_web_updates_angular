@@ -1,0 +1,18 @@
+<div class="flex flex-row space-x-1">
+  <!-- <button matTooltip="View schools" type="button" mat-icon-button color="error">
+    <mat-icon matPrefix class="text-green-600">check_circle</mat-icon>
+  </button> -->
+  <button class="w-8 h-8 rounded-full bg-green-300 grid place-items-center">
+    <mat-icon matPrefix class="text-green-600">check_circle</mat-icon>
+  </button>
+  <div class="flex flex-col space-y-1">
+    <p class="font-m_bold text-lg">{{ data.title }}</p>
+    <p class="font-m_light text-sm">{{ data.message }}</p>
+    <div class="flex flex-row items-center justify-end w-full p-2 space-x-2">
+      <button mat-button color="warn" (click)="closeDialog()">No</button>
+      <button mat-button color="primary" (click)="onConfirmClicked()">
+        YES
+      </button>
+    </div>
+  </div>
+</div>

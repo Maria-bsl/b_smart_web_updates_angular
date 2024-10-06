@@ -1,0 +1,76 @@
+<div class="relative">
+  <form
+    id="school-group-form"
+    [formGroup]="formGroup"
+    class="py-4 px-4 flex flex-col divide-y h-full w-full"
+    (ngSubmit)="submitEditSchoolGroupForm()"
+  >
+    <h1 class="text-xl md:text-2xl p-0 font-m_black flex-none">
+      Edit School Group
+    </h1>
+    <div class="flex flex-col w-full py-2">
+      <div class="flex flex-row items-center justify-between">
+        <div class="flex flex-col space-y-1 w-full">
+          <h6 class="text-left text-sm font-m_regular">School Group</h6>
+          <mat-form-field class="example-full-width">
+            <mat-label>Enter group name</mat-label>
+            <input matInput [formControl]="name" />
+            <mat-error> Please fill </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col space-y-1 w-full">
+          <h6 class="text-left text-sm font-m_regular">Status</h6>
+          <mat-radio-group [formControl]="status" aria-label="Select an option">
+            <mat-radio-button color="primary" value="Active"
+              >Active</mat-radio-button
+            >
+            <mat-radio-button color="primary" value="InActive"
+              >InActive</mat-radio-button
+            >
+          </mat-radio-group>
+          <mat-error *ngIf="status && status.invalid && status.touched">
+            <ng-container> Please select a status </ng-container>
+          </mat-error>
+        </div>
+      </div>
+      <div class="flex flex-col space-y-1 w-full">
+        <h6 class="text-left text-sm font-m_regular max-h-full">
+          Registered Schools
+        </h6>
+        <div class="flex flex-col w-full">
+          <ng-container *ngIf="$schoolsListView | async as schoolsListView">
+            <mat-selection-list
+              [formControl]="selectedSchools"
+              #schools
+              class="!overflow-auto max-h-40"
+            >
+              @for (school of schoolsListView; track school) {
+              <mat-list-option
+                [selected]="school.selected"
+                [value]="school.value"
+                >{{ school.text }}</mat-list-option
+              >
+              }
+            </mat-selection-list>
+            <p class="font-m_light">
+              Schools selected: {{ schools.selectedOptions.selected.length }}
+            </p>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-row items-center justify-end w-full py-2">
+      <button mat-button color="warn" type="button" (click)="closeDialog()">
+        Close
+      </button>
+      <button
+        type="submit"
+        form="school-group-form"
+        mat-flat-button
+        color="primary"
+      >
+        Modify
+      </button>
+    </div>
+  </form>
+</div>

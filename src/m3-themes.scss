@@ -1,0 +1,262 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap");
+
+// $md-mcgpalette0: (
+//   50: #e6ebf4,
+//   100: #bfcde4,
+//   200: #95acd2,
+//   300: #6b8abf,
+//   400: #4b71b2,
+//   500: #2b58a4,
+//   600: #26509c,
+//   700: #204792,
+//   800: #1a3d89,
+//   900: #102d78,
+//   A100: #acbfff,
+//   A200: #7998ff,
+//   A400: #4671ff,
+//   A700: #2c5eff,
+//   contrast: (
+//     50: #000000,
+//     100: #000000,
+//     200: #000000,
+//     300: #000000,
+//     400: #ffffff,
+//     500: #ffffff,
+//     600: #ffffff,
+//     700: #ffffff,
+//     800: #ffffff,
+//     900: #ffffff,
+//     A100: #000000,
+//     A200: #000000,
+//     A400: #ffffff,
+//     A700: #ffffff,
+//   ),
+// );
+
+// /* For use in src/lib/core/theming/_palette.scss */
+// $md-mcgpalette1: (
+//   50: #feeee6,
+//   100: #fbd5bf,
+//   200: #f9b995,
+//   300: #f79d6b,
+//   400: #f5884b,
+//   500: #f3732b,
+//   600: #f16b26,
+//   700: #ef6020,
+//   800: #ed561a,
+//   900: #ea4310,
+//   A100: #ffffff,
+//   A200: #ffe9e4,
+//   A400: #ffc0b1,
+//   A700: #ffac97,
+//   contrast: (
+//     50: #000000,
+//     100: #000000,
+//     200: #000000,
+//     300: #000000,
+//     400: #000000,
+//     500: #000000,
+//     600: #000000,
+//     700: #000000,
+//     800: #ffffff,
+//     900: #ffffff,
+//     A100: #000000,
+//     A200: #000000,
+//     A400: #000000,
+//     A700: #000000,
+//   ),
+// );
+
+$m2-primary: (
+  50: #e1ebf5,
+  100: #b3cee5,
+  200: #80add4,
+  300: #4d8cc2,
+  400: #2773b5,
+  500: #015aa8,
+  600: #0152a0,
+  700: #014897,
+  800: #013f8d,
+  900: #002e7d,
+  A100: #abd9ff,
+  A200: #78c2ff,
+  A400: #45aaff,
+  A700: #2c9fff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$m2-accent: (
+  50: #fdeee4,
+  100: #fbd4bc,
+  200: #f9b790,
+  300: #f69a64,
+  400: #f48542,
+  500: #f26f21,
+  600: #f0671d,
+  700: #ee5c18,
+  800: #ec5214,
+  900: #e8400b,
+  A100: #ffffff,
+  A200: #ffffff,
+  A400: #fff2f1,
+  A700: #ffd9d8,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$m2-error: (
+  50: #fff6f5,
+  100: #ffe9e6,
+  200: #ffdad5,
+  300: #ffcbc4,
+  400: #ffbfb8,
+  500: #ffb4ab,
+  600: #ffada4,
+  700: #ffa49a,
+  800: #ff9c91,
+  900: #ff8c80,
+  A100: #ffffff,
+  A200: #ffffff,
+  A400: #ffffff,
+  A700: #ffffff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$b_smart_v1-primary: mat.define-palette($m2-primary);
+$b_smart_v1-accent: mat.define-palette($m2-accent);
+
+// The warn palette is optional (defaults to red).
+$b_smart_v1-warn: mat.define-palette(mat.$red-palette);
+//$b_smart_v1-warn: mat.define-palette($m2-error);
+
+$typography-configs: mat.define-typography-config(
+  $headline-1:
+    mat.define-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
+  $headline-2:
+    mat.define-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
+  $headline-3:
+    mat.define-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
+  $headline-4: mat.define-typography-level(34px, 40px, 400),
+  $headline-5: mat.define-typography-level(24px, 32px, 400),
+  $headline-6: mat.define-typography-level(14px, 18px, 400),
+  $subtitle-1: mat.define-typography-level(8px, 12px, 400),
+);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$b_smart_v1-light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $b_smart_v1-primary,
+      accent: $b_smart_v1-accent,
+      warn: $b_smart_v1-warn,
+    ),
+    typography: $typography-configs,
+    density: 0,
+  )
+);
+
+$b_smart_v1-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $b_smart_v1-primary,
+      accent: $b_smart_v1-accent,
+      warn: $b_smart_v1-warn,
+    ),
+    typography: $typography-configs,
+    density: 0,
+  )
+);
+
+@mixin apply-theme($theme) {
+  @include mat.all-component-themes($theme);
+  @include mat.form-field-density(-3);
+}
+
+// .light-theme {
+//   @include apply-theme($b_smart_v1-light-theme);
+// }
+
+// .dark-theme {
+//   @include apply-theme($b_smart_v1-dark-theme);
+// }
+
+button,
+p,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+small,
+th,
+td,
+mark,
+textarea,
+select,
+select > option,
+input,
+mat-label {
+  font-family: "Sora", sans-serif !important;
+}
+
+body {
+  @include apply-theme($b_smart_v1-light-theme);
+  @include mat.typography-hierarchy($typography-configs);
+}

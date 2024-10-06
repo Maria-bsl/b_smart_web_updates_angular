@@ -1,0 +1,166 @@
+<div #blockRecord class="flex flex-col w-full h-fit">
+  <div class="px-3 py-2 flex flex-col">
+    <div class="flex flex-col py-2 divide-y">
+      <p class="font-m_black text-2xl p-x2">Block/Unblock User</p>
+    </div>
+    <form
+      id="block-user-form"
+      class="flex flex-col w-full space-y-2"
+      [formGroup]="formGroup"
+    >
+      <div class="flex flex-col divide-y w-full">
+        <div class="flex flex-col md:flex-row items-center space-x-2 w-full">
+          <div class="flex flex-col w-full">
+            <p class="font-m_regular text-xs">User type</p>
+            <mat-form-field>
+              <mat-label> Select user type </mat-label>
+              <mat-select [formControl]="userType" class="w-full">
+                <ng-container *ngIf="$userTypes | async as userTypes">
+                  <mat-option
+                    *ngFor="let type of userTypes | slice : 1; index as ind"
+                    [value]="type.value"
+                  >
+                    {{ type.text }}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+              <mat-error *ngIf="AppUtilities.hasFormControlError(userType)">
+                <span> Please, select a user type </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="flex flex-col w-full">
+            <p class="font-m_regular text-xs">Action</p>
+            <mat-form-field>
+              <mat-label> Select action </mat-label>
+              <mat-select [formControl]="action" class="w-full">
+                <ng-container *ngIf="$actions | async as actions">
+                  <mat-option
+                    *ngFor="let act of actions | slice : 1; index as ind"
+                    [value]="act.value"
+                  >
+                    {{ act.text }}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+              <mat-error *ngIf="AppUtilities.hasFormControlError(action)">
+                Please, select an action
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 w-full py-2 gap-2">
+          <div
+            class="flex flex-col"
+            *ngIf="action.value === BlockedStatus.UNBLOCK; else blockedTemplate"
+          >
+            <p class="font-m_regular text-xs">Blocked users</p>
+            <mat-form-field>
+              <mat-label> Select a user </mat-label>
+              <mat-select [formControl]="blockedUser" class="w-full">
+                <ng-container *ngIf="$blockedUsers | async as blockedUsers">
+                  <mat-option
+                    *ngFor="let user of blockedUsers | slice : 1; index as ind"
+                    [value]="user.value"
+                  >
+                    {{ user.text }}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+              <mat-error *ngIf="AppUtilities.hasFormControlError(blockedUser)">
+                Please, select a user
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <ng-template #blockedTemplate>
+            @if (userType.value === UserTypes.SCHOOL && action.value ===
+            BlockedStatus.BLOCK) {
+            <div class="flex flex-col">
+              <p class="font-m_regular text-xs">Institution</p>
+              <mat-form-field>
+                <mat-label> Pick an institution </mat-label>
+                <mat-select [formControl]="unblockedUser" class="w-full">
+                  <ng-container
+                    *ngIf="$unblockedUers | async as unblockedUsers"
+                  >
+                    <mat-option
+                      *ngFor="
+                        let user of unblockedUsers | slice : 1;
+                        index as ind
+                      "
+                      [value]="user.value"
+                    >
+                      {{ user.text }}
+                    </mat-option>
+                  </ng-container>
+                </mat-select>
+                <mat-error
+                  *ngIf="AppUtilities.hasFormControlError(unblockedUser)"
+                >
+                  Please, select an institution
+                </mat-error>
+              </mat-form-field>
+            </div>
+            } @if(userType.value && action.value === BlockedStatus.BLOCK) {
+            <div class="flex flex-col">
+              <p class="font-m_regular text-xs">Full name</p>
+              <mat-form-field>
+                <mat-label> Select a user's full name </mat-label>
+                <mat-select [formControl]="fullNameControl" class="w-full">
+                  <ng-container *ngIf="$fullNamesList | async as fullNamesList">
+                    <mat-option
+                      *ngFor="
+                        let name of fullNamesList | slice : 1;
+                        index as ind
+                      "
+                      [value]="name.value"
+                    >
+                      {{ name.text }}
+                    </mat-option>
+                  </ng-container>
+                </mat-select>
+                <mat-error
+                  *ngIf="AppUtilities.hasFormControlError(fullNameControl)"
+                >
+                  Please, select
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="flex flex-col">
+              <p class="font-m_regular text-xs">Reason</p>
+              <mat-form-field class="example-full-width">
+                <mat-label>Reason for block</mat-label>
+                <textarea
+                  [formControl]="reason"
+                  matInput
+                  placeholder="start writing..."
+                ></textarea>
+                <mat-error *ngIf="AppUtilities.hasFormControlError(reason)">
+                  You must provide a reason
+                </mat-error>
+              </mat-form-field>
+            </div>
+            }
+          </ng-template>
+        </div>
+        @if (action.value !== '') {
+        <div class="flex flex-row items-center justify-end py-4">
+          <button (click)="resetFormGroup()" mat-button color="warn">
+            Reset
+          </button>
+          <button
+            form="change-password-form"
+            mat-flat-button
+            color="primary"
+            type="button"
+            class="capitalize"
+            (click)="submitForm()"
+          >
+            {{ action.value === BlockedStatus.BLOCK ? "Block" : "Unblock" }}
+          </button>
+        </div>
+        }
+      </div>
+    </form>
+  </div>
+</div>
