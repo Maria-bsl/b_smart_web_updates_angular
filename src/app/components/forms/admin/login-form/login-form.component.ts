@@ -65,8 +65,8 @@ export class LoginFormComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('usernameInput') usernameInput!: ElementRef<HTMLInputElement>;
   AppUtilities: typeof AppUtilities = AppUtilities;
   loginForm = this.fb.group({
-    username: this.fb.control('', [Validators.required]),
-    password: this.fb.control('', [Validators.required]),
+    username: this.fb.control('', []),
+    password: this.fb.control('', []),
   });
   private destroyFormInputs$ = new Subject<void>();
   formInputs$ = new BehaviorSubject<LoginFormInputs>({} as LoginFormInputs);
@@ -108,6 +108,15 @@ export class LoginFormComponent implements OnInit, OnDestroy, AfterViewInit {
           this.passwordInputClientId
         ) as HTMLInputElement,
       };
+      //formInputs.username.type = 'text';
+      // this.formInputService.parseHtmlInputToFormControl(
+      //   formInputs.username,
+      //   this.username
+      // );
+      // this.formInputService.parseHtmlInputToFormControl(
+      //   formInputs.password,
+      //   this.password
+      // );
       if (this.formInputService.isValidFormInputs(formInputs)) {
         this.formInputs$.next(formInputs);
       }

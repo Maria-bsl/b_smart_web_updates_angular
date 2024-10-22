@@ -179,7 +179,7 @@ export class AdmissionFormComponent implements OnInit, OnDestroy {
   }
   resetForm(cancelButton: HTMLInputElement) {
     this.formGroup.reset();
-    cancelButton.click();
+    //cancelButton.click();
   }
   submitForm() {
     if (this.formGroup.valid) {

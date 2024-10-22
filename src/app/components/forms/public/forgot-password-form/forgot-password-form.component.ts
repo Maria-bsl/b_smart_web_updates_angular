@@ -93,8 +93,13 @@ export class ForgotPasswordFormComponent implements OnInit {
     });
   }
   private parseInvalidCaptchaValidator(invalidCaptcha: any) {
-    if (invalidCaptcha.isvalid) return;
-    toast.error(invalidCaptcha.textContent);
+    // console.log(invalidCaptcha);
+    // if (invalidCaptcha.isvalid) return;
+    // toast.error(invalidCaptcha.textContent);
+    if (invalidCaptcha.style.display === 'none') {
+    } else {
+      toast.error(invalidCaptcha.textContent);
+    }
   }
   private parseSecretQuestionInput(questions: HTMLSelectElement) {
     let questionsList = AppUtilities.getSelectOptionsAsArray(questions);

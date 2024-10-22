@@ -207,7 +207,7 @@
   </div>
   <div
     *ngIf="formActions$ | async as formActions"
-    class="flex flex-row items-center justify-end w-full py-2"
+    class="flex flex-row items-center justify-end w-full py-2 space-x-2"
   >
     <button
       (click)="resetForm(formActions.cancelButton)"
@@ -215,7 +215,7 @@
       color="warn"
       type="button"
     >
-      Reset
+      Cancel
     </button>
     <button type="submit" form="admission-form" mat-flat-button color="primary">
       Register

@@ -30,6 +30,7 @@ import { ForgotPasswordFormComponent } from './app/components/forms/public/forgo
 import { UpdateSchoolInfoFormComponent } from './app/components/forms/admin/update-school-info-form/update-school-info-form.component';
 import { AdmissionPageComponent } from './app/pages/admission-page/admission-page.component';
 import { AdmissionFormComponent } from './app/components/forms/public/admission-form/admission-form.component';
+import { OtpFormComponent } from './app/components/forms/otp-form/otp-form.component';
 
 function defineCustomElement(
   name: string,
@@ -149,6 +150,11 @@ function defineCustomElement(
   defineCustomElement(
     'admission-form',
     createCustomElement(AdmissionFormComponent, { injector: app.injector })
+  );
+
+  defineCustomElement(
+    'otp-form',
+    createCustomElement(OtpFormComponent, { injector: app.injector })
   );
 })();
 
