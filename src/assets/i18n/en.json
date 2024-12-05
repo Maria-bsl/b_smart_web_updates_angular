@@ -7,7 +7,8 @@
     "status": "Status",
     "active": "Active",
     "inactive": "InActive",
-    "search": "Search"
+    "search": "Search",
+    "month": "Month"
   },
   "loginForm": {
     "labels": {
@@ -212,5 +213,22 @@
       "icon": "assignment_return",
       "link": "/main/returns"
     }
-  ]
+  ],
+  "dashboardPage": {
+    "labels": {
+      "welcomeText": "Welcome",
+      "totalSchools": "Total School(s)",
+      "activeSchools": "Active School(s)",
+      "billsIssued": "Bills issued",
+      "students": "Students",
+      "users": "Users",
+      "bankUsers": "Bank users",
+      "schoolUsers": "School users",
+      "collectedAmount": "Collected Amount",
+      "overview": "Overview",
+      "lastYear": "Last year",
+      "paidInvoices": "Paid invoices",
+      "pendingInvoices": "Pending invoices"
+    }
+  }
 }

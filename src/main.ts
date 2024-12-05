@@ -13,7 +13,7 @@ import {
   withViewTransitions,
 } from '@angular/router';
 import { routes } from './app/app-routing.module';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { importProvidersFrom, isDevMode, NgZone } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { LoginPageComponent } from './app/pages/login-page/login-page.component';
@@ -31,6 +31,12 @@ import { UpdateSchoolInfoFormComponent } from './app/components/forms/admin/upda
 import { AdmissionPageComponent } from './app/pages/admission-page/admission-page.component';
 import { AdmissionFormComponent } from './app/components/forms/public/admission-form/admission-form.component';
 import { OtpFormComponent } from './app/components/forms/otp-form/otp-form.component';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 function defineCustomElement(
   name: string,
@@ -55,20 +61,20 @@ function defineCustomElement(
 (async () => {
   const app = await createApplication({
     providers: [
-      importProvidersFrom([MatDialogModule]),
+      importProvidersFrom([
+        MatDialogModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useFactory: createTranslateLoader,
+            deps: [HttpClient],
+          },
+          //defaultLanguage: 'en',
+          useDefaultLang: false,
+        }),
+      ]),
       provideAnimationsAsync(),
       provideHttpClient(),
-      // provideTransloco({
-      //   config: {
-      //     //availableLangs: ['en', 'sw', 'ln', 'fr'],
-      //     availableLangs: ['en'],
-      //     defaultLang: 'en',
-      //     // Remove this option if your application doesn't support changing language in runtime.
-      //     reRenderOnLangChange: true,
-      //     prodMode: !isDevMode(),
-      //   },
-      //   loader: TranslocoHttpLoader,
-      // }),
     ],
   });
 
@@ -155,6 +161,14 @@ function defineCustomElement(
   defineCustomElement(
     'otp-form',
     createCustomElement(OtpFormComponent, { injector: app.injector })
+  );
+  defineCustomElement(
+    'otp-form',
+    createCustomElement(OtpFormComponent, { injector: app.injector })
+  );
+  defineCustomElement(
+    'dashboard-page',
+    createCustomElement(DashboardPageComponent, { injector: app.injector })
   );
 })();
 

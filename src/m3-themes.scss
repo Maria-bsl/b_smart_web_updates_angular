@@ -42,7 +42,7 @@
 //   ),
 // );
 
-// /* For use in src/lib/core/theming/_palette.scss */
+// __<<ngM2ThemingMigrationEscapedComment0>>__
 // $md-mcgpalette1: (
 //   50: #feeee6,
 //   100: #fbd5bf,
@@ -175,29 +175,37 @@ $m2-error: (
   ),
 );
 
-$b_smart_v1-primary: mat.define-palette($m2-primary);
-$b_smart_v1-accent: mat.define-palette($m2-accent);
+$b_smart_v1-primary: mat.m2-define-palette($m2-primary);
+$b_smart_v1-accent: mat.m2-define-palette($m2-accent);
 
 // The warn palette is optional (defaults to red).
-$b_smart_v1-warn: mat.define-palette(mat.$red-palette);
+$b_smart_v1-warn: mat.m2-define-palette(mat.$m2-red-palette);
 //$b_smart_v1-warn: mat.define-palette($m2-error);
 
-$typography-configs: mat.define-typography-config(
+$my-custom-level: mat.m2-define-typography-level(
+  $font-family: Roboto,
+  $font-weight: 400,
+  $font-size: 34px,
+  $line-height: normal,
+  $letter-spacing: normal,
+);
+
+$typography-configs: mat.m2-define-typography-config(
   $headline-1:
-    mat.define-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
+    mat.m2-define-typography-level(112px, 112px, 300, $letter-spacing: -0.05em),
   $headline-2:
-    mat.define-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
+    mat.m2-define-typography-level(56px, 56px, 400, $letter-spacing: -0.02em),
   $headline-3:
-    mat.define-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
-  $headline-4: mat.define-typography-level(34px, 40px, 400),
-  $headline-5: mat.define-typography-level(24px, 32px, 400),
-  $headline-6: mat.define-typography-level(14px, 18px, 400),
-  $subtitle-1: mat.define-typography-level(8px, 12px, 400),
+    mat.m2-define-typography-level(45px, 48px, 400, $letter-spacing: -0.005em),
+  $headline-4: $my-custom-level,
+  $headline-5: mat.m2-define-typography-level(24px, 32px, 400),
+  $headline-6: mat.m2-define-typography-level(14px, 18px, 400),
+  $subtitle-1: mat.m2-define-typography-level(8px, 12px, 400),
 );
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$b_smart_v1-light-theme: mat.define-light-theme(
+$b_smart_v1-light-theme: mat.m2-define-light-theme(
   (
     color: (
       primary: $b_smart_v1-primary,
@@ -209,7 +217,7 @@ $b_smart_v1-light-theme: mat.define-light-theme(
   )
 );
 
-$b_smart_v1-dark-theme: mat.define-dark-theme(
+$b_smart_v1-dark-theme: mat.m2-define-dark-theme(
   (
     color: (
       primary: $b_smart_v1-primary,
