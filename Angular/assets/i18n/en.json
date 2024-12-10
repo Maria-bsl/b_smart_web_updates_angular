@@ -1,0 +1,234 @@
+{
+  "defaults": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "pleaseFill": "Please fill",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "InActive",
+    "search": "Search",
+    "month": "Month"
+  },
+  "loginForm": {
+    "labels": {
+      "username": "Username",
+      "password": "Password"
+    },
+    "placeholders": {
+      "username": "Enter username",
+      "password": "Enter password"
+    },
+    "errors": {
+      "username": "Please enter username",
+      "password": "Please fill"
+    },
+    "actions": {
+      "logIn": "Log In",
+      "forgotPassword": "Forgot password?",
+      "admission": "Sign Up for Admission Here!"
+    }
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "labels": {
+      "passwordExpired": "Your password has expired. Please change it.",
+      "passwordUpdate": "Your password has not been updated in the last 90 days. Please change your password."
+    },
+    "form": {
+      "labels": {
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password"
+      },
+      "placeholders": {
+        "currentPassword": "Your current password",
+        "newPassword": "Enter new password",
+        "confirmPassword": "Confirm password"
+      },
+      "errors": {
+        "passwordsNotMatch": "Passwords do not match.",
+        "passwordRequirements": "Use 8-14 characters with at least one number, special character, lowercase, and uppercase letter.",
+        "emptyPassword": "Please fill."
+      },
+      "dialog": {
+        "errors": {
+          "passwordsNotMatch": "The passwords you entered did not match.",
+          "passwordRequirements": "Password must be 8-14 characters with one digit, special character, lowercase, and uppercase.",
+          "emptyPassword": "A password field is empty."
+        }
+      }
+    }
+  },
+  "cpass": {
+    "title": "Update Your Information",
+    "completeForm": "Please, complete the form below to continue.",
+    "form": {
+      "labels": {
+        "secretQuestion": "Secret question",
+        "answer": "Answer",
+        "capcha": "Capcha"
+      },
+      "placeholders": {
+        "secretQuestion": "Pick a secret question",
+        "selectSecretQuestion": "Please, select a question",
+        "answer": "Write your answer",
+        "capcha": "Enter below code"
+      },
+      "errors": {
+        "secretQuestion": "Please, select a question.",
+        "answer": "Please, provide an answer.",
+        "capcha": "Missing capcha"
+      },
+      "dialog": {
+        "errors": {
+          "secretQuestion": "You must select a secret question.",
+          "answer": "Please provide an answer to the secret question.",
+          "capcha": "The capcha code you provided was invalid."
+        }
+      }
+    }
+  },
+  "blockUnblockUser": {
+    "title": "Block/Unblock User",
+    "blockUser": "Block User",
+    "unblockUser": "Unblock User",
+    "block": "Block",
+    "unblock": "Unblock",
+    "blockUserForm": {
+      "labels": {
+        "userType": "User type",
+        "institution": "Institution",
+        "enterInstitution": "Enter institution",
+        "fullName": "Full name",
+        "reasonForBlock": "Reason for block",
+        "blockedUsers": "Blocked users",
+        "unblockUsers": "Unblock users"
+      },
+      "placeholders": {
+        "userType": "Select user type",
+        "institution": "Educational institution",
+        "fullName": "Enter user's full name",
+        "reasonForBlock": "Your reason",
+        "action": "Block/Unblock User",
+        "selectAction": "Select action",
+        "selectUser": "Select user",
+        "writeHere": "Write here"
+      },
+      "errors": {
+        "userType": "Please, select a user type",
+        "institution": "Missing institution",
+        "fullName": "Please select an institution",
+        "reasonForBlock": "Please provide a reason for the block",
+        "missingAction": "Please, select an action"
+      }
+    },
+    "unblockUserForm": {
+      "labels": {
+        "blockedUsers": "Blocked users"
+      },
+      "placeholders": {
+        "blockedUsers": "Select a user"
+      }
+    }
+  },
+  "registerSchool": {
+    "title": "Register New School"
+  },
+  "schoolGroups": {
+    "title": "School Groups",
+    "welcomeMessage": "Welcome back to the school groups page.",
+    "actions": {
+      "addSchoolGroup": "Add School Group"
+    },
+    "forms": {
+      "labels": {
+        "schoolGroup": "School Group"
+      },
+      "placeholders": {
+        "schoolGroup": "Enter school group"
+      },
+      "errors": {}
+    },
+    "schoolGroupsTable": [
+      {
+        "label": "Group"
+      },
+      {
+        "label": "Status"
+      }
+    ]
+  },
+  "sidenavItems": [
+    {
+      "name": "Dashboard",
+      "icon": "dashboard",
+      "link": "/main",
+      "children": []
+    },
+    {
+      "name": "User Management",
+      "icon": "groups",
+      "link": "/main/user",
+      "children": [
+        {
+          "name": "Access Rights"
+        }
+      ]
+    },
+    {
+      "name": "School Management",
+      "icon": "school",
+      "link": "/main/school",
+      "children": [
+        {
+          "name": "Add New School"
+        },
+        {
+          "name": "Update School Info"
+        }
+      ]
+    },
+    {
+      "name": "Notifications Management",
+      "icon": "schedule_send",
+      "link": "/main/notifications",
+      "children": []
+    },
+    {
+      "name": "Approvals Management",
+      "icon": "fact_check",
+      "link": "/main/approvals",
+      "children": [
+        {
+          "name": "School Registration"
+        },
+        {
+          "name": "School Modification"
+        }
+      ]
+    },
+    {
+      "name": "Returns Management",
+      "icon": "assignment_return",
+      "link": "/main/returns"
+    }
+  ],
+  "dashboardPage": {
+    "labels": {
+      "welcomeText": "Welcome",
+      "totalSchools": "Total School(s)",
+      "activeSchools": "Active School(s)",
+      "billsIssued": "Bills issued",
+      "students": "Students",
+      "users": "Users",
+      "bankUsers": "Bank users",
+      "schoolUsers": "School users",
+      "collectedAmount": "Collected Amount",
+      "overview": "Overview",
+      "lastYear": "Last year",
+      "paidInvoices": "Paid invoices",
+      "pendingInvoices": "Pending invoices"
+    }
+  }
+}
