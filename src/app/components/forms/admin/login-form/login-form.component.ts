@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -24,7 +25,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { BehaviorSubject, of, Subject, Subscription, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  map,
+  of,
+  Subject,
+  Subscription,
+  takeUntil,
+} from 'rxjs';
 import { AppUtilities } from 'src/app/utilities/app-utilities';
 import {
   LoginFormActions,
@@ -32,6 +40,10 @@ import {
 } from 'src/app/core/interfaces/form-inputs/login-form-inputs';
 import { FormInputService } from 'src/app/core/services/form-inputs/form-input.service';
 import { CommonModule } from '@angular/common';
+import { ElementDomManipulationService } from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
+import { ELoginForm } from 'src/app/core/enums/login-form';
+import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
+import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
 
 type FormInputData = {
   txtEmail: HTMLInputElement;
@@ -54,155 +66,105 @@ type FormInputData = {
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
   providers: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.Emulated,
 })
-export class LoginFormComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input() loginButtonClientId: string = '';
-  @Input() usernameInputClientId: string = '';
-  @Input() passwordInputClientId: string = '';
-  @Input() admissionLinkClientId: string = '';
-  @Input() forgotPasswordLinkClientId: string = '';
-  @ViewChild('usernameInput') usernameInput!: ElementRef<HTMLInputElement>;
+export class LoginFormComponent implements AfterViewInit {
+  @Input('keys') loginPageKeys: string = '';
   AppUtilities: typeof AppUtilities = AppUtilities;
   loginForm = this.fb.group({
-    username: this.fb.control('', []),
-    password: this.fb.control('', []),
+    username: this.fb.control('', [Validators.required]),
+    password: this.fb.control('', [Validators.required]),
   });
-  private destroyFormInputs$ = new Subject<void>();
-  formInputs$ = new BehaviorSubject<LoginFormInputs>({} as LoginFormInputs);
-  formActions$ = new BehaviorSubject<LoginFormActions>({} as LoginFormActions);
-  private subscriptions: Subscription[] = [];
   constructor(
     private fb: FormBuilder,
-    private formInputService: FormInputService
-  ) {}
-  private addUsernameFormControlEventListener() {
-    const username = document.getElementById(
-      this.usernameInputClientId
-    ) as HTMLInputElement;
-    if (!username) throw Error('Failed to find Username Input.');
-    AppUtilities.updateInputValueFromFormControl(this.username, username);
-  }
-  private addPasswordFormControlEventListener() {
-    const password = document.getElementById(
-      this.passwordInputClientId
-    ) as HTMLInputElement;
-    if (!password) throw Error('Failed to find Password Input.');
-    AppUtilities.updateInputValueFromFormControl(this.password, password);
-  }
-  private addLoginFormGroupEventListeners() {
-    try {
-      this.addUsernameFormControlEventListener();
-      this.addPasswordFormControlEventListener();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  private initFormInputs() {
-    try {
-      const formInputs: LoginFormInputs = {
-        username: document.getElementById(
-          this.usernameInputClientId
-        ) as HTMLInputElement,
-        password: document.getElementById(
-          this.passwordInputClientId
-        ) as HTMLInputElement,
-      };
-      //formInputs.username.type = 'text';
-      // this.formInputService.parseHtmlInputToFormControl(
-      //   formInputs.username,
-      //   this.username
-      // );
-      // this.formInputService.parseHtmlInputToFormControl(
-      //   formInputs.password,
-      //   this.password
-      // );
-      if (this.formInputService.isValidFormInputs(formInputs)) {
-        this.formInputs$.next(formInputs);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  private initFormActions() {
-    try {
-      const formActions: LoginFormActions = {
-        forgotPassword: document.getElementById(
-          this.forgotPasswordLinkClientId
-        ) as HTMLAnchorElement,
-        login: document.getElementById(
-          this.loginButtonClientId
-        ) as HTMLInputElement,
-        signUpForAdmission: document.getElementById(
-          this.admissionLinkClientId
-        ) as HTMLAnchorElement,
-      };
-      if (this.formInputService.isValidFormInputs(formActions)) {
-        this.formActions$.next(formActions);
-      }
-    } catch (error) {}
-  }
-  private parseFormInputs() {
-    try {
-      this.formInputs$.pipe(takeUntil(this.destroyFormInputs$)).subscribe({
-        next: (formInputs) => {
-          this.formInputService.parseHtmlInputToFormControl(
-            formInputs.username,
-            this.username
-          );
-          this.formInputService.parseHtmlInputToFormControl(
-            formInputs.password,
-            this.password
-          );
-        },
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  ngOnInit(): void {
-    this.initFormInputs();
-    this.initFormActions();
-    this.parseFormInputs();
-  }
-  ngAfterViewInit(): void {}
-  ngOnDestroy(): void {
-    this.subscriptions.forEach((sub) => sub.unsubscribe());
-  }
-  matchHtmlElementToFormControl(
-    event: any,
-    control: FormControl,
-    element: HTMLInputElement | HTMLSelectElement
+    private elementService: ElementDomManipulationService,
+    private unsubscribe: UnsubscribeService,
+    private _appConfig: AppConfigService
   ) {
-    this.formInputService.matchFormControlValueWithHtmlElementValue(
-      control,
-      element
+    let icons = ['lock'];
+    this._appConfig.addIcons(icons, '/assets/feather');
+  }
+  private usernameEventListener() {
+    const updateUsername = (value: string) => {
+      const username$ = this.elementService.ids$.pipe(
+        this.unsubscribe.takeUntilDestroy,
+        map((el) => el.get(ELoginForm.USERNAME) as HTMLInputElement)
+      );
+      username$.subscribe({
+        next: (userInput) => (userInput.value = value),
+        error: (err) => console.error(err.message),
+      });
+    };
+    this.username.valueChanges
+      .pipe(this.unsubscribe.takeUntilDestroy)
+      .subscribe({
+        next: (value) => updateUsername(value),
+        error: (err) => console.error(err.message),
+      });
+  }
+  private passwordEventHandler() {
+    const updatePassword = (value: string) => {
+      const password$ = this.elementService.ids$.pipe(
+        this.unsubscribe.takeUntilDestroy,
+        map((el) => el.get(ELoginForm.PASSWORD) as HTMLInputElement)
+      );
+      password$.subscribe({
+        next: (userInput) => (userInput.value = value),
+        error: (err) => console.error(err.message),
+      });
+    };
+    this.password.valueChanges
+      .pipe(this.unsubscribe.takeUntilDestroy)
+      .subscribe({
+        next: (value) => updatePassword(value),
+        error: (err) => console.error(err.message),
+      });
+  }
+  private attachEventHandlers() {
+    this.usernameEventListener();
+    this.passwordEventHandler();
+  }
+  ngAfterViewInit(): void {
+    this.elementService.parseDocumentKeys(
+      this.loginPageKeys,
+      Object.keys(ELoginForm).filter((key) => isNaN(Number(key))).length
     );
+    this.attachEventHandlers();
   }
   onLoginClicked() {
-    if (this.loginForm.valid) {
-      this.subscriptions.push(
-        this.formActions$.subscribe({
-          next: (formInputs) => {
-            formInputs.login.click();
-          },
-        })
-      );
-    } else {
-      this.loginForm.markAllAsTouched();
-    }
+    const submit$ = this.elementService.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(ELoginForm.LOGIN_BUTTON))
+    );
+    const subscribe = () => {
+      submit$.subscribe({
+        next: (el) => this.elementService.clickButton(el as HTMLInputElement),
+        error: (err) => console.error(err),
+      });
+    };
+    this.loginForm.valid ? subscribe() : this.loginForm.markAllAsTouched();
   }
-  openAdmissionPage() {
-    const link = document.getElementById(
-      this.admissionLinkClientId
-    ) as HTMLAnchorElement;
-    link.click();
+  openAdmissionPage(event: MouseEvent) {
+    const admissionLink$ = this.elementService.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(ELoginForm.ADMISSION_LINK))
+    );
+    admissionLink$.subscribe({
+      next: (el) =>
+        this.elementService.clickAnchorHref(el as HTMLAnchorElement),
+      error: (err) => console.error(err),
+    });
   }
-  openForgotPasswordPage() {
-    const link = document.getElementById(
-      this.forgotPasswordLinkClientId
-    ) as HTMLAnchorElement;
-    link.click();
+  openForgotPasswordPage(event: MouseEvent) {
+    const forgotPassword$ = this.elementService.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(ELoginForm.FORGOT_LINK))
+    );
+    forgotPassword$.subscribe({
+      next: (el) =>
+        this.elementService.clickAnchorHref(el as HTMLAnchorElement),
+      error: (err) => console.error(err),
+    });
   }
   get username() {
     return this.loginForm.get('username') as FormControl;

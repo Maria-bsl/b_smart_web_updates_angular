@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -11,7 +18,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { BehaviorSubject, Subject, Subscription, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  map,
+  Observable,
+  Subject,
+  Subscription,
+  takeUntil,
+} from 'rxjs';
 import {
   ForgotPasswordFormActions,
   ForgotPasswordFormInputs,
@@ -19,6 +33,11 @@ import {
 import { HtmlSelectOption } from 'src/app/core/interfaces/helpers/data/html-select-option';
 import { AppUtilities } from 'src/app/utilities/app-utilities';
 import { NgxSonnerToaster, toast } from 'ngx-sonner';
+import { ElementDomManipulationService } from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
+import { EForgotPasswordForm } from 'src/app/core/enums/forgot-password-form.enum';
+import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
+import { GetCapchaImageSourcePipe } from 'src/app/core/pipes/forgot-password-pipes/forgot-password-pipes.pipe';
+import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
 
 @Component({
   selector: 'app-forgot-password-form',
@@ -31,20 +50,16 @@ import { NgxSonnerToaster, toast } from 'ngx-sonner';
     MatButtonModule,
     MatIconModule,
     NgxSonnerToaster,
+    GetCapchaImageSourcePipe,
   ],
   templateUrl: './forgot-password-form.component.html',
   styleUrl: './forgot-password-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.Emulated,
 })
-export class ForgotPasswordFormComponent implements OnInit {
-  @Input('username-client-id') usernameClientId: string = '';
-  @Input('question-client-id') questionClientId: string = '';
-  @Input('answer-client-id') answerClientId: string = '';
-  @Input('capcha-text-client-id') capchaTextClientId: string = '';
-  @Input('capcha-image-client-id') capchaImageClientId: string = '';
-  @Input('capcha-button-client-id') alternateCapchaClientId: string = '';
-  @Input('back-to-login-link-client-id') backToLoginLinkClientId: string = '';
-  @Input('submit-form-button-client-id') submitFormButtonClientId: string = '';
-  @Input('invalid-capcha-client-id') invalidCapchaClientId: string = '';
+export class ForgotPasswordFormComponent implements AfterViewInit {
+  @Input('keys') forgotPasswordKeys: string = '';
+  EForgotPasswordForm: typeof EForgotPasswordForm = EForgotPasswordForm;
   formGroup: FormGroup = this.fb.group({
     username: this.fb.control('', [Validators.required]),
     secretQuestion: this.fb.control('', [Validators.required]),
@@ -52,182 +67,175 @@ export class ForgotPasswordFormComponent implements OnInit {
     capcha: this.fb.control('', [Validators.required]),
   });
   AppUtilities: typeof AppUtilities = AppUtilities;
-  $secretQuestions = new BehaviorSubject<HtmlSelectOption[]>([]);
-  formInputs$ = new BehaviorSubject<ForgotPasswordFormInputs>(
-    {} as ForgotPasswordFormInputs
-  );
-  formActions$ = new BehaviorSubject<ForgotPasswordFormActions>(
-    {} as ForgotPasswordFormActions
-  );
-  private destroyFormInputs$ = new Subject<void>();
-  private subscriptions: Subscription[] = [];
-  constructor(private fb: FormBuilder) {}
-  private parseUsernameInput(username: HTMLInputElement) {
-    if (!AppUtilities.isValueEmptyElement(username)) {
-      this.username.setValue(username.value);
-    }
-    this.username.valueChanges.subscribe({
-      next: (value) => {
-        username.value = value;
-      },
-    });
-  }
-  private parseAnswerInput(answer: HTMLInputElement) {
-    if (!AppUtilities.isValueEmptyElement(answer)) {
-      this.answer.setValue(answer.value);
-    }
-    this.answer.valueChanges.subscribe({
-      next: (value) => {
-        answer.value = value;
-      },
-    });
-  }
-  private parseCapchaTextInput(capchaText: HTMLInputElement) {
-    if (!AppUtilities.isValueEmptyElement(capchaText)) {
-      this.capcha.setValue(capchaText.value);
-    }
-    this.capcha.valueChanges.subscribe({
-      next: (value) => {
-        capchaText.value = value;
-      },
-    });
-  }
-  private parseInvalidCaptchaValidator(invalidCaptcha: any) {
-    // console.log(invalidCaptcha);
-    // if (invalidCaptcha.isvalid) return;
-    // toast.error(invalidCaptcha.textContent);
-    if (invalidCaptcha.style.display === 'none') {
-    } else {
-      toast.error(invalidCaptcha.textContent);
-    }
-  }
-  private parseSecretQuestionInput(questions: HTMLSelectElement) {
-    let questionsList = AppUtilities.getSelectOptionsAsArray(questions);
-    if (!AppUtilities.isValueEmptyElement(questions)) {
-      this.secretQuestion.setValue(questions.value);
-    }
-    this.$secretQuestions.next(questionsList);
-    this.secretQuestion.valueChanges.subscribe({
-      next: (value) => {
-        questions.value = value;
-        let event = new Event('change', { bubbles: true });
-        questions.dispatchEvent(event);
-      },
-    });
-  }
-  private isValidFormInputs(
-    formInputs: ForgotPasswordFormInputs | ForgotPasswordFormActions
+  $secretQuestions!: Observable<HtmlSelectOption[]>;
+  constructor(
+    private fb: FormBuilder,
+    private unsubscribe: UnsubscribeService,
+    private elementService: ElementDomManipulationService,
+    private _appConfig: AppConfigService
   ) {
-    try {
-      Object.keys(formInputs).forEach((key) => {
-        let element = (formInputs as any)[key];
-        if (Array.isArray(element)) {
-          element.forEach((item, index) => {
-            Object.keys(item).forEach((itemKey) => {
-              if (!item[itemKey]) {
-                throw new Error(
-                  `Failed to find input ${itemKey} in array item ${index} of ${key}`
-                );
-              }
-            });
-          });
-        } else {
-          if (!element) throw Error(`Failed to find input ${key}`);
-        }
+    const icons = ['refresh-ccw', 'chevron-left'];
+    this._appConfig.addIcons(icons, '/assets/feather');
+    console.log('forgot password initialized');
+  }
+  private usernameEventListener() {
+    const updateUsername = (value: string) => {
+      const username$ = this.elementService.ids$.pipe(
+        this.unsubscribe.takeUntilDestroy,
+        map((el) => el.get(EForgotPasswordForm.USERNAME) as HTMLInputElement)
+      );
+      username$.subscribe({
+        next: (userInput) => (userInput.value = value),
+        error: (err) => console.error(err.message),
       });
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  }
-  private initFormInputs() {
-    try {
-      const formInputs: ForgotPasswordFormInputs = {
-        username: document.getElementById(
-          this.usernameClientId
-        ) as HTMLInputElement,
-        secretQuestion: document.getElementById(
-          this.questionClientId
-        ) as HTMLSelectElement,
-        answer: document.getElementById(
-          this.answerClientId
-        ) as HTMLInputElement,
-        capchaText: document.getElementById(
-          this.capchaTextClientId
-        ) as HTMLInputElement,
-        capchaImage: document.getElementById(
-          this.capchaImageClientId
-        ) as HTMLImageElement,
-        backToLoginLink: document.getElementById(
-          this.backToLoginLinkClientId
-        ) as HTMLAnchorElement,
-        alternateCapcha: document.getElementById(
-          this.alternateCapchaClientId
-        ) as HTMLInputElement,
-        invalidCapcha: document.getElementById(
-          this.invalidCapchaClientId
-        ) as HTMLElement,
-      };
-      if (this.isValidFormInputs(formInputs)) {
-        this.formInputs$.next(formInputs);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  private initFormActions() {
-    try {
-      const formActions: ForgotPasswordFormActions = {
-        submitFormButton: document.getElementById(
-          this.submitFormButtonClientId
-        ) as HTMLInputElement,
-      };
-      if (this.isValidFormInputs(formActions)) {
-        this.formActions$.next(formActions);
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  private parseFormInputs() {
-    try {
-      this.formInputs$.pipe(takeUntil(this.destroyFormInputs$)).subscribe({
-        next: (formInputs) => {
-          this.parseUsernameInput(formInputs.username);
-          this.parseSecretQuestionInput(formInputs.secretQuestion);
-          this.parseAnswerInput(formInputs.answer);
-          this.parseCapchaTextInput(formInputs.capchaText);
-          this.parseInvalidCaptchaValidator(formInputs.invalidCapcha);
-        },
+    };
+    this.username.valueChanges
+      .pipe(this.unsubscribe.takeUntilDestroy)
+      .subscribe({
+        next: (value) => updateUsername(value),
+        error: (err) => console.error(err.message),
       });
-    } catch (error) {
-      console.error(error);
-    }
   }
-  ngOnInit(): void {
-    this.initFormInputs();
-    this.initFormActions();
-    this.parseFormInputs();
+  private secretQuestionEventHandler() {
+    const setSecretQuestion = (value: string, el: HTMLSelectElement) => {
+      el.value = value;
+      this.elementService.dispatchSelectElementChangeEvent(el);
+    };
+    const secretQuestion$ = this.elementService.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map(
+        (el) => el.get(EForgotPasswordForm.SECRET_QUESTION) as HTMLSelectElement
+      )
+    );
+    const updateSecretQuestion = (value: string) => {
+      secretQuestion$.subscribe({
+        next: (selectElement) => setSecretQuestion(value, selectElement),
+        error: (err) => console.error(err.message),
+      });
+    };
+    const populateOptions = (questions: HTMLSelectElement) => {
+      let questionsList =
+        this.elementService.getSelectOptionsAsArray(questions);
+      if (!AppUtilities.isValueEmptyElement(questions)) {
+        this.secretQuestion.setValue(questions.value);
+      }
+      this.$secretQuestions = new Observable((subscriber) => {
+        subscriber.next(questionsList);
+        subscriber.complete();
+      });
+    };
+    this.secretQuestion.valueChanges
+      .pipe(this.unsubscribe.takeUntilDestroy)
+      .subscribe({
+        next: (value) => updateSecretQuestion(value),
+        error: (err) => console.error(err.message),
+      });
+    secretQuestion$.subscribe({
+      next: (el) => populateOptions(el),
+      error: (err) => console.error(err.message),
+    });
   }
-  refreshCapcha(alternateCapcha: HTMLInputElement) {
-    alternateCapcha.click();
+  private answerEventListener() {
+    const updateAnswer = (value: string) => {
+      const answer$ = this.elementService.ids$.pipe(
+        this.unsubscribe.takeUntilDestroy,
+        map((el) => el.get(EForgotPasswordForm.ANSWER) as HTMLInputElement)
+      );
+      answer$.subscribe({
+        next: (input) => (input.value = value),
+        error: (err) => console.error(err.message),
+      });
+    };
+    this.answer.valueChanges.pipe(this.unsubscribe.takeUntilDestroy).subscribe({
+      next: (value) => updateAnswer(value),
+      error: (err) => console.error(err.message),
+    });
   }
-  backToLogin(backToLoginBtn: HTMLAnchorElement) {
-    backToLoginBtn.click();
+  private capchaCodeEventHandler() {
+    const updateCapcha = (value: string) => {
+      const capcha$ = this.elementService.ids$.pipe(
+        this.unsubscribe.takeUntilDestroy,
+        map((el) => el.get(EForgotPasswordForm.CAPCHA_TEXT) as HTMLInputElement)
+      );
+      capcha$.subscribe({
+        next: (input) => (input.value = value),
+        error: (err) => console.error(err.message),
+      });
+    };
+    this.answer.valueChanges.pipe(this.unsubscribe.takeUntilDestroy).subscribe({
+      next: (value) => updateCapcha(value),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private attachEventHandlers() {
+    this.usernameEventListener();
+    this.secretQuestionEventHandler();
+    this.answerEventListener();
+    this.capchaCodeEventHandler();
+  }
+  private hasInvalidCapchaError() {
+    const capcha$ = this.elementService.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EForgotPasswordForm.INVALID_CAPCHA) as any)
+    );
+    capcha$.subscribe({
+      next: (el) => {
+        el.style.display === 'none' ? {} : toast.error(el.textContent);
+      },
+      error: (err) => console.error(err.message),
+    });
+  }
+  ngAfterViewInit(): void {
+    this.elementService.parseDocumentKeys(
+      this.forgotPasswordKeys,
+      Object.keys(EForgotPasswordForm).filter((key) => isNaN(Number(key)))
+        .length
+    );
+    this.attachEventHandlers();
+    this.hasInvalidCapchaError();
+  }
+  refreshCapcha() {
+    const capcha$ = this.elementService.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EForgotPasswordForm.CAPCHA_BUTTON) as HTMLInputElement)
+    );
+    capcha$.subscribe({
+      next: (input) => this.elementService.clickButton(input),
+      error: (err) => console.error(err.message),
+    });
+  }
+  backToLogin() {
+    //backToLoginBtn.click();
+    const backToLogin$ = this.elementService.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map(
+        (el) =>
+          el.get(EForgotPasswordForm.BACK_TO_LOGIN_BUTTON) as HTMLAnchorElement
+      )
+    );
+    backToLogin$.subscribe({
+      next: (anchor) => this.elementService.clickAnchorHref(anchor),
+      error: (err) => console.error(err.message),
+    });
   }
   submitForm() {
-    if (this.formGroup.valid) {
-      this.subscriptions.push(
-        this.formActions$.subscribe({
-          next: (formActions) => {
-            formActions.submitFormButton.click();
-          },
-        })
-      );
-    } else {
-      this.formGroup.markAllAsTouched();
-    }
+    const submit$ = this.elementService.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map(
+        (el) =>
+          el.get(EForgotPasswordForm.SUBMIT_FORM_BUTTON) as HTMLInputElement
+      )
+    );
+    const subscribe = () => {
+      submit$.subscribe({
+        next: (button) => this.elementService.clickButton(button),
+        error: (err) => console.error(err.message),
+      });
+    };
+    this.formGroup.valid ? subscribe() : this.formGroup.markAllAsTouched();
+  }
+  getAllElementsMap() {
+    return this.elementService.ids$;
   }
   get username() {
     return this.formGroup.get('username') as FormControl;

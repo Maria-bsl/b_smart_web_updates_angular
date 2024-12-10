@@ -1,86 +1,64 @@
 <form
   id="login-form-id"
   [formGroup]="loginForm"
-  class="flex flex-col relative space-y-0"
+  class="flex flex-col relative space-y-0 w-full"
   (ngSubmit)="onLoginClicked()"
 >
-  <ng-container *ngIf="formInputs$ | async as formInputs">
-    <div class="flex flex-col space-y-1 mat-form-container">
-      <div class="w-full">
-        <p class="text-xs font-bold">Username</p>
-        <mat-form-field class="w-full" appearance="outline">
-          <input
-            #usernameInput
-            [autocomplete]="true"
-            [formControl]="username"
-            placeholder="Enter username"
-            matInput
-            type="email"
-            [value]="formInputs.username.value"
-            (blur)="
-              matchHtmlElementToFormControl(
-                $event,
-                username,
-                formInputs.username
-              )
-            "
-          />
-          <mat-error>
-            @if(username.hasError('required')) { Please, enter username. }
-          </mat-error>
-        </mat-form-field>
-      </div>
-    </div>
-    <div class="flex flex-col space-y-0.5">
-      <p class="text-xs font-bold">Password</p>
+  <div class="flex flex-col space-y-1 mat-form-container">
+    <div class="w-full">
+      <p class="text-xs font-bold">Username</p>
       <mat-form-field class="w-full" appearance="outline">
         <input
           [autocomplete]="true"
-          [formControl]="password"
-          placeholder="Enter password"
+          [formControl]="username"
+          placeholder="Enter username"
           matInput
-          type="password"
-          [value]="formInputs.password.value"
-          (blur)="
-            matchHtmlElementToFormControl($event, password, formInputs.password)
-          "
+          type="email"
         />
         <mat-error>
-          @if(password.hasError('required')) { Please, enter password}
+          @if(username.hasError('required')) { Please, enter username. }
         </mat-error>
       </mat-form-field>
     </div>
-    <ng-container *ngIf="formActions$ | async as formActions">
-      <div class="w-full flex flex-row items-center justify-between py-1">
-        <button
-          class="forgot-password-bg"
-          mat-button
-          type="button"
-          (click)="formActions.forgotPassword.click()"
-        >
-          <mat-icon>lock</mat-icon>
-          Forgot password?
-        </button>
-        <button
-          mat-flat-button
-          color="primary"
-          type="submit"
-          form="login-form-id"
-        >
-          Log In
-        </button>
-      </div>
-      <div class="w-full mt-4">
-        <button
-          class="w-full !text-white"
-          mat-flat-button
-          color="accent"
-          type="button"
-          (click)="formActions.signUpForAdmission.click()"
-        >
-          Sign Up for Admission Here
-        </button>
-      </div>
-    </ng-container>
-  </ng-container>
+  </div>
+  <div class="flex flex-col space-y-0.5">
+    <p class="text-xs font-bold">Password</p>
+    <mat-form-field class="w-full" appearance="outline">
+      <input
+        [autocomplete]="true"
+        [formControl]="password"
+        placeholder="Enter password"
+        matInput
+        type="password"
+      />
+      <mat-error>
+        @if(password.hasError('required')) { Please, enter password}
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div class="w-full flex flex-row items-center justify-between py-1">
+    <button
+      class="forgot-password-bg"
+      mat-button
+      type="button"
+      (click)="openForgotPasswordPage($event)"
+    >
+      <mat-icon svgIcon="lock" matPrefix></mat-icon>
+      Forgot password?
+    </button>
+    <button mat-flat-button color="primary" type="submit" form="login-form-id">
+      Log In
+    </button>
+  </div>
+  <div class="w-full mt-4">
+    <button
+      class="w-full !text-white"
+      mat-flat-button
+      color="accent"
+      type="button"
+      (click)="openAdmissionPage($event)"
+    >
+      Sign Up for Admission Here
+    </button>
+  </div>
 </form>

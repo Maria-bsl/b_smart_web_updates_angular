@@ -1,0 +1,6 @@
+export enum EOtpForm {
+  OTP_TEXTFIELD,
+  RESEND_CODE,
+  VERIFY_BUTTON,
+  BACK_HOME,
+}

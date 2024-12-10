@@ -1,0 +1,7 @@
+export enum ELoginForm {
+  USERNAME,
+  PASSWORD,
+  FORGOT_LINK,
+  LOGIN_BUTTON,
+  ADMISSION_LINK,
+}

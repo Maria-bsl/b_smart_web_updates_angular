@@ -1,0 +1,14 @@
+<form class="flex flex-col w-full">
+  <h6 class="text-lg px-4 py-3 font-semibold bg-gray-50 text-black">
+    {{ data.title }}
+  </h6>
+  <mat-divider></mat-divider>
+  <h6 class="text-sm !font-normal px-4 py-4 text-gray-600">
+    {{ data.message }}
+  </h6>
+  <mat-divider></mat-divider>
+  <div class="flex flex-row items-center justify-end"></div>
+  <mat-dialog-actions class="!flex !items-center !justify-end !w-full">
+    <button color="primary" mat-stroked-button mat-dialog-close>Ok</button>
+  </mat-dialog-actions>
+</form>

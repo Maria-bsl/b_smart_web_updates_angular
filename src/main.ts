@@ -30,9 +30,10 @@ import { ForgotPasswordFormComponent } from './app/components/forms/public/forgo
 import { UpdateSchoolInfoFormComponent } from './app/components/forms/admin/update-school-info-form/update-school-info-form.component';
 import { AdmissionPageComponent } from './app/pages/admission-page/admission-page.component';
 import { AdmissionFormComponent } from './app/components/forms/public/admission-form/admission-form.component';
-import { OtpFormComponent } from './app/components/forms/otp-form/otp-form.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { LoginFormComponent } from './app/components/forms/admin/login-form/login-form.component';
+import { OtpFormComponent } from './app/components/forms/public/otp-form/otp-form.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -58,6 +59,15 @@ function defineCustomElement(
   }
 }
 
+// function initComponents() {
+//   defineCustomElement(
+//     'login-form',
+//     createCustomElement(LoginFormComponent, {
+//       injector: app.injector,
+//     })
+//   );
+// }
+
 (async () => {
   const app = await createApplication({
     providers: [
@@ -78,115 +88,76 @@ function defineCustomElement(
     ],
   });
 
-  defineCustomElement(
-    'login-page',
-    createCustomElement(LoginPageComponent, {
-      injector: app.injector,
-    })
-  );
-
-  defineCustomElement(
-    'dashboard-page',
-    createCustomElement(DashboardPageComponent, {
-      injector: app.injector,
-    })
-  );
-
-  defineCustomElement(
-    'change-password-page',
-    createCustomElement(ChangePasswordPageComponent, {
-      injector: app.injector,
-    })
-  );
-
-  defineCustomElement(
-    'c-pass',
-    createCustomElement(CPassPageComponent, {
-      injector: app.injector,
-    })
-  );
-
-  defineCustomElement(
-    'login-page-banners',
-    createCustomElement(LoginPageBannersComponent, {
-      injector: app.injector,
-    })
-  );
-
-  defineCustomElement(
-    'block-unblock-user',
-    createCustomElement(BlockUnblockUserFormComponent, {
-      injector: app.injector,
-    })
-  );
-
-  defineCustomElement(
-    'school-groups-page',
-    createCustomElement(SchoolGroupsPageComponent, {
-      injector: app.injector,
-    })
-  );
-
-  defineCustomElement(
-    'register-school-form',
-    createCustomElement(RegisterSchoolFormComponent, {
-      injector: app.injector,
-    })
-  );
-
-  defineCustomElement(
-    'forgot-password-form',
-    createCustomElement(ForgotPasswordFormComponent, {
-      injector: app.injector,
-    })
-  );
-
-  defineCustomElement(
-    'update-school-info-form',
-    createCustomElement(UpdateSchoolInfoFormComponent, {
-      injector: app.injector,
-    })
-  );
-
-  defineCustomElement(
-    'admission-page',
-    createCustomElement(AdmissionPageComponent, { injector: app.injector })
-  );
-
-  defineCustomElement(
-    'admission-form',
-    createCustomElement(AdmissionFormComponent, { injector: app.injector })
-  );
-
-  defineCustomElement(
-    'otp-form',
-    createCustomElement(OtpFormComponent, { injector: app.injector })
-  );
-  defineCustomElement(
-    'otp-form',
-    createCustomElement(OtpFormComponent, { injector: app.injector })
-  );
-  defineCustomElement(
-    'dashboard-page',
-    createCustomElement(DashboardPageComponent, { injector: app.injector })
-  );
+  (() => {
+    defineCustomElement(
+      'login-form',
+      createCustomElement(LoginFormComponent, {
+        injector: app.injector,
+      })
+    );
+    defineCustomElement(
+      'forgot-password-form',
+      createCustomElement(ForgotPasswordFormComponent, {
+        injector: app.injector,
+      })
+    );
+    defineCustomElement(
+      'otp-form',
+      createCustomElement(OtpFormComponent, { injector: app.injector })
+    );
+    defineCustomElement(
+      'dashboard-page',
+      createCustomElement(DashboardPageComponent, { injector: app.injector })
+    );
+    defineCustomElement(
+      'admission-page',
+      createCustomElement(AdmissionPageComponent, { injector: app.injector })
+    );
+    defineCustomElement(
+      'admission-form',
+      createCustomElement(AdmissionFormComponent, { injector: app.injector })
+    );
+    // defineCustomElement(
+    //   'change-password-page',
+    //   createCustomElement(ChangePasswordPageComponent, {
+    //     injector: app.injector,
+    //   })
+    // );
+    // defineCustomElement(
+    //   'c-pass',
+    //   createCustomElement(CPassPageComponent, {
+    //     injector: app.injector,
+    //   })
+    // );
+    // defineCustomElement(
+    //   'login-page-banners',
+    //   createCustomElement(LoginPageBannersComponent, {
+    //     injector: app.injector,
+    //   })
+    // );
+    // defineCustomElement(
+    //   'block-unblock-user',
+    //   createCustomElement(BlockUnblockUserFormComponent, {
+    //     injector: app.injector,
+    //   })
+    // );
+    // defineCustomElement(
+    //   'school-groups-page',
+    //   createCustomElement(SchoolGroupsPageComponent, {
+    //     injector: app.injector,
+    //   })
+    // );
+    // defineCustomElement(
+    //   'register-school-form',
+    //   createCustomElement(RegisterSchoolFormComponent, {
+    //     injector: app.injector,
+    //   })
+    // );
+    // defineCustomElement(
+    //   'update-school-info-form',
+    //   createCustomElement(UpdateSchoolInfoFormComponent, {
+    //     injector: app.injector,
+    //   })
+    // );
+  })();
 })();
-
-// bootstrapApplication(AppComponent, {
-//   providers: [
-//     provideRouter(routes, withViewTransitions()),
-//     provideAnimationsAsync(),
-//     provideHttpClient(),
-//     provideTransloco({
-//       config: {
-//         //availableLangs: ['en', 'sw', 'ln', 'fr'],
-//         availableLangs: ['en'],
-//         defaultLang: 'en',
-//         // Remove this option if your application doesn't support changing language in runtime.
-//         reRenderOnLangChange: true,
-//         prodMode: !isDevMode(),
-//       },
-//       loader: TranslocoHttpLoader,
-//     }),
-//   ],
-// });

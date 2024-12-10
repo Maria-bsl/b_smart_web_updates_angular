@@ -1,0 +1,44 @@
+<form
+  id="otp-form"
+  [formGroup]="formGroup"
+  class="flex flex-col relative space-y-2 py-2 w-full"
+  (ngSubmit)="otpFormSubmitted()"
+>
+  <div class="flex flex-col space-y-1 mat-form-container w-full">
+    <div class="w-full">
+      <p class="text-xs font-bold">OTP Code</p>
+      <ng-otp-input
+        class="!text-lg"
+        #ngOtpInput
+        [formCtrl]="opt_code"
+        [config]="otpConfig"
+      ></ng-otp-input>
+    </div>
+  </div>
+  <div class="flex flex-col space-y-2 w-full">
+    <div class="w-full flex flex-row items-center justify-between py-1">
+      <button
+        class="!text-[#4495d1]"
+        mat-button
+        type="button"
+        (click)="resendCodeLinkClicked($event)"
+      >
+        Resend Code
+      </button>
+      <button mat-flat-button color="primary" type="submit" form="otp-form">
+        Verify
+      </button>
+    </div>
+    <div class="flex flex-row items-center w-full">
+      <button
+        mat-button
+        type="button"
+        class="flex flex-row items-center text-black"
+        (click)="backHomeLinkClicked($event)"
+      >
+        <mat-icon svgIcon="chevron-left" matPrefix></mat-icon>
+        Back Home
+      </button>
+    </div>
+  </div>
+</form>
