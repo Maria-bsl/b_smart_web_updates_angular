@@ -3,151 +3,100 @@
     class="flex flex-row items-center py-1 px-0 list-none overflow-x-auto snap-x snap-mandatory space-x-2 justify-between"
   >
     <li>
-      <div
-        class="py-2 px-0 w-52 bg-[#FFE1A9] rounded-lg grid place-items-center"
-      >
+      <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.totalSchools" | translate }}
         </h6>
-        <h6 class="text-3xl font-semibold">0</h6>
-        <img
-          class="w-8 lg:w-12"
-          style="
-            filter: invert(68%) sepia(22%) saturate(2629%) hue-rotate(357deg)
-              brightness(99%) contrast(102%);
-          "
-          src="assets/images/hut.png"
-          alt=""
-          srcset=""
-        />
+        <h6 class="text-3xl font-semibold">{{ totalSchool }}</h6>
       </div>
     </li>
     <li>
-      <div
-        class="py-2 px-0 w-52 bg-[#FFFAB7] rounded-lg grid place-items-center"
-      >
+      <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.activeSchools" | translate }}
         </h6>
-        <h6 class="text-3xl font-semibold">0</h6>
-        <img
-          class="w-8 lg:w-12"
-          style="
-            filter: invert(51%) sepia(51%) saturate(2594%) hue-rotate(31deg)
-              brightness(98%) contrast(102%);
-          "
-          src="assets/images/umqombothi.png"
-          alt=""
-          srcset=""
-        />
+        <h6 class="text-3xl font-semibold">{{ activeSchool }}</h6>
       </div>
     </li>
     <li>
-      <div
-        class="py-2 px-0 w-52 bg-[#B29EFF] rounded-lg grid place-items-center"
-      >
+      <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.billsIssued" | translate }}
         </h6>
-        <h6 class="text-3xl font-semibold">0</h6>
-        <img
-          class="w-8 lg:w-12"
-          style="
-            filter: invert(27%) sepia(92%) saturate(607%) hue-rotate(187deg)
-              brightness(91%) contrast(91%);
-          "
-          src="assets/images/cow.png"
-          alt=""
-          srcset=""
-        />
+        <h6 class="text-3xl font-semibold">{{ billsIssued }}</h6>
       </div>
     </li>
     <li>
-      <div
-        class="py-2 px-0 w-52 bg-[#A7C4FF] rounded-lg grid place-items-center"
-      >
+      <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.students" | translate }}
         </h6>
-        <h6 class="text-3xl font-semibold">0</h6>
-        <img
-          class="w-8 lg:w-12"
-          style="
-            filter: invert(25%) sepia(82%) saturate(784%) hue-rotate(190deg)
-              brightness(96%) contrast(89%);
-          "
-          src="assets/images/monkey.png"
-          alt=""
-          srcset=""
-        />
+        <h6 class="text-3xl font-semibold">{{ students }}</h6>
       </div>
     </li>
     <li>
-      <div
-        class="py-2 px-0 w-52 bg-[#DBFFAB] rounded-lg grid place-items-center"
-      >
+      <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.users" | translate }}
         </h6>
-        <h6 class="text-3xl font-semibold">0</h6>
-        <img
-          class="w-8 lg:w-12"
-          style="
-            filter: invert(42%) sepia(41%) saturate(3287%) hue-rotate(58deg)
-              brightness(91%) contrast(101%);
-          "
-          src="assets/images/mama.png"
-          alt=""
-          srcset=""
-        />
+        <h6 class="text-3xl font-semibold">{{ users }}</h6>
       </div>
     </li>
   </ul>
   <div class="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
     <div
-      class="w-full flex flex-row items-end justify-between h-32 bg-[#8DE582] px-2 py-2 rounded-lg"
+      class="w-full flex flex-row items-end justify-between h-32 bg-white px-2 py-2 rounded-lg"
     >
       <div class="flex flex-col w-full">
         <h6 class="text-2xl font-light">
           {{ "dashboardPage.labels.bankUsers" | translate }}
         </h6>
-        <img src="assets/images/nice-one.png" class="w-20" alt="" srcset="" />
-      </div>
-      <h6 class="text-3xl font-semibold">0</h6>
-    </div>
-    <div
-      class="w-full flex flex-row-reverse items-end justify-between h-32 bg-[#C8EAFF] px-2 py-2 rounded-lg"
-    >
-      <div class="flex flex-col items-end">
-        <h6 class="text-2xl font-light text-right">
-          {{ "dashboardPage.labels.schoolUsers" | translate }}
-        </h6>
         <img
-          src="assets/images/silhouettes.png"
+          src="assets/images/Account balance.png"
           class="w-20"
           alt=""
           srcset=""
         />
       </div>
-      <h6 class="text-3xl font-semibold">0</h6>
+      <h6 class="text-3xl font-semibold mx-4">0</h6>
+    </div>
+    <div
+      class="w-full flex flex-row-reverse items-end justify-between h-32 bg-white px-2 py-2 rounded-lg"
+    >
+      <div class="flex flex-col items-end">
+        <h6 class="text-2xl font-light text-right">
+          {{ "dashboardPage.labels.schoolUsers" | translate }}
+        </h6>
+        <img src="assets/images/School.png" class="w-20" alt="" srcset="" />
+      </div>
+      <h6 class="text-3xl font-semibold mx-4">0</h6>
     </div>
   </div>
   <div class="w-full grid grid-cols-1 lg:grid-cols-5 gap-2 h-96">
     <div
-      class="col-span-full lg:col-span-3 border border-red-500 w-full h-96 row-start-2 lg:row-start-1 relative"
+      class="col-span-full lg:col-span-3 w-full h-96 row-start-2 lg:row-start-1 relative"
     >
       <div class="flex flex-col w-full p-2 relative">
         <div class="flex flex-row justify-end items-center w-full">
           <div role="tablist" class="tabs tabs-boxed bg-transparent space-x-1">
-            <a role="tab" class="tab tab-active">{{
-              "dashboardPage.labels.lastYear" | translate
-            }}</a>
-            <a role="tab" class="tab border">{{
-              3 + " " + ("defaults.month" | translate)
-            }}</a>
-            <a role="tab" class="tab border">{{
-              6 + " " + ("defaults.month" | translate)
-            }}</a>
+            <ng-container
+              *ngFor="
+                let timePeriodIndex of timePeriodIndexes$ | async;
+                index as ind
+              "
+            >
+              <a
+                class="tab border"
+                [class]="currentIndex() === ind ? 'tab-active' : ''"
+                (click)="currentIndex.set(ind)"
+              >
+                @if (timePeriodIndex === 0) {
+                {{ "dashboardPage.labels.lastYear" | translate }}
+                } @else {
+                {{ timePeriodIndex + " " + ("defaults.month" | translate) }}
+                }
+              </a>
+            </ng-container>
           </div>
         </div>
         @if (customChartType) {
@@ -163,12 +112,12 @@
     <div
       class="col-span-full lg:col-span-2 h-96 row-start-1 flex flex-col space-y-2"
     >
-      <div class="flex flex-col w-full bg-[#F25921] p-2 rounded-lg">
+      <div class="flex flex-col w-full bg-[#015AA8] p-2 rounded-lg">
         <h6 class="text-xl font-light text-[#ffffff]">
           {{ "dashboardPage.labels.collectedAmount" | translate }}
         </h6>
         <div
-          class="flex flex-row items-center justify-between bg-[#F26F21] rounded-lg pl-2 pr-1 py-2"
+          class="flex flex-row items-center justify-between bg-[#002F5E] rounded-lg pl-2 pr-1 py-2"
         >
           <div class="flex flex-col">
             <h4 class="text-2xl text-[#ffffff]">TZS1,234,424</h4>
@@ -197,7 +146,11 @@
           </h6>
         </div>
         <mat-divider class="w-full !bg-black"></mat-divider>
-        <mat-list class="!overflow-y-auto" role="list">
+        <mat-list
+          *ngIf="(blockedUsers$ | async)!.length > 0; else emptyBlockedUsers"
+          class="!overflow-y-auto !bg-white !h-full"
+          role="list"
+        >
           @for (blockedUsers of blockedUsers$ | async; track blockedUsers) {
           <mat-list-item role="listitem">
             <div class="w-full h-full flex items-center justify-between">
@@ -218,6 +171,11 @@
           </mat-list-item>
           }
         </mat-list>
+        <ng-template #emptyBlockedUsers>
+          <h6 class="mat-body-small w-full text-center py-4 bg-white">
+            {{ "defaults.noUsersFound" | translate }}
+          </h6>
+        </ng-template>
       </div>
     </div>
   </div>

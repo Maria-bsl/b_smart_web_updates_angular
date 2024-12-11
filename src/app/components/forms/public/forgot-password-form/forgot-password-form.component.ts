@@ -76,7 +76,6 @@ export class ForgotPasswordFormComponent implements AfterViewInit {
   ) {
     const icons = ['refresh-ccw', 'chevron-left'];
     this._appConfig.addIcons(icons, '/assets/feather');
-    console.log('forgot password initialized');
   }
   private usernameEventListener() {
     const updateUsername = (value: string) => {

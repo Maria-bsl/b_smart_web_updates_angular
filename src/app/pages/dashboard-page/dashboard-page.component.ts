@@ -1,16 +1,17 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, Input, signal, ViewEncapsulation } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
-import { firstValueFrom, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { HighchartsChartModule } from 'highcharts-angular';
 // import Highcharts from 'highcharts';
 import * as Highcharts from 'highcharts';
+import { ElementDomManipulationService } from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
 
 type CustomChartType = {
   updateFromInput?: boolean;
@@ -38,26 +39,38 @@ type CustomChartType = {
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class DashboardPageComponent {
+  @Input('total-school') totalSchool: string = '0';
+  @Input('active-school') activeSchool: string = '0';
+  @Input('bills-issued') billsIssued: string = '0';
+  @Input('students') students: string = '0';
+  @Input('users') users: string = '0';
+  @Input('blocked-users') blockedUsers: string = 'Bokutani';
+
   customChartType!: CustomChartType;
-  blockedUsers$ = of([
-    'Amaye Kadima',
-    'Yannick Bolasie',
-    'Tshikeva Bakambu',
-    'Shetani Kasura Mungu',
-  ]);
+  blockedUsers$!: Observable<string[]>;
+  currentIndex = signal<number>(0);
+  timePeriodIndexes$ = of([0, 3, 6]);
   constructor(
     private tr: TranslateService,
-    private appConfig: AppConfigService
+    private appConfig: AppConfigService,
+    private domService: ElementDomManipulationService
   ) {
     this.tr.use('en');
     this.registerIcons();
     this.initChart();
+    let arr = this.domService.getCommaSeperatedValuesFromString(
+      this.blockedUsers
+    );
+    this.blockedUsers$ = of(arr);
   }
   private async initChart() {
     this.customChartType = {
       updateFromInput: true,
       Highcharts: Highcharts,
       chartOptions: {
+        chart: {
+          height: 350,
+        },
         series: [
           {
             name: await firstValueFrom(

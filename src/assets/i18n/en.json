@@ -8,7 +8,8 @@
     "active": "Active",
     "inactive": "InActive",
     "search": "Search",
-    "month": "Month"
+    "month": "Month",
+    "noUsersFound": "No users found"
   },
   "loginForm": {
     "labels": {

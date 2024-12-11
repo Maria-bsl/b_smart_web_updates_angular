@@ -12,6 +12,25 @@ export type MElementPair = Map<number, Element | null>;
 export class ElementDomManipulationService {
   ids$!: Observable<MElementPair>;
   constructor() {}
+  getCommaSeperatedValuesFromString(csvString: string) {
+    const keys = (() => {
+      try {
+        if (!csvString) {
+          return [];
+        }
+        const regex = /^([^,\n\r"]+|"[^"]*")(,([^,\n\r"]+|"[^"]*"))*$/;
+        if (regex.test(csvString)) {
+          const ids = csvString.split(',');
+          return ids.map((id) => id.trim());
+        }
+        return [];
+      } catch (err: any) {
+        console.error(err.message);
+        return [];
+      }
+    })();
+    return keys;
+  }
   parseDocumentKeys(documentIds: string, LENGTH: number) {
     const loginPageKeys = (() => {
       try {
