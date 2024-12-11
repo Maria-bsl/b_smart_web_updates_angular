@@ -39,13 +39,13 @@ type CustomChartType = {
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class DashboardPageComponent {
-  @Input('total-school') totalSchool: string = '0';
-  @Input('active-school') activeSchool: string = '0';
+  @Input('total-schools') totalSchools: string = '0';
+  @Input('active-schools') activeSchool: string = '0';
   @Input('bills-issued') billsIssued: string = '0';
   @Input('students') students: string = '0';
   @Input('users') users: string = '0';
   @Input('blocked-users') blockedUsers: string = 'Bokutani';
-
+  activeSchoolsChart!: CustomChartType;
   customChartType!: CustomChartType;
   blockedUsers$!: Observable<string[]>;
   currentIndex = signal<number>(0);
@@ -58,10 +58,32 @@ export class DashboardPageComponent {
     this.tr.use('en');
     this.registerIcons();
     this.initChart();
+    this.initActiveSchoolsChart();
     let arr = this.domService.getCommaSeperatedValuesFromString(
       this.blockedUsers
     );
     this.blockedUsers$ = of(arr);
+  }
+  private initActiveSchoolsChart() {
+    this.activeSchoolsChart = {
+      updateFromInput: true,
+      Highcharts: Highcharts,
+      chartOptions: {
+        chart: {
+          type: 'pie',
+        },
+        title: {
+          text: 'Sample Chart',
+        },
+        series: [
+          {
+            name: 'Data',
+            type: 'line',
+            data: [1, 2, 3, 4, 5],
+          },
+        ],
+      },
+    };
   }
   private async initChart() {
     this.customChartType = {
