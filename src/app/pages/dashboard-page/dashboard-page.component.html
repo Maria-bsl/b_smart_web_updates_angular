@@ -7,7 +7,7 @@
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.totalSchools" | translate }}
         </h6>
-        <h6 class="text-3xl font-semibold">{{ totalSchools }}</h6>
+        <h6 class="text-3xl font-semibold">{{ totalSchools() }}</h6>
       </div>
     </li>
     <li>
@@ -34,7 +34,7 @@
               <div class="mask half">
                 <div class="fill"></div>
               </div>
-              <div class="inside-circle">{{ activeSchool }}</div>
+              <div class="inside-circle">{{ activeSchool() }}</div>
             </div>
           </div>
 
@@ -47,7 +47,7 @@
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.billsIssued" | translate }}
         </h6>
-        <h6 class="text-3xl font-semibold">{{ billsIssued }}</h6>
+        <h6 class="text-3xl font-semibold">{{ billsIssued() }}</h6>
       </div>
     </li>
     <li>
@@ -55,7 +55,7 @@
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.students" | translate }}
         </h6>
-        <h6 class="text-3xl font-semibold">{{ students }}</h6>
+        <h6 class="text-3xl font-semibold">{{ students() }}</h6>
       </div>
     </li>
     <li>
@@ -63,7 +63,7 @@
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.users" | translate }}
         </h6>
-        <h6 class="text-3xl font-semibold">{{ users }}</h6>
+        <h6 class="text-3xl font-semibold">{{ users() }}</h6>
       </div>
     </li>
   </ul>
@@ -82,7 +82,7 @@
           srcset=""
         />
       </div>
-      <h6 class="text-3xl font-semibold mx-4">0</h6>
+      <h6 class="text-3xl font-semibold mx-4">{{ bankUsers() }}</h6>
     </div>
     <div
       class="w-full flex flex-row-reverse items-end justify-between h-32 bg-white px-2 py-2 rounded-lg"
@@ -93,7 +93,7 @@
         </h6>
         <img src="assets/images/School.png" class="w-20" alt="" srcset="" />
       </div>
-      <h6 class="text-3xl font-semibold mx-4">0</h6>
+      <h6 class="text-3xl font-semibold mx-4">{{ schoolUsers() }}</h6>
     </div>
   </div>
   <div class="w-full grid grid-cols-1 lg:grid-cols-5 gap-2 h-96">
@@ -144,7 +144,9 @@
           class="flex flex-row items-center justify-between bg-[#002F5E] rounded-lg pl-2 pr-1 py-2"
         >
           <div class="flex flex-col">
-            <h4 class="text-2xl text-[#ffffff]">TZS1,234,424</h4>
+            <h4 class="text-2xl text-[#ffffff]">
+              {{ collectedAmount() | currency : "TZS" }}
+            </h4>
             <h6 class="text-gray-200 font-light text-sm">May 2025</h6>
           </div>
           <img
@@ -171,7 +173,10 @@
         </div>
         <mat-divider class="w-full !bg-black"></mat-divider>
         <mat-list
-          *ngIf="(blockedUsers$ | async)!.length > 0; else emptyBlockedUsers"
+          *ngIf="
+            (blockedUsers$ | async) && (blockedUsers$ | async)!.length > 0;
+            else emptyBlockedUsers
+          "
           class="!overflow-y-auto !bg-white !h-full"
           role="list"
         >
