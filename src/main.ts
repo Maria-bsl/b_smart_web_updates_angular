@@ -36,7 +36,8 @@ import { LoginFormComponent } from './app/components/forms/admin/login-form/logi
 import { OtpFormComponent } from './app/components/forms/public/otp-form/otp-form.component';
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, '../assets/assets/i18n/', '.json');
+  //return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 function defineCustomElement(
@@ -59,15 +60,6 @@ function defineCustomElement(
   }
 }
 
-// function initComponents() {
-//   defineCustomElement(
-//     'login-form',
-//     createCustomElement(LoginFormComponent, {
-//       injector: app.injector,
-//     })
-//   );
-// }
-
 (async () => {
   const app = await createApplication({
     providers: [
@@ -79,8 +71,10 @@ function defineCustomElement(
             useFactory: createTranslateLoader,
             deps: [HttpClient],
           },
+          isolate: false,
+          extend: true,
           //defaultLanguage: 'en',
-          useDefaultLang: false,
+          //useDefaultLang: true,
         }),
       ]),
       provideAnimationsAsync(),

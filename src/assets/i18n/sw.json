@@ -1,1 +1,235 @@
-{}
+{
+  "defaults": {
+    "submit": "Tuma",
+    "cancel": "Ghairi",
+    "reset": "Weka Upya",
+    "pleaseFill": "Tafadhali jaza",
+    "status": "Hali",
+    "active": "Hai",
+    "inactive": "Si Hai",
+    "search": "Tafuta",
+    "month": "Mwezi",
+    "noUsersFound": "Hakuna watumiaji waliopatikana"
+  },
+  "loginForm": {
+    "labels": {
+      "username": "Jina la Mtumiaji",
+      "password": "Nenosiri"
+    },
+    "placeholders": {
+      "username": "Ingiza jina la mtumiaji",
+      "password": "Ingiza nenosiri"
+    },
+    "errors": {
+      "username": "Tafadhali ingiza jina la mtumiaji",
+      "password": "Tafadhali jaza"
+    },
+    "actions": {
+      "logIn": "Ingia",
+      "forgotPassword": "Umesahau nenosiri?",
+      "admission": "Jiandikishe kwa Kiingilio Hapa!"
+    }
+  },
+  "changePassword": {
+    "title": "Badilisha Nenosiri",
+    "labels": {
+      "passwordExpired": "Nenosiri lako limekwisha muda wake. Tafadhali libadilishe.",
+      "passwordUpdate": "Nenosiri lako halijasasishwa kwa siku 90 zilizopita. Tafadhali libadilishe."
+    },
+    "form": {
+      "labels": {
+        "currentPassword": "Nenosiri la Sasa",
+        "newPassword": "Nenosiri Jipya",
+        "confirmPassword": "Thibitisha Nenosiri"
+      },
+      "placeholders": {
+        "currentPassword": "Nenosiri lako la sasa",
+        "newPassword": "Ingiza nenosiri jipya",
+        "confirmPassword": "Thibitisha nenosiri"
+      },
+      "errors": {
+        "passwordsNotMatch": "Nenosiri hayaendani.",
+        "passwordRequirements": "Tumia herufi 8-14 zenye angalau namba moja, herufi maalum, herufi ndogo, na herufi kubwa.",
+        "emptyPassword": "Tafadhali jaza."
+      },
+      "dialog": {
+        "errors": {
+          "passwordsNotMatch": "Nenosiri uliloweka hayaendani.",
+          "passwordRequirements": "Nenosiri lazima liwe na herufi 8-14 zenye namba moja, herufi maalum, ndogo, na kubwa.",
+          "emptyPassword": "Sehemu ya nenosiri iko tupu."
+        }
+      }
+    }
+  },
+  "cpass": {
+    "title": "Sasisha Taarifa Zako",
+    "completeForm": "Tafadhali, jaza fomu hapa chini ili uendelee.",
+    "form": {
+      "labels": {
+        "secretQuestion": "Swali la Siri",
+        "answer": "Jibu",
+        "capcha": "Capcha"
+      },
+      "placeholders": {
+        "secretQuestion": "Chagua swali la siri",
+        "selectSecretQuestion": "Tafadhali, chagua swali",
+        "answer": "Andika jibu lako",
+        "capcha": "Ingiza nambari iliyo hapa chini"
+      },
+      "errors": {
+        "secretQuestion": "Tafadhali, chagua swali.",
+        "answer": "Tafadhali, toa jibu.",
+        "capcha": "Capcha haipo"
+      },
+      "dialog": {
+        "errors": {
+          "secretQuestion": "Lazima uchague swali la siri.",
+          "answer": "Tafadhali toa jibu la swali la siri.",
+          "capcha": "Msimbo wa capcha uliotoa si sahihi."
+        }
+      }
+    }
+  },
+  "blockUnblockUser": {
+    "title": "Zuia/Ruhusu Mtumiaji",
+    "blockUser": "Zuia Mtumiaji",
+    "unblockUser": "Ruhusu Mtumiaji",
+    "block": "Zuia",
+    "unblock": "Ruhusu",
+    "blockUserForm": {
+      "labels": {
+        "userType": "Aina ya Mtumiaji",
+        "institution": "Taasisi",
+        "enterInstitution": "Ingiza taasisi",
+        "fullName": "Jina Kamili",
+        "reasonForBlock": "Sababu ya Kuzuia",
+        "blockedUsers": "Watumiaji Waliozuiwa",
+        "unblockUsers": "Ruhusu Watumiaji"
+      },
+      "placeholders": {
+        "userType": "Chagua aina ya mtumiaji",
+        "institution": "Taasisi ya elimu",
+        "fullName": "Ingiza jina kamili la mtumiaji",
+        "reasonForBlock": "Sababu yako",
+        "action": "Zuia/Ruhusu Mtumiaji",
+        "selectAction": "Chagua hatua",
+        "selectUser": "Chagua mtumiaji",
+        "writeHere": "Andika hapa"
+      },
+      "errors": {
+        "userType": "Tafadhali, chagua aina ya mtumiaji",
+        "institution": "Taasisi haipo",
+        "fullName": "Tafadhali chagua taasisi",
+        "reasonForBlock": "Tafadhali toa sababu ya kuzuia",
+        "missingAction": "Tafadhali, chagua hatua"
+      }
+    },
+    "unblockUserForm": {
+      "labels": {
+        "blockedUsers": "Watumiaji Waliozuiwa"
+      },
+      "placeholders": {
+        "blockedUsers": "Chagua mtumiaji"
+      }
+    }
+  },
+  "registerSchool": {
+    "title": "Sajili Shule Mpya"
+  },
+  "schoolGroups": {
+    "title": "Makundi ya Shule",
+    "welcomeMessage": "Karibu tena kwenye ukurasa wa makundi ya shule.",
+    "actions": {
+      "addSchoolGroup": "Ongeza Kundi la Shule"
+    },
+    "forms": {
+      "labels": {
+        "schoolGroup": "Kundi la Shule"
+      },
+      "placeholders": {
+        "schoolGroup": "Ingiza kundi la shule"
+      },
+      "errors": {}
+    },
+    "schoolGroupsTable": [
+      {
+        "label": "Kundi"
+      },
+      {
+        "label": "Hali"
+      }
+    ]
+  },
+  "sidenavItems": [
+    {
+      "name": "Dashibodi",
+      "icon": "dashboard",
+      "link": "/main",
+      "children": []
+    },
+    {
+      "name": "Usimamizi wa Watumiaji",
+      "icon": "groups",
+      "link": "/main/user",
+      "children": [
+        {
+          "name": "Haki za Ufikiaji"
+        }
+      ]
+    },
+    {
+      "name": "Usimamizi wa Shule",
+      "icon": "school",
+      "link": "/main/school",
+      "children": [
+        {
+          "name": "Ongeza Shule Mpya"
+        },
+        {
+          "name": "Sasisha Taarifa za Shule"
+        }
+      ]
+    },
+    {
+      "name": "Usimamizi wa Arifa",
+      "icon": "schedule_send",
+      "link": "/main/notifications",
+      "children": []
+    },
+    {
+      "name": "Usimamizi wa Idhini",
+      "icon": "fact_check",
+      "link": "/main/approvals",
+      "children": [
+        {
+          "name": "Usajili wa Shule"
+        },
+        {
+          "name": "Mabadiliko ya Shule"
+        }
+      ]
+    },
+    {
+      "name": "Usimamizi wa Marejesho",
+      "icon": "assignment_return",
+      "link": "/main/returns"
+    }
+  ],
+  "dashboardPage": {
+    "labels": {
+      "welcomeText": "Karibu",
+      "totalSchools": "Jumla ya Shule",
+      "activeSchools": "Shule Hai",
+      "billsIssued": "Ankara Zilizotolewa",
+      "students": "Wanafunzi",
+      "users": "Watumiaji",
+      "bankUsers": "Watumiaji wa Benki",
+      "schoolUsers": "Watumiaji wa Shule",
+      "collectedAmount": "Kiasi Kilichokusanywa",
+      "overview": "Muhtasari",
+      "lastYear": "Mwaka Uliopita",
+      "paidInvoices": "Ankara Zilizolipwa",
+      "pendingInvoices": "Ankara Zinazosubiri"
+    }
+  }
+}

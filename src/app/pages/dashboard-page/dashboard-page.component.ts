@@ -1,16 +1,23 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
+  effect,
+  ElementRef,
   Input,
+  OnChanges,
   signal,
+  SimpleChanges,
+  ViewChild,
   ViewEncapsulation,
+  WritableSignal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatIconModule } from '@angular/material/icon';
 import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
-import { firstValueFrom, map, Observable, of } from 'rxjs';
+import { firstValueFrom, fromEvent, map, Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -20,6 +27,7 @@ import * as Highcharts from 'highcharts';
 import { ElementDomManipulationService } from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
 import { DashboardForm } from 'src/app/core/enums/admin/dashboard.enum';
 import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
+import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
 
 type CustomChartType = {
   updateFromInput?: boolean;
@@ -45,29 +53,36 @@ type CustomChartType = {
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss',
   encapsulation: ViewEncapsulation.Emulated,
+  animations: [inOutAnimation],
 })
-export class DashboardPageComponent implements AfterViewInit {
-  totalSchools = signal<string>('');
-  activeSchool = signal<string>('');
-  billsIssued = signal<string>('');
-  students = signal<string>('');
-  users = signal<string>('');
-  bankUsers = signal<string>('');
-  schoolUsers = signal<string>('');
-  collectedAmount = signal<string>('');
+export class DashboardPageComponent implements AfterViewInit, OnChanges {
+  totalSchools = signal<string>('0');
+  activeSchool = signal<string>('0');
+  billsIssued = signal<string>('0');
+  students = signal<string>('0');
+  users = signal<string>('0');
+  bankUsers = signal<string>('0');
+  schoolUsers = signal<string>('0');
+  collectedAmount = signal<string>('0');
+  today = new Date();
   //('blocked') blocked= signal<string>('');
   @Input('keys') keys: string = '';
+  @Input('is-modern') isModern: 'true' | 'false' = 'true';
   activeSchoolsChart!: CustomChartType;
   customChartType!: CustomChartType;
   blockedUsers$!: Observable<string[]>;
   currentIndex = signal<number>(0);
   timePeriodIndexes$ = of([0, 3, 6]);
+  @ViewChild('circle') circle!: ElementRef<HTMLDivElement>;
   constructor(
     private tr: TranslateService,
     private appConfig: AppConfigService,
     private domService: ElementDomManipulationService,
-    private unsubscribe: UnsubscribeService
+    private unsubscribe: UnsubscribeService,
+    private cdr: ChangeDetectorRef
   ) {
+    this.tr.addLangs(['en', 'sw']);
+    this.tr.setDefaultLang('en');
     this.tr.use('en');
     this.registerIcons();
     this.initChart();
@@ -132,83 +147,111 @@ export class DashboardPageComponent implements AfterViewInit {
     let icons = ['hut', 'airplay'];
     this.appConfig.addIcons(icons, '/assets/icons');
   }
+  private changeEventHandler(
+    htmlInput: HTMLInputElement,
+    input: WritableSignal<string>
+  ) {
+    fromEvent(htmlInput, 'change')
+      .pipe(this.unsubscribe.takeUntilDestroy)
+      .subscribe({
+        next: (e: any) => input.set(e.target.value),
+        error: (err) => console.error(err),
+      });
+  }
   private parseTotalSchools() {
-    const totalSchools$ = this.domService.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(DashboardForm.TOTAL_SCHOOLS) as HTMLInputElement)
+    const totalSchools$ = this.domService.getElementAtIndex<HTMLInputElement>(
+      DashboardForm.TOTAL_SCHOOLS
     );
     totalSchools$.subscribe({
-      next: (htmlInput) => this.totalSchools.set(htmlInput.value),
+      next: (htmlInput) => {
+        this.changeEventHandler(htmlInput, this.totalSchools);
+        this.totalSchools.set(htmlInput.value);
+      },
       error: (err) => console.error(err.message),
     });
   }
   private parseActiveSchools() {
-    const activeSchools$ = this.domService.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(DashboardForm.ACTIVE_SCHOOLS) as HTMLInputElement)
+    const activeSchools$ = this.domService.getElementAtIndex<HTMLInputElement>(
+      DashboardForm.ACTIVE_SCHOOLS
     );
     activeSchools$.subscribe({
-      next: (htmlInput) => this.activeSchool.set(htmlInput.value),
+      next: (htmlInput) => {
+        this.changeEventHandler(htmlInput, this.activeSchool);
+        this.activeSchool.set(htmlInput.value);
+      },
       error: (err) => console.error(err.message),
     });
   }
   private parseBillsIssued() {
-    const billsIssued$ = this.domService.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(DashboardForm.BILLS_ISSUED) as HTMLInputElement)
+    const billsIssued$ = this.domService.getElementAtIndex<HTMLInputElement>(
+      DashboardForm.BILLS_ISSUED
     );
     billsIssued$.subscribe({
-      next: (htmlInput) => this.billsIssued.set(htmlInput.value),
+      next: (htmlInput) => {
+        this.changeEventHandler(htmlInput, this.billsIssued);
+        this.billsIssued.set(htmlInput.value);
+      },
       error: (err) => console.error(err.message),
     });
   }
   private parseStudents() {
-    const students$ = this.domService.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(DashboardForm.STUDENTS) as HTMLInputElement)
+    const students$ = this.domService.getElementAtIndex<HTMLInputElement>(
+      DashboardForm.STUDENTS
     );
     students$.subscribe({
-      next: (htmlInput) => this.students.set(htmlInput.value),
+      next: (htmlInput) => {
+        this.changeEventHandler(htmlInput, this.students);
+        this.students.set(htmlInput.value);
+      },
       error: (err) => console.error(err.message),
     });
   }
   private parseUsers() {
-    const users$ = this.domService.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(DashboardForm.USERS) as HTMLInputElement)
+    const users$ = this.domService.getElementAtIndex<HTMLInputElement>(
+      DashboardForm.USERS
     );
     users$.subscribe({
-      next: (htmlInput) => this.users.set(htmlInput.value),
+      next: (htmlInput) => {
+        this.changeEventHandler(htmlInput, this.users);
+        this.users.set(htmlInput.value);
+      },
       error: (err) => console.error(err.message),
     });
   }
   private parseBankUsers() {
-    const bankUsers$ = this.domService.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(DashboardForm.BANK_USERS) as HTMLInputElement)
+    const bankUsers$ = this.domService.getElementAtIndex<HTMLInputElement>(
+      DashboardForm.BANK_USERS
     );
     bankUsers$.subscribe({
-      next: (htmlInput) => this.bankUsers.set(htmlInput.value),
+      next: (htmlInput) => {
+        this.changeEventHandler(htmlInput, this.bankUsers);
+        this.bankUsers.set(htmlInput.value);
+      },
       error: (err) => console.error(err.message),
     });
   }
   private parseSchoolUsers() {
-    const schoolUsers$ = this.domService.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(DashboardForm.SCHOOL_UERS) as HTMLInputElement)
+    const schoolUsers$ = this.domService.getElementAtIndex<HTMLInputElement>(
+      DashboardForm.SCHOOL_USERS
     );
     schoolUsers$.subscribe({
-      next: (htmlInput) => this.schoolUsers.set(htmlInput.value),
+      next: (htmlInput) => {
+        this.changeEventHandler(htmlInput, this.schoolUsers);
+        this.schoolUsers.set(htmlInput.value);
+      },
       error: (err) => console.error(err.message),
     });
   }
   private parseCollectedAmount() {
-    const collectedAmount$ = this.domService.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(DashboardForm.COLLECTED_AMOUNT) as HTMLInputElement)
-    );
+    const collectedAmount$ =
+      this.domService.getElementAtIndex<HTMLInputElement>(
+        DashboardForm.COLLECTED_AMOUNT
+      );
     collectedAmount$.subscribe({
-      next: (htmlInput) => this.collectedAmount.set(htmlInput.value),
+      next: (htmlInput) => {
+        this.changeEventHandler(htmlInput, this.collectedAmount);
+        this.collectedAmount.set(htmlInput.value);
+      },
       error: (err) => console.error(err.message),
     });
   }
@@ -222,7 +265,34 @@ export class DashboardPageComponent implements AfterViewInit {
     this.parseSchoolUsers();
     this.parseCollectedAmount();
   }
+  activeSchoolsPercentage() {
+    const percentage =
+      (parseInt(this.activeSchool()) / parseInt(this.totalSchools())) * 100;
+    //let percent = percentage;
+    this.circle.nativeElement.style.setProperty(
+      '--percentage',
+      `${percentage.toFixed(0)}%`
+    );
+
+    // effect(() => {
+    //   let percentage =
+    //     (parseInt(this.activeSchool()) / parseInt(this.totalSchools())) * 100;
+    //   let percent = percentage;
+    //   this.circle.nativeElement.style.setProperty(
+    //     '--percentage',
+    //     `${percent}%`
+    //   );
+    // });
+  }
   ngAfterViewInit(): void {
+    this.domService.parseDocumentKeys(
+      this.keys,
+      Object.keys(DashboardForm).filter((key) => isNaN(Number(key))).length
+    );
+    this.attachEventHandlers();
+    this.activeSchoolsPercentage();
+  }
+  ngOnChanges(changes: SimpleChanges): void {
     this.domService.parseDocumentKeys(
       this.keys,
       Object.keys(DashboardForm).filter((key) => isNaN(Number(key))).length

@@ -82,7 +82,7 @@ export class LoginFormComponent implements AfterViewInit {
     private _appConfig: AppConfigService
   ) {
     let icons = ['lock'];
-    this._appConfig.addIcons(icons, '/assets/feather');
+    this._appConfig.addIcons(icons, '../assets/assets/feather');
   }
   private usernameEventListener() {
     const updateUsername = (value: string) => {

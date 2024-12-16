@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 // import { MElementPair } from '../../core/types/login-form-fields';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject } from 'rxjs';
 import { HtmlSelectOption } from '../../interfaces/helpers/data/html-select-option';
+import { UnsubscribeService } from '../unsubscribe-service/unsubscribe.service';
 
 export type MElementPair = Map<number, Element | null>;
 
@@ -11,35 +12,16 @@ export type MElementPair = Map<number, Element | null>;
 })
 export class ElementDomManipulationService {
   ids$!: Observable<MElementPair>;
-  constructor() {}
-  getCommaSeperatedValuesFromString(csvString: string) {
-    const keys = (() => {
+  constructor(private unsubscribe: UnsubscribeService) {}
+  private getCSVFromString(csvString: string, LENGTH: number) {
+    return (() => {
       try {
         if (!csvString) {
-          return [];
+          throw Error('Unexpected: Document ids are empty.');
         }
         const regex = /^([^,\n\r"]+|"[^"]*")(,([^,\n\r"]+|"[^"]*"))*$/;
         if (regex.test(csvString)) {
           const ids = csvString.split(',');
-          return ids.map((id) => id.trim());
-        }
-        return [];
-      } catch (err: any) {
-        console.error(err.message);
-        return [];
-      }
-    })();
-    return keys;
-  }
-  parseDocumentKeys(documentIds: string, LENGTH: number) {
-    const loginPageKeys = (() => {
-      try {
-        if (!documentIds) {
-          throw Error('Unexpected: Document ids are empty.');
-        }
-        const regex = /^([^,\n\r"]+|"[^"]*")(,([^,\n\r"]+|"[^"]*"))*$/;
-        if (regex.test(documentIds)) {
-          const ids = documentIds.split(',');
           if (ids.length !== LENGTH) {
             throw new Error('Missing document ids.');
           } else {
@@ -52,6 +34,9 @@ export class ElementDomManipulationService {
         return [];
       }
     })();
+  }
+  parseDocumentKeys(documentIds: string, LENGTH: number) {
+    const keys = this.getCSVFromString(documentIds, LENGTH);
 
     const getDocumentById = (id: string): Element | null => {
       const found = document.querySelector(`#${id}`);
@@ -60,21 +45,18 @@ export class ElementDomManipulationService {
       return isValid ? found : null;
     };
 
-    const create$ = (ids: MElementPair) => {
-      this.ids$ = new Observable((subscriber) => {
-        subscriber.next(ids);
-        subscriber.complete();
-      });
-    };
-
-    ((ids: string[]) => {
-      const documentIds = new Map<number, Element | null>();
-      ids.forEach((id, index) => {
-        const element = getDocumentById(id);
-        documentIds.set(index, element);
-      });
-      create$(documentIds);
-    })(loginPageKeys);
+    const elements = keys.map((key) => getDocumentById(key));
+    const ids = new Map<number, Element | null>(elements.entries());
+    this.ids$ = new Observable((subscriber) => {
+      subscriber.next(ids);
+      subscriber.complete();
+    });
+  }
+  getElementAtIndex<T>(index: number) {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(index) as T)
+    );
   }
   getSelectOptionsAsArray(select: HTMLSelectElement) {
     let selectOptions: HtmlSelectOption[] = [];

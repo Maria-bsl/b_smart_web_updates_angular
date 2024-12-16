@@ -5,6 +5,6 @@ export enum DashboardForm {
   STUDENTS,
   USERS,
   BANK_USERS,
-  SCHOOL_UERS,
+  SCHOOL_USERS,
   COLLECTED_AMOUNT,
 }

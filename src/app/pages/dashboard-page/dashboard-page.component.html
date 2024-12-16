@@ -1,9 +1,14 @@
-<div class="flex flex-col w-full h-full py-2 space-y-4">
+<div
+  *ngIf="isModern === 'true'; else modernDesign"
+  class="flex flex-col w-full h-full py-2 space-y-4"
+>
   <ul
     class="flex flex-row items-center py-1 px-0 list-none overflow-x-auto snap-x snap-mandatory space-x-2 justify-between"
   >
     <li>
-      <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
+      <div
+        class="py-6 px-0 w-52 bg-[#FFE1A9] rounded-lg grid place-items-center"
+      >
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.totalSchools" | translate }}
         </h6>
@@ -11,23 +16,15 @@
       </div>
     </li>
     <li>
-      <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
+      <div
+        class="py-6 px-0 w-52 bg-[#FFFAB7] rounded-lg grid place-items-center"
+      >
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.activeSchools" | translate }}
         </h6>
         <div class="flex flex-row items-center">
-          <!-- @if (activeSchoolsChart) {
-          <div class="w-20 h-20 border-2 border-red-500 relative">
-            <highcharts-chart
-              style="display: block; width: 100%; height: 100%"
-              [Highcharts]="activeSchoolsChart.Highcharts"
-              [options]="activeSchoolsChart.chartOptions"
-            >
-            </highcharts-chart>
-          </div>
-          } -->
           <div class="progress-circle">
-            <div class="circle">
+            <div #circle class="circle">
               <div class="mask full">
                 <div class="fill"></div>
               </div>
@@ -37,13 +34,13 @@
               <div class="inside-circle">{{ activeSchool() }}</div>
             </div>
           </div>
-
-          <!-- <h6 class="text-3xl font-semibold">{{ activeSchool }}</h6> -->
         </div>
       </div>
     </li>
     <li>
-      <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
+      <div
+        class="py-6 px-0 w-52 bg-[#B29EFF] rounded-lg grid place-items-center"
+      >
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.billsIssued" | translate }}
         </h6>
@@ -51,7 +48,9 @@
       </div>
     </li>
     <li>
-      <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
+      <div
+        class="py-6 px-0 w-52 bg-[#A7C4FF] rounded-lg grid place-items-center"
+      >
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.students" | translate }}
         </h6>
@@ -59,7 +58,9 @@
       </div>
     </li>
     <li>
-      <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
+      <div
+        class="py-6 px-0 w-52 bg-[#DBFFAB] rounded-lg grid place-items-center"
+      >
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.users" | translate }}
         </h6>
@@ -69,15 +70,15 @@
   </ul>
   <div class="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
     <div
-      class="w-full flex flex-row items-end justify-between h-32 bg-white px-2 py-2 rounded-lg"
+      class="w-full flex flex-row items-end justify-between h-32 bg-[#8DE582] px-2 py-2 rounded-lg"
     >
       <div class="flex flex-col w-full">
         <h6 class="text-2xl font-light">
           {{ "dashboardPage.labels.bankUsers" | translate }}
         </h6>
         <img
-          src="assets/images/Account balance.png"
           class="w-20"
+          src="../assets/assets/images/Account-balance.png"
           alt=""
           srcset=""
         />
@@ -85,69 +86,166 @@
       <h6 class="text-3xl font-semibold mx-4">{{ bankUsers() }}</h6>
     </div>
     <div
-      class="w-full flex flex-row-reverse items-end justify-between h-32 bg-white px-2 py-2 rounded-lg"
+      class="w-full flex flex-row-reverse items-end justify-between h-32 bg-[#C8EAFF] px-2 py-2 rounded-lg"
     >
       <div class="flex flex-col items-end">
         <h6 class="text-2xl font-light text-right">
           {{ "dashboardPage.labels.schoolUsers" | translate }}
         </h6>
-        <img src="assets/images/School.png" class="w-20" alt="" srcset="" />
+        <img
+          class="w-20"
+          src="../assets/assets/images/School.png"
+          alt=""
+          srcset=""
+          style="
+            filter: invert(16%) sepia(84%) saturate(3945%) hue-rotate(190deg)
+              brightness(89%) contrast(101%);
+          "
+        />
       </div>
       <h6 class="text-3xl font-semibold mx-4">{{ schoolUsers() }}</h6>
     </div>
   </div>
-  <div class="w-full grid grid-cols-1 lg:grid-cols-5 gap-2 h-96">
-    <div
-      class="col-span-full lg:col-span-3 w-full h-96 row-start-2 lg:row-start-1 relative"
-    >
-      <div class="flex flex-col w-full p-2 relative">
-        <div class="flex flex-row justify-end items-center w-full">
-          <div role="tablist" class="tabs tabs-boxed bg-transparent space-x-1">
-            <ng-container
-              *ngFor="
-                let timePeriodIndex of timePeriodIndexes$ | async;
-                index as ind
-              "
-            >
-              <a
-                class="tab border"
-                [class]="currentIndex() === ind ? 'tab-active' : ''"
-                (click)="currentIndex.set(ind)"
-              >
-                @if (timePeriodIndex === 0) {
-                {{ "dashboardPage.labels.lastYear" | translate }}
-                } @else {
-                {{ timePeriodIndex + " " + ("defaults.month" | translate) }}
-                }
-              </a>
-            </ng-container>
-          </div>
+  <div class="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
+    <div class="flex flex-col col-span-full w-full bg-[#F25921] p-2 rounded-lg">
+      <h6 class="text-xl font-light text-[#ffffff]">
+        {{ "dashboardPage.labels.collectedAmount" | translate }}
+      </h6>
+      <div
+        class="flex flex-row items-center justify-between bg-[#F26F21] rounded-lg pl-2 pr-1 py-2"
+      >
+        <div class="flex flex-col">
+          <h4 class="text-2xl text-[#ffffff]">
+            {{ collectedAmount() | currency : "TZS" }}
+          </h4>
+          <h6 class="text-gray-200 font-light text-sm">
+            {{ today | date : "MMM yyyy" }}
+          </h6>
         </div>
-        @if (customChartType) {
-        <highcharts-chart
-          class="!w-full !h-fit"
-          [Highcharts]="customChartType.Highcharts"
-          [options]="customChartType.chartOptions"
-        >
-        </highcharts-chart>
-        }
+        <img
+          class="w-24"
+          style="
+            filter: invert(100%) sepia(12%) saturate(7473%) hue-rotate(197deg)
+              brightness(119%) contrast(94%);
+          "
+          src="../assets/assets/images/mask-1.png"
+          alt=""
+          srcset=""
+        />
       </div>
     </div>
-    <div
-      class="col-span-full lg:col-span-2 h-96 row-start-1 flex flex-col space-y-2"
+  </div>
+</div>
+
+<ng-template #modernDesign>
+  <div class="flex flex-col w-full h-full py-2 space-y-4">
+    <ul
+      class="flex flex-row items-center py-1 px-0 list-none overflow-x-auto snap-x snap-mandatory space-x-2 justify-between"
     >
-      <div class="flex flex-col w-full bg-[#015AA8] p-2 rounded-lg">
+      <li>
+        <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
+          <h6 class="text-xl font-light">
+            {{ "dashboardPage.labels.totalSchools" | translate }}
+          </h6>
+          <h6 class="text-3xl font-semibold">{{ totalSchools() }}</h6>
+        </div>
+      </li>
+      <li>
+        <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
+          <h6 class="text-xl font-light">
+            {{ "dashboardPage.labels.activeSchools" | translate }}
+          </h6>
+          <div class="flex flex-row items-center">
+            <div class="progress-circle">
+              <div #circle class="circle">
+                <div class="mask full">
+                  <div class="fill"></div>
+                </div>
+                <div class="mask half">
+                  <div class="fill"></div>
+                </div>
+                <div class="inside-circle">{{ activeSchool() }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
+          <h6 class="text-xl font-light">
+            {{ "dashboardPage.labels.billsIssued" | translate }}
+          </h6>
+          <h6 class="text-3xl font-semibold">{{ billsIssued() }}</h6>
+        </div>
+      </li>
+      <li>
+        <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
+          <h6 class="text-xl font-light">
+            {{ "dashboardPage.labels.students" | translate }}
+          </h6>
+          <h6 class="text-3xl font-semibold">{{ students() }}</h6>
+        </div>
+      </li>
+      <li>
+        <div class="py-6 px-0 w-52 bg-white rounded-lg grid place-items-center">
+          <h6 class="text-xl font-light">
+            {{ "dashboardPage.labels.users" | translate }}
+          </h6>
+          <h6 class="text-3xl font-semibold">{{ users() }}</h6>
+        </div>
+      </li>
+    </ul>
+    <div class="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
+      <div
+        class="w-full flex flex-row items-end justify-between h-32 bg-white px-2 py-2 rounded-lg"
+      >
+        <div class="flex flex-col w-full">
+          <h6 class="text-2xl font-light">
+            {{ "dashboardPage.labels.bankUsers" | translate }}
+          </h6>
+          <img
+            class="w-20"
+            src="../assets/assets/images/Account balance.png"
+            alt=""
+            srcset=""
+          />
+        </div>
+        <h6 class="text-3xl font-semibold mx-4">{{ bankUsers() }}</h6>
+      </div>
+      <div
+        class="w-full flex flex-row-reverse items-end justify-between h-32 bg-white px-2 py-2 rounded-lg"
+      >
+        <div class="flex flex-col items-end">
+          <h6 class="text-2xl font-light text-right">
+            {{ "dashboardPage.labels.schoolUsers" | translate }}
+          </h6>
+          <img
+            class="w-20"
+            src="../assets/assets/images/School.png"
+            alt=""
+            srcset=""
+          />
+        </div>
+        <h6 class="text-3xl font-semibold mx-4">{{ schoolUsers() }}</h6>
+      </div>
+    </div>
+    <div class="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
+      <div
+        class="flex flex-col col-span-full w-full bg-[#F25921] p-2 rounded-lg"
+      >
         <h6 class="text-xl font-light text-[#ffffff]">
           {{ "dashboardPage.labels.collectedAmount" | translate }}
         </h6>
         <div
-          class="flex flex-row items-center justify-between bg-[#002F5E] rounded-lg pl-2 pr-1 py-2"
+          class="flex flex-row items-center justify-between bg-[#F26F21] rounded-lg pl-2 pr-1 py-2"
         >
           <div class="flex flex-col">
             <h4 class="text-2xl text-[#ffffff]">
               {{ collectedAmount() | currency : "TZS" }}
             </h4>
-            <h6 class="text-gray-200 font-light text-sm">May 2025</h6>
+            <h6 class="text-gray-200 font-light text-sm">
+              {{ today | date : "MMM yyyy" }}
+            </h6>
           </div>
           <img
             class="w-24"
@@ -155,57 +253,12 @@
               filter: invert(100%) sepia(12%) saturate(7473%) hue-rotate(197deg)
                 brightness(119%) contrast(94%);
             "
-            src="assets/images/mask-1.png"
+            src="../assets/assets/images/mask-1.png"
             alt=""
             srcset=""
           />
         </div>
       </div>
-      <div class="flex flex-col w-full p-2 overflow-y-auto">
-        <div
-          class="w-full h-16 px-3.5 bg-[#FFD2B7] rounded-tl-3xl rounded-tr-3xl flex flex-col justify-center"
-        >
-          <h6 class="font-light">
-            {{
-              "blockUnblockUser.blockUserForm.labels.blockedUsers" | translate
-            }}
-          </h6>
-        </div>
-        <mat-divider class="w-full !bg-black"></mat-divider>
-        <mat-list
-          *ngIf="
-            (blockedUsers$ | async) && (blockedUsers$ | async)!.length > 0;
-            else emptyBlockedUsers
-          "
-          class="!overflow-y-auto !bg-white !h-full"
-          role="list"
-        >
-          @for (blockedUsers of blockedUsers$ | async; track blockedUsers) {
-          <mat-list-item role="listitem">
-            <div class="w-full h-full flex items-center justify-between">
-              <div class="flex items-center space-x-1">
-                <span
-                  class="rounded-full w-8 h-8 bg-[#FFD2B7] grid place-items-center"
-                >
-                  <h6 class="text-[#F26F21] uppercase">
-                    {{ blockedUsers[0] }}
-                  </h6>
-                </span>
-                <h6 class="text-sm">{{ blockedUsers }}</h6>
-              </div>
-              <button color="warn" class="!border-red-400" mat-stroked-button>
-                {{ "blockUnblockUser.unblock" | translate }}
-              </button>
-            </div>
-          </mat-list-item>
-          }
-        </mat-list>
-        <ng-template #emptyBlockedUsers>
-          <h6 class="mat-body-small w-full text-center py-4 bg-white">
-            {{ "defaults.noUsersFound" | translate }}
-          </h6>
-        </ng-template>
-      </div>
     </div>
   </div>
-</div>
+</ng-template>
