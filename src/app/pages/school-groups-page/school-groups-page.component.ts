@@ -24,8 +24,4 @@ export class SchoolGroupsPageComponent {
   @Input('create-button-client-id') createButton: string = '';
   @Input('update-button-client-id') updateButton: string = '';
   @Input('cancel-button-client-id') cancelButton: string = '';
-
-  convertStringToJson(data: string) {
-    return JSON.parse(data);
-  }
 }

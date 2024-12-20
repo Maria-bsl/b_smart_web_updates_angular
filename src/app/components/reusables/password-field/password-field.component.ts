@@ -17,7 +17,7 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './password-field.component.scss',
 })
 export class PasswordFieldComponent {
-  @Input() passwordControl!: FormControl;
+  @Input() passwordControl: FormControl = new FormControl();
   @Input() placeholder: string = '';
   textType: 'password' | 'text' = 'password';
   onVisibilityIconClicked() {

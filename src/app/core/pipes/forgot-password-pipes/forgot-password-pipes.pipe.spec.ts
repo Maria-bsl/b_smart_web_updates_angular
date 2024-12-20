@@ -1,8 +1,8 @@
-import { ForgotPasswordPipesPipe } from './forgot-password-pipes.pipe';
+import { GetCapchaImageSourcePipe } from './forgot-password-pipes.pipe';
 
-describe('ForgotPasswordPipesPipe', () => {
+describe('GetCapchaImageSourcePipe', () => {
   it('create an instance', () => {
-    const pipe = new ForgotPasswordPipesPipe();
+    const pipe = new GetCapchaImageSourcePipe();
     expect(pipe).toBeTruthy();
   });
 });

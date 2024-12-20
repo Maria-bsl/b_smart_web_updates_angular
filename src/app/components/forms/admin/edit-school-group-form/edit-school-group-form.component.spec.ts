@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditSchoolGroupFormComponent } from './edit-school-group-form.component';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 
 describe('EditSchoolGroupFormComponent', () => {
   let component: EditSchoolGroupFormComponent;
@@ -8,10 +13,19 @@ describe('EditSchoolGroupFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditSchoolGroupFormComponent]
-    })
-    .compileComponents();
-    
+      imports: [EditSchoolGroupFormComponent, MatDialogModule],
+      providers: [
+        {
+          provide: MatDialogRef,
+          useValue: {},
+        },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: {},
+        },
+      ],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(EditSchoolGroupFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

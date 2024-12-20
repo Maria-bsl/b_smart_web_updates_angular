@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdmissionPageComponent } from './admission-page.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('AdmissionPageComponent', () => {
   let component: AdmissionPageComponent;
@@ -8,10 +9,9 @@ describe('AdmissionPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdmissionPageComponent]
-    })
-    .compileComponents();
-    
+      imports: [AdmissionPageComponent, TranslateModule.forRoot()],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(AdmissionPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

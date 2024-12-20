@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { TableDataService } from './table-data.service';
 
 describe('TableDataService', () => {
-  let service: TableDataService;
+  let service: TableDataService<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

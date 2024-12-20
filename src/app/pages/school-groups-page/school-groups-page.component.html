@@ -1,11 +1,10 @@
 <div class="flex flex-col w-full h-fit">
   <div class="flex flex-col divide-y">
-    <div *transloco="let t; read: 'schoolGroups'" class="flex flex-col">
+    <div class="flex flex-col">
       <p class="font-m_black text-2xl">School Groups</p>
       <p class="text-sm">Welcome back to the school groups page.</p>
     </div>
     <app-school-groups-table-view
-      [rawData]="convertStringToJson(tableDataContent)"
       [schoolGroupInputClientId]="schoolGroupInput"
       [schoolGroupStatus]="statusRadioGroup"
       [schoolsListView]="schoolsListView"

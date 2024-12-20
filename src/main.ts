@@ -121,6 +121,7 @@ function defineCustomElement(
       'side-nav',
       createCustomElement(SidenavComponent, { injector: app.injector })
     );
+
     // defineCustomElement(
     //   'change-password-page',
     //   createCustomElement(ChangePasswordPageComponent, {

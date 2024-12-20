@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChangePasswordFormComponent } from './change-password-form.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 describe('ChangePasswordFormComponent', () => {
   let component: ChangePasswordFormComponent;
@@ -8,10 +9,10 @@ describe('ChangePasswordFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChangePasswordFormComponent]
-    })
-    .compileComponents();
-    
+      imports: [ChangePasswordFormComponent],
+      providers: [provideAnimationsAsync()],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ChangePasswordFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
