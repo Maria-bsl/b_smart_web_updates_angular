@@ -2,11 +2,13 @@
   id="otp-form"
   [formGroup]="formGroup"
   class="flex flex-col relative space-y-2 py-2 w-full"
-  (ngSubmit)="otpFormSubmitted()"
+  (ngSubmit)="submitForm($event)"
 >
   <div class="flex flex-col space-y-1 mat-form-container w-full">
     <div class="w-full">
-      <p class="text-xs font-bold">OTP Code</p>
+      <p class="text-xs font-bold">
+        {{ "otpForm.labels.otpCode" | translate }}
+      </p>
       <ng-otp-input
         class="!text-lg"
         #ngOtpInput
@@ -22,11 +24,23 @@
         mat-button
         type="button"
         (click)="resendCodeLinkClicked($event)"
+        *ngIf="!s_showingCountdown(); else showCountdown"
       >
-        Resend Code
+        {{ "otpForm.labels.resendCode" | translate }}
       </button>
+      <ng-template #showCountdown>
+        <h6 [@inOutAnimation] class="mat-body-small w-full text-left">
+          {{ "otpForm.labels.resendCodeIn" | translate }}
+          {{ s_showingCountdown() | getCountDown }}
+          {{
+            s_showingCountdown() > 60
+              ? ("defaults.minutes" | translate).toLocaleLowerCase()
+              : ("defaults.seconds" | translate).toLocaleLowerCase()
+          }}
+        </h6>
+      </ng-template>
       <button mat-flat-button color="primary" type="submit" form="otp-form">
-        Verify
+        {{ "otpForm.labels.verify" | translate }}
       </button>
     </div>
     <div class="flex flex-row items-center w-full">
@@ -37,7 +51,7 @@
         (click)="backHomeLinkClicked($event)"
       >
         <mat-icon svgIcon="chevron-left" matPrefix></mat-icon>
-        Back Home
+        {{ "otpForm.labels.backHome" | translate }}
       </button>
     </div>
   </div>

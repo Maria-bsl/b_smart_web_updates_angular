@@ -106,4 +106,7 @@ export class AppUtilities {
     const hasNulls = hasNullValue(formInputs);
     return !hasNulls;
   }
+  static isStringNumber(value: string): boolean {
+    return !isNaN(Number(value));
+  }
 }

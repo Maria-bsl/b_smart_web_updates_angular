@@ -18,15 +18,26 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { BehaviorSubject, map, Subject, Subscription, takeUntil } from 'rxjs';
+import {
+  BehaviorSubject,
+  map,
+  Observable,
+  Subject,
+  Subscription,
+  takeUntil,
+} from 'rxjs';
 import { EAdmissionForm } from 'src/app/core/enums/admission-form.enum';
+import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
 import {
   AdmissionFormActions,
   AdmissionFormInputs,
 } from 'src/app/core/interfaces/form-inputs/admission-form-inputs';
 import { HtmlSelectOption } from 'src/app/core/interfaces/helpers/data/html-select-option';
 import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
-import { ElementDomManipulationService } from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
+import {
+  ElementDomManipulationService,
+  MElementPair,
+} from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
 import { FormInputService } from 'src/app/core/services/form-inputs/form-input.service';
 import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
 import { AppUtilities } from 'src/app/utilities/app-utilities';
@@ -46,16 +57,19 @@ import { AppUtilities } from 'src/app/utilities/app-utilities';
   templateUrl: './admission-form.component.html',
   styleUrl: './admission-form.component.scss',
 })
-export class AdmissionFormComponent implements AfterViewInit {
+export class AdmissionFormComponent
+  implements AfterViewInit, OnGenericComponent
+{
   @Input('keys') keys: string = '';
   formGroup!: FormGroup;
   schoolsNameList$ = new BehaviorSubject<HtmlSelectOption[]>([]);
   academicYearList$ = new BehaviorSubject<HtmlSelectOption[]>([]);
   classGroupsList$ = new BehaviorSubject<HtmlSelectOption[]>([]);
   AppUtilities: typeof AppUtilities = AppUtilities;
+  ids$!: Observable<MElementPair>;
   constructor(
     private fb: FormBuilder,
-    private elementService: ElementDomManipulationService,
+    private domService: ElementDomManipulationService,
     private unsubscribe: UnsubscribeService,
     private _appConfig: AppConfigService
   ) {
@@ -76,9 +90,9 @@ export class AdmissionFormComponent implements AfterViewInit {
   private schoolNameEventHandler() {
     const setSchoolName = (value: string, el: HTMLSelectElement) => {
       el.value = value;
-      this.elementService.dispatchSelectElementChangeEvent(el);
+      this.domService.dispatchSelectElementChangeEvent(el);
     };
-    const schoolName$ = this.elementService.ids$.pipe(
+    const schoolName$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(EAdmissionForm.SCHOOL_NAME) as HTMLSelectElement)
     );
@@ -98,9 +112,9 @@ export class AdmissionFormComponent implements AfterViewInit {
   private academicYearEventHandler() {
     const setAcademicYear = (value: string, el: HTMLSelectElement) => {
       el.value = value;
-      this.elementService.dispatchSelectElementChangeEvent(el);
+      this.domService.dispatchSelectElementChangeEvent(el);
     };
-    const academicYear$ = this.elementService.ids$.pipe(
+    const academicYear$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(EAdmissionForm.ADMISSION_YEAR) as HTMLSelectElement)
     );
@@ -120,9 +134,9 @@ export class AdmissionFormComponent implements AfterViewInit {
   private classGroupEventHandler() {
     const setClassGroup = (value: string, el: HTMLSelectElement) => {
       el.value = value;
-      this.elementService.dispatchSelectElementChangeEvent(el);
+      this.domService.dispatchSelectElementChangeEvent(el);
     };
-    const classGroup$ = this.elementService.ids$.pipe(
+    const classGroup$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(EAdmissionForm.CLASS_GROUP) as HTMLSelectElement)
     );
@@ -140,7 +154,7 @@ export class AdmissionFormComponent implements AfterViewInit {
       });
   }
   private indexNumberEventHandler() {
-    const indexNumber$ = this.elementService.ids$.pipe(
+    const indexNumber$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(EAdmissionForm.INDEX_NUMBER) as HTMLInputElement)
     );
@@ -148,12 +162,12 @@ export class AdmissionFormComponent implements AfterViewInit {
       .pipe(this.unsubscribe.takeUntilDestroy)
       .subscribe({
         next: (value) =>
-          this.elementService.setHtmlElementValue(indexNumber$, value),
+          this.domService.setHtmlElementValue(indexNumber$, value),
         error: (err) => console.error(err.message),
       });
   }
   private studentNameEventHandler() {
-    const studentName$ = this.elementService.ids$.pipe(
+    const studentName$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(EAdmissionForm.STUDENT_NAME) as HTMLInputElement)
     );
@@ -161,12 +175,12 @@ export class AdmissionFormComponent implements AfterViewInit {
       .pipe(this.unsubscribe.takeUntilDestroy)
       .subscribe({
         next: (value) =>
-          this.elementService.setHtmlElementValue(studentName$, value),
+          this.domService.setHtmlElementValue(studentName$, value),
         error: (err) => console.error(err.message),
       });
   }
   private parentNameEventHandler() {
-    const parentName$ = this.elementService.ids$.pipe(
+    const parentName$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(EAdmissionForm.PARENT_NAME) as HTMLInputElement)
     );
@@ -174,12 +188,12 @@ export class AdmissionFormComponent implements AfterViewInit {
       .pipe(this.unsubscribe.takeUntilDestroy)
       .subscribe({
         next: (value) =>
-          this.elementService.setHtmlElementValue(parentName$, value),
+          this.domService.setHtmlElementValue(parentName$, value),
         error: (err) => console.error(err.message),
       });
   }
   private parentMobileEventHandler() {
-    const parentMobile$ = this.elementService.ids$.pipe(
+    const parentMobile$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(EAdmissionForm.PARENT_MOBILE) as HTMLInputElement)
     );
@@ -187,12 +201,12 @@ export class AdmissionFormComponent implements AfterViewInit {
       .pipe(this.unsubscribe.takeUntilDestroy)
       .subscribe({
         next: (value) =>
-          this.elementService.setHtmlElementValue(parentMobile$, value),
+          this.domService.setHtmlElementValue(parentMobile$, value),
         error: (err) => console.error(err.message),
       });
   }
   private parentEmailEventHandler() {
-    const parentEmail$ = this.elementService.ids$.pipe(
+    const parentEmail$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(EAdmissionForm.PARENT_EMAIL) as HTMLInputElement)
     );
@@ -200,11 +214,26 @@ export class AdmissionFormComponent implements AfterViewInit {
       .pipe(this.unsubscribe.takeUntilDestroy)
       .subscribe({
         next: (value) =>
-          this.elementService.setHtmlElementValue(parentEmail$, value),
+          this.domService.setHtmlElementValue(parentEmail$, value),
         error: (err) => console.error(err.message),
       });
   }
-  private attachEventHandlers() {
+  ngOnInit(): void {}
+  ngAfterViewInit(): void {
+    this.initIds();
+  }
+  initIds() {
+    this.ids$ = new Observable((subscriber) => {
+      const ids = this.domService.getDocumentElements(
+        this.keys,
+        Object.keys(EAdmissionForm).filter((key) => isNaN(Number(key))).length
+      );
+      ids.size > 0 && subscriber.next(ids);
+      subscriber.complete();
+    });
+    this.ids$ && this.attachEventHandlers();
+  }
+  attachEventHandlers() {
     this.schoolNameEventHandler();
     this.academicYearEventHandler();
     this.classGroupEventHandler();
@@ -214,20 +243,8 @@ export class AdmissionFormComponent implements AfterViewInit {
     this.parentMobileEventHandler();
     this.parentEmailEventHandler();
   }
-  ngOnInit(): void {
-    // this.initFormInputs();
-    // this.initFormActions();
-    // this.parseFormInputs();
-  }
-  ngAfterViewInit(): void {
-    this.elementService.parseDocumentKeys(
-      this.keys,
-      Object.keys(EAdmissionForm).filter((key) => isNaN(Number(key))).length
-    );
-    this.attachEventHandlers();
-  }
   resetForm() {
-    const cancel$ = this.elementService.ids$.pipe(
+    const cancel$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(EAdmissionForm.CANCEL_BUTTON) as HTMLElement)
     );
@@ -237,13 +254,13 @@ export class AdmissionFormComponent implements AfterViewInit {
     });
   }
   submitForm() {
-    const submit$ = this.elementService.ids$.pipe(
+    const submit$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(EAdmissionForm.SUBMIT_BUTTON) as HTMLInputElement)
     );
     const subscribe = () => {
       submit$.subscribe({
-        next: (button) => this.elementService.clickButton(button),
+        next: (button) => this.domService.clickButton(button),
         error: (err) => console.error(err.message),
       });
     };

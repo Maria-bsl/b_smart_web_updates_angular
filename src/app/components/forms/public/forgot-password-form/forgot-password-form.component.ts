@@ -33,11 +33,15 @@ import {
 import { HtmlSelectOption } from 'src/app/core/interfaces/helpers/data/html-select-option';
 import { AppUtilities } from 'src/app/utilities/app-utilities';
 import { NgxSonnerToaster, toast } from 'ngx-sonner';
-import { ElementDomManipulationService } from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
+import {
+  ElementDomManipulationService,
+  MElementPair,
+} from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
 import { EForgotPasswordForm } from 'src/app/core/enums/forgot-password-form.enum';
 import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
 import { GetCapchaImageSourcePipe } from 'src/app/core/pipes/forgot-password-pipes/forgot-password-pipes.pipe';
 import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
+import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
 
 @Component({
   selector: 'app-forgot-password-form',
@@ -57,8 +61,10 @@ import { AppConfigService } from 'src/app/core/services/app-config/app-config.se
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
 })
-export class ForgotPasswordFormComponent implements AfterViewInit {
-  @Input('keys') forgotPasswordKeys: string = '';
+export class ForgotPasswordFormComponent
+  implements AfterViewInit, OnGenericComponent
+{
+  @Input('keys') keys: string = '';
   EForgotPasswordForm: typeof EForgotPasswordForm = EForgotPasswordForm;
   formGroup: FormGroup = this.fb.group({
     username: this.fb.control('', [Validators.required]),
@@ -68,10 +74,11 @@ export class ForgotPasswordFormComponent implements AfterViewInit {
   });
   AppUtilities: typeof AppUtilities = AppUtilities;
   $secretQuestions!: Observable<HtmlSelectOption[]>;
+  ids$!: Observable<MElementPair>;
   constructor(
     private fb: FormBuilder,
     private unsubscribe: UnsubscribeService,
-    private elementService: ElementDomManipulationService,
+    private domService: ElementDomManipulationService,
     private _appConfig: AppConfigService
   ) {
     const icons = ['refresh-ccw', 'chevron-left'];
@@ -79,7 +86,7 @@ export class ForgotPasswordFormComponent implements AfterViewInit {
   }
   private usernameEventListener() {
     const updateUsername = (value: string) => {
-      const username$ = this.elementService.ids$.pipe(
+      const username$ = this.ids$.pipe(
         this.unsubscribe.takeUntilDestroy,
         map((el) => el.get(EForgotPasswordForm.USERNAME) as HTMLInputElement)
       );
@@ -98,9 +105,9 @@ export class ForgotPasswordFormComponent implements AfterViewInit {
   private secretQuestionEventHandler() {
     const setSecretQuestion = (value: string, el: HTMLSelectElement) => {
       el.value = value;
-      this.elementService.dispatchSelectElementChangeEvent(el);
+      this.domService.dispatchSelectElementChangeEvent(el);
     };
-    const secretQuestion$ = this.elementService.ids$.pipe(
+    const secretQuestion$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map(
         (el) => el.get(EForgotPasswordForm.SECRET_QUESTION) as HTMLSelectElement
@@ -113,8 +120,7 @@ export class ForgotPasswordFormComponent implements AfterViewInit {
       });
     };
     const populateOptions = (questions: HTMLSelectElement) => {
-      let questionsList =
-        this.elementService.getSelectOptionsAsArray(questions);
+      let questionsList = this.domService.getSelectOptionsAsArray(questions);
       if (!AppUtilities.isValueEmptyElement(questions)) {
         this.secretQuestion.setValue(questions.value);
       }
@@ -136,7 +142,7 @@ export class ForgotPasswordFormComponent implements AfterViewInit {
   }
   private answerEventListener() {
     const updateAnswer = (value: string) => {
-      const answer$ = this.elementService.ids$.pipe(
+      const answer$ = this.ids$.pipe(
         this.unsubscribe.takeUntilDestroy,
         map((el) => el.get(EForgotPasswordForm.ANSWER) as HTMLInputElement)
       );
@@ -152,7 +158,7 @@ export class ForgotPasswordFormComponent implements AfterViewInit {
   }
   private capchaCodeEventHandler() {
     const updateCapcha = (value: string) => {
-      const capcha$ = this.elementService.ids$.pipe(
+      const capcha$ = this.ids$.pipe(
         this.unsubscribe.takeUntilDestroy,
         map((el) => el.get(EForgotPasswordForm.CAPCHA_TEXT) as HTMLInputElement)
       );
@@ -166,14 +172,8 @@ export class ForgotPasswordFormComponent implements AfterViewInit {
       error: (err) => console.error(err.message),
     });
   }
-  private attachEventHandlers() {
-    this.usernameEventListener();
-    this.secretQuestionEventHandler();
-    this.answerEventListener();
-    this.capchaCodeEventHandler();
-  }
   private hasInvalidCapchaError() {
-    const capcha$ = this.elementService.ids$.pipe(
+    const capcha$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(EForgotPasswordForm.INVALID_CAPCHA) as any)
     );
@@ -185,27 +185,39 @@ export class ForgotPasswordFormComponent implements AfterViewInit {
     });
   }
   ngAfterViewInit(): void {
-    this.elementService.parseDocumentKeys(
-      this.forgotPasswordKeys,
-      Object.keys(EForgotPasswordForm).filter((key) => isNaN(Number(key)))
-        .length
-    );
-    this.attachEventHandlers();
+    this.initIds();
     this.hasInvalidCapchaError();
   }
-  refreshCapcha() {
-    const capcha$ = this.elementService.ids$.pipe(
+  initIds() {
+    this.ids$ = new Observable((subscriber) => {
+      const ids = this.domService.getDocumentElements(
+        this.keys,
+        Object.keys(EForgotPasswordForm).filter((key) => isNaN(Number(key)))
+          .length
+      );
+      ids.size > 0 && subscriber.next(ids);
+      subscriber.complete();
+    });
+    this.ids$ && this.attachEventHandlers();
+  }
+  attachEventHandlers() {
+    this.usernameEventListener();
+    this.secretQuestionEventHandler();
+    this.answerEventListener();
+    this.capchaCodeEventHandler();
+  }
+  refreshCaptcha(event: MouseEvent) {
+    const captcha$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(EForgotPasswordForm.CAPCHA_BUTTON) as HTMLInputElement)
     );
-    capcha$.subscribe({
-      next: (input) => this.elementService.clickButton(input),
+    captcha$.subscribe({
+      next: (input) => this.domService.clickButton(input),
       error: (err) => console.error(err.message),
     });
   }
-  backToLogin() {
-    //backToLoginBtn.click();
-    const backToLogin$ = this.elementService.ids$.pipe(
+  backToLogin(event: MouseEvent) {
+    const backToLogin$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map(
         (el) =>
@@ -213,12 +225,12 @@ export class ForgotPasswordFormComponent implements AfterViewInit {
       )
     );
     backToLogin$.subscribe({
-      next: (anchor) => this.elementService.clickAnchorHref(anchor),
+      next: (anchor) => this.domService.clickAnchorHref(anchor),
       error: (err) => console.error(err.message),
     });
   }
   submitForm() {
-    const submit$ = this.elementService.ids$.pipe(
+    const submit$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map(
         (el) =>
@@ -227,14 +239,11 @@ export class ForgotPasswordFormComponent implements AfterViewInit {
     );
     const subscribe = () => {
       submit$.subscribe({
-        next: (button) => this.elementService.clickButton(button),
+        next: (button) => this.domService.clickButton(button),
         error: (err) => console.error(err.message),
       });
     };
     this.formGroup.valid ? subscribe() : this.formGroup.markAllAsTouched();
-  }
-  getAllElementsMap() {
-    return this.elementService.ids$;
   }
   get username() {
     return this.formGroup.get('username') as FormControl;

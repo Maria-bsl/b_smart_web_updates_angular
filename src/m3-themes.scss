@@ -7,74 +7,7 @@
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
 @include mat.core();
-@import url("https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap");
-
-// $md-mcgpalette0: (
-//   50: #e6ebf4,
-//   100: #bfcde4,
-//   200: #95acd2,
-//   300: #6b8abf,
-//   400: #4b71b2,
-//   500: #2b58a4,
-//   600: #26509c,
-//   700: #204792,
-//   800: #1a3d89,
-//   900: #102d78,
-//   A100: #acbfff,
-//   A200: #7998ff,
-//   A400: #4671ff,
-//   A700: #2c5eff,
-//   contrast: (
-//     50: #000000,
-//     100: #000000,
-//     200: #000000,
-//     300: #000000,
-//     400: #ffffff,
-//     500: #ffffff,
-//     600: #ffffff,
-//     700: #ffffff,
-//     800: #ffffff,
-//     900: #ffffff,
-//     A100: #000000,
-//     A200: #000000,
-//     A400: #ffffff,
-//     A700: #ffffff,
-//   ),
-// );
-
-// __<<ngM2ThemingMigrationEscapedComment0>>__
-// $md-mcgpalette1: (
-//   50: #feeee6,
-//   100: #fbd5bf,
-//   200: #f9b995,
-//   300: #f79d6b,
-//   400: #f5884b,
-//   500: #f3732b,
-//   600: #f16b26,
-//   700: #ef6020,
-//   800: #ed561a,
-//   900: #ea4310,
-//   A100: #ffffff,
-//   A200: #ffe9e4,
-//   A400: #ffc0b1,
-//   A700: #ffac97,
-//   contrast: (
-//     50: #000000,
-//     100: #000000,
-//     200: #000000,
-//     300: #000000,
-//     400: #000000,
-//     500: #000000,
-//     600: #000000,
-//     700: #000000,
-//     800: #ffffff,
-//     900: #ffffff,
-//     A100: #000000,
-//     A200: #000000,
-//     A400: #000000,
-//     A700: #000000,
-//   ),
-// );
+// @import url("https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap");
 
 $m2-primary: (
   50: #e1ebf5,
@@ -232,6 +165,7 @@ $b_smart_v1-dark-theme: mat.m2-define-dark-theme(
 @mixin apply-theme($theme) {
   @include mat.all-component-themes($theme);
   @include mat.form-field-density(-3);
+  @include mat.tree-density(-3);
 }
 
 // .light-theme {

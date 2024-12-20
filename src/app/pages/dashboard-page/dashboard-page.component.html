@@ -17,24 +17,26 @@
     </li>
     <li>
       <div
-        class="py-6 px-0 w-52 bg-[#FFFAB7] rounded-lg grid place-items-center"
+        class="py-6 px-0 w-52 bg-[#FFFAB7] rounded-lg grid place-items-center relative"
       >
         <h6 class="text-xl font-light">
           {{ "dashboardPage.labels.activeSchools" | translate }}
         </h6>
-        <div class="flex flex-row items-center">
-          <div class="progress-circle">
-            <div #circle class="circle">
-              <div class="mask full">
-                <div class="fill"></div>
-              </div>
-              <div class="mask half">
-                <div class="fill"></div>
-              </div>
-              <div class="inside-circle">{{ activeSchool() }}</div>
-            </div>
-          </div>
+        <h6 class="text-3xl font-semibold opacity-0">{{ totalSchools() }}</h6>
+        <div
+          class="absolute top-0 left-0 right-0 bottom-0 w-full h-full flex flex-col-reverse items-center"
+        >
+          <highcharts-chart
+            *ngIf="activeSchool() !== '0'; else loadingChart"
+            [Highcharts]="activeSchoolsChart.Highcharts"
+            [options]="activeSchoolsChart.chartOptions"
+            class="mt-4"
+          ></highcharts-chart>
         </div>
+
+        <ng-template #loadingChart>
+          <div class="skeleton w-[150px] h-[150px] rounded-full"></div>
+        </ng-template>
       </div>
     </li>
     <li>
@@ -108,14 +110,14 @@
   </div>
   <div class="w-full grid grid-cols-1 gap-2 lg:grid-cols-2">
     <div class="flex flex-col col-span-full w-full bg-[#F25921] p-2 rounded-lg">
-      <h6 class="text-xl font-light text-[#ffffff]">
+      <h6 class="text-2xl font-light text-[#ffffff] py-2">
         {{ "dashboardPage.labels.collectedAmount" | translate }}
       </h6>
       <div
-        class="flex flex-row items-center justify-between bg-[#F26F21] rounded-lg pl-2 pr-1 py-2"
+        class="flex flex-row items-center justify-between bg-[#F26F21] rounded-lg px-2 py-4"
       >
         <div class="flex flex-col">
-          <h4 class="text-2xl text-[#ffffff]">
+          <h4 class="text-3xl text-[#ffffff]">
             {{ collectedAmount() | currency : "TZS" }}
           </h4>
           <h6 class="text-gray-200 font-light text-sm">

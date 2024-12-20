@@ -17,17 +17,30 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
-import { firstValueFrom, fromEvent, map, Observable, of } from 'rxjs';
+import {
+  firstValueFrom,
+  fromEvent,
+  lastValueFrom,
+  map,
+  Observable,
+  of,
+  zip,
+} from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { HighchartsChartModule } from 'highcharts-angular';
 // import Highcharts from 'highcharts';
 import * as Highcharts from 'highcharts';
-import { ElementDomManipulationService } from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
+import {
+  ElementDomManipulationService,
+  MElementPair,
+} from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
 import { DashboardForm } from 'src/app/core/enums/admin/dashboard.enum';
 import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
 import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
+import { AppUtilities } from 'src/app/utilities/app-utilities';
+import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
 
 type CustomChartType = {
   updateFromInput?: boolean;
@@ -55,7 +68,11 @@ type CustomChartType = {
   encapsulation: ViewEncapsulation.Emulated,
   animations: [inOutAnimation],
 })
-export class DashboardPageComponent implements AfterViewInit, OnChanges {
+export class DashboardPageComponent
+  implements AfterViewInit, OnChanges, OnGenericComponent
+{
+  @Input('keys') keys: string = '';
+  @Input('is-modern') isModern: 'true' | 'false' = 'true';
   totalSchools = signal<string>('0');
   activeSchool = signal<string>('0');
   billsIssued = signal<string>('0');
@@ -66,14 +83,13 @@ export class DashboardPageComponent implements AfterViewInit, OnChanges {
   collectedAmount = signal<string>('0');
   today = new Date();
   //('blocked') blocked= signal<string>('');
-  @Input('keys') keys: string = '';
-  @Input('is-modern') isModern: 'true' | 'false' = 'true';
   activeSchoolsChart!: CustomChartType;
   customChartType!: CustomChartType;
   blockedUsers$!: Observable<string[]>;
   currentIndex = signal<number>(0);
   timePeriodIndexes$ = of([0, 3, 6]);
-  @ViewChild('circle') circle!: ElementRef<HTMLDivElement>;
+  ids$!: Observable<MElementPair>;
+  //@ViewChild('circle') circle!: ElementRef<HTMLDivElement>;
   constructor(
     private tr: TranslateService,
     private appConfig: AppConfigService,
@@ -85,63 +101,84 @@ export class DashboardPageComponent implements AfterViewInit, OnChanges {
     this.tr.setDefaultLang('en');
     this.tr.use('en');
     this.registerIcons();
-    this.initChart();
     this.initActiveSchoolsChart();
   }
-  private initActiveSchoolsChart() {
-    this.activeSchoolsChart = {
-      updateFromInput: true,
-      Highcharts: Highcharts,
-      chartOptions: {
-        chart: {
-          type: 'pie',
-        },
-        title: {
-          text: 'Sample Chart',
-        },
-        series: [
-          {
-            name: 'Data',
-            type: 'line',
-            data: [1, 2, 3, 4, 5],
+  private initActiveSchoolsChart(
+    totalSchools: string = '',
+    activeSchools: string = ''
+  ) {
+    !AppUtilities.isStringNumber(this.totalSchools()) &&
+      console.error('Total schools data is not a number');
+    !AppUtilities.isStringNumber(this.activeSchool()) &&
+      console.error('Active schools data is not a number');
+
+    const createChart = () => {
+      this.activeSchoolsChart = {
+        updateFromInput: true,
+        Highcharts: Highcharts,
+        chartOptions: {
+          credits: {
+            enabled: false,
           },
-        ],
-      },
+          chart: {
+            type: 'pie',
+            height: 150,
+            width: 150,
+            backgroundColor: 'transparent',
+          },
+          title: {
+            text: `${this.activeSchool()}%`,
+            align: 'center',
+            verticalAlign: 'middle',
+            style: {
+              fontSize: '16px',
+            },
+          },
+          plotOptions: {
+            pie: {
+              innerSize: '80%', // Creates the doughnut effect
+              dataLabels: {
+                enabled: false,
+              },
+              startAngle: -90,
+              endAngle: 90,
+              center: ['50%', '75%'],
+            },
+          },
+          series: [
+            {
+              type: 'pie',
+              name: 'Progress',
+              data: [
+                {
+                  name: totalSchools,
+                  y: parseInt(this.activeSchool()),
+                  color: '#4caf50',
+                },
+                {
+                  name: activeSchools,
+                  y:
+                    parseInt(this.totalSchools()) -
+                    parseInt(this.activeSchool()),
+                  color: '#e0e0e0',
+                },
+              ],
+            },
+          ],
+          tooltip: {
+            pointFormat: '<b>{point.y}</b> ({point.percentage:.1f}%)',
+            positioner: (labelWidth, labelHeight, point) => ({
+              // x: point.plotX + labelWidth / 2,
+              // y: point.y ?? 0 < 0 ? point.plotY - (point.y ?? 0) : point.plotY,
+              x: 0,
+              y: 0,
+            }),
+          },
+        },
+      };
     };
-  }
-  private async initChart() {
-    this.customChartType = {
-      updateFromInput: true,
-      Highcharts: Highcharts,
-      chartOptions: {
-        chart: {
-          height: 350,
-        },
-        series: [
-          {
-            name: await firstValueFrom(
-              this.tr.get('dashboardPage.labels.billsIssued')
-            ),
-            type: 'line',
-            data: [1, 2, 3, 4],
-          },
-          {
-            name: await firstValueFrom(
-              this.tr.get('dashboardPage.labels.paidInvoices')
-            ),
-            type: 'line',
-            data: [1, 3, 4, 3, 5],
-          },
-          {
-            name: await firstValueFrom(
-              this.tr.get('dashboardPage.labels.pendingInvoices')
-            ),
-            type: 'line',
-            data: [4, 6, 7, 5, 8],
-          },
-        ],
-      },
-    };
+    createChart();
+    //createChart('Total Schools', 'Active Schools');
   }
   private registerIcons() {
     let icons = ['hut', 'airplay'];
@@ -158,145 +195,114 @@ export class DashboardPageComponent implements AfterViewInit, OnChanges {
         error: (err) => console.error(err),
       });
   }
-  private parseTotalSchools() {
-    const totalSchools$ = this.domService.getElementAtIndex<HTMLInputElement>(
-      DashboardForm.TOTAL_SCHOOLS
+  private parseTotalAndActiveSchoolsGraph() {
+    const totalSchools$ = this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((e) => e.get(DashboardForm.TOTAL_SCHOOLS) as HTMLInputElement)
     );
-    totalSchools$.subscribe({
-      next: (htmlInput) => {
-        this.changeEventHandler(htmlInput, this.totalSchools);
-        this.totalSchools.set(htmlInput.value);
-      },
-      error: (err) => console.error(err.message),
-    });
-  }
-  private parseActiveSchools() {
-    const activeSchools$ = this.domService.getElementAtIndex<HTMLInputElement>(
-      DashboardForm.ACTIVE_SCHOOLS
+    const activeSchools$ = this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((e) => e.get(DashboardForm.ACTIVE_SCHOOLS) as HTMLInputElement)
     );
-    activeSchools$.subscribe({
-      next: (htmlInput) => {
-        this.changeEventHandler(htmlInput, this.activeSchool);
-        this.activeSchool.set(htmlInput.value);
+    let title$ = this.tr.get('dashboardPage.labels.totalSchools');
+    let active$ = this.tr.get('dashboardPage.labels.activeSchools');
+    let merged = zip(totalSchools$, activeSchools$, title$, active$);
+    merged.pipe(this.unsubscribe.takeUntilDestroy).subscribe({
+      next: (results) => {
+        let [totalInput, activeInput, totalText, activeText] = results;
+        this.totalSchools.set(totalInput.value);
+        this.activeSchool.set(activeInput.value);
+        this.initActiveSchoolsChart(totalText, activeText);
       },
-      error: (err) => console.error(err.message),
+      error: (err) => console.error(err),
     });
   }
   private parseBillsIssued() {
-    const billsIssued$ = this.domService.getElementAtIndex<HTMLInputElement>(
-      DashboardForm.BILLS_ISSUED
+    const billsIssued$ = this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((e) => e.get(DashboardForm.BILLS_ISSUED) as HTMLInputElement)
     );
     billsIssued$.subscribe({
-      next: (htmlInput) => {
-        this.changeEventHandler(htmlInput, this.billsIssued);
-        this.billsIssued.set(htmlInput.value);
-      },
+      next: (htmlInput) => this.billsIssued.set(htmlInput.value),
       error: (err) => console.error(err.message),
     });
   }
   private parseStudents() {
-    const students$ = this.domService.getElementAtIndex<HTMLInputElement>(
-      DashboardForm.STUDENTS
+    const students$ = this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((e) => e.get(DashboardForm.STUDENTS) as HTMLInputElement)
     );
     students$.subscribe({
-      next: (htmlInput) => {
-        this.changeEventHandler(htmlInput, this.students);
-        this.students.set(htmlInput.value);
-      },
+      next: (htmlInput) => this.students.set(htmlInput.value),
       error: (err) => console.error(err.message),
     });
   }
   private parseUsers() {
-    const users$ = this.domService.getElementAtIndex<HTMLInputElement>(
-      DashboardForm.USERS
+    const users$ = this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((e) => e.get(DashboardForm.USERS) as HTMLInputElement)
     );
     users$.subscribe({
-      next: (htmlInput) => {
-        this.changeEventHandler(htmlInput, this.users);
-        this.users.set(htmlInput.value);
-      },
+      next: (htmlInput) => this.users.set(htmlInput.value),
       error: (err) => console.error(err.message),
     });
   }
   private parseBankUsers() {
-    const bankUsers$ = this.domService.getElementAtIndex<HTMLInputElement>(
-      DashboardForm.BANK_USERS
+    const bankUsers$ = this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((e) => e.get(DashboardForm.BANK_USERS) as HTMLInputElement)
     );
     bankUsers$.subscribe({
-      next: (htmlInput) => {
-        this.changeEventHandler(htmlInput, this.bankUsers);
-        this.bankUsers.set(htmlInput.value);
-      },
+      next: (htmlInput) => this.bankUsers.set(htmlInput.value),
       error: (err) => console.error(err.message),
     });
   }
   private parseSchoolUsers() {
-    const schoolUsers$ = this.domService.getElementAtIndex<HTMLInputElement>(
-      DashboardForm.SCHOOL_USERS
+    const schoolUsers$ = this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((e) => e.get(DashboardForm.SCHOOL_USERS) as HTMLInputElement)
     );
     schoolUsers$.subscribe({
-      next: (htmlInput) => {
-        this.changeEventHandler(htmlInput, this.schoolUsers);
-        this.schoolUsers.set(htmlInput.value);
-      },
+      next: (htmlInput) => this.schoolUsers.set(htmlInput.value),
       error: (err) => console.error(err.message),
     });
   }
   private parseCollectedAmount() {
-    const collectedAmount$ =
-      this.domService.getElementAtIndex<HTMLInputElement>(
-        DashboardForm.COLLECTED_AMOUNT
-      );
+    const collectedAmount$ = this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((e) => e.get(DashboardForm.COLLECTED_AMOUNT) as HTMLInputElement)
+    );
     collectedAmount$.subscribe({
-      next: (htmlInput) => {
-        this.changeEventHandler(htmlInput, this.collectedAmount);
-        this.collectedAmount.set(htmlInput.value);
-      },
+      next: (htmlInput) => this.collectedAmount.set(htmlInput.value),
       error: (err) => console.error(err.message),
     });
   }
-  private attachEventHandlers() {
-    this.parseTotalSchools();
-    this.parseActiveSchools();
+  ngAfterViewInit(): void {
+    this.initIds();
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['keys']) {
+      this.initIds();
+    }
+  }
+  initIds() {
+    this.ids$ = new Observable((subscriber) => {
+      const ids = this.domService.getDocumentElements(
+        this.keys,
+        Object.keys(DashboardForm).filter((key) => isNaN(Number(key))).length
+      );
+      ids.size > 0 && subscriber.next(ids);
+      subscriber.complete();
+    });
+    this.ids$ && this.attachEventHandlers();
+  }
+  attachEventHandlers() {
+    this.parseTotalAndActiveSchoolsGraph();
     this.parseBillsIssued();
     this.parseStudents();
     this.parseUsers();
     this.parseBankUsers();
     this.parseSchoolUsers();
     this.parseCollectedAmount();
-  }
-  activeSchoolsPercentage() {
-    const percentage =
-      (parseInt(this.activeSchool()) / parseInt(this.totalSchools())) * 100;
-    //let percent = percentage;
-    this.circle.nativeElement.style.setProperty(
-      '--percentage',
-      `${percentage.toFixed(0)}%`
-    );
-
-    // effect(() => {
-    //   let percentage =
-    //     (parseInt(this.activeSchool()) / parseInt(this.totalSchools())) * 100;
-    //   let percent = percentage;
-    //   this.circle.nativeElement.style.setProperty(
-    //     '--percentage',
-    //     `${percent}%`
-    //   );
-    // });
-  }
-  ngAfterViewInit(): void {
-    this.domService.parseDocumentKeys(
-      this.keys,
-      Object.keys(DashboardForm).filter((key) => isNaN(Number(key))).length
-    );
-    this.attachEventHandlers();
-    this.activeSchoolsPercentage();
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    this.domService.parseDocumentKeys(
-      this.keys,
-      Object.keys(DashboardForm).filter((key) => isNaN(Number(key))).length
-    );
-    this.attachEventHandlers();
   }
 }

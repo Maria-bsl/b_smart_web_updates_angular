@@ -11,7 +11,7 @@ export type MElementPair = Map<number, Element | null>;
   providedIn: 'root',
 })
 export class ElementDomManipulationService {
-  ids$!: Observable<MElementPair>;
+  //ids$!: Observable<MElementPair>;
   constructor(private unsubscribe: UnsubscribeService) {}
   private getCSVFromString(csvString: string, LENGTH: number) {
     return (() => {
@@ -35,29 +35,40 @@ export class ElementDomManipulationService {
       }
     })();
   }
-  parseDocumentKeys(documentIds: string, LENGTH: number) {
-    const keys = this.getCSVFromString(documentIds, LENGTH);
+  // parseDocumentKeys(documentIds: string, LENGTH: number) {
+  //   const keys = this.getCSVFromString(documentIds, LENGTH);
 
+  //   const getDocumentById = (id: string): Element | null => {
+  //     const found = document.querySelector(`#${id}`);
+  //     const isValid = found !== null && found !== undefined;
+  //     !isValid && console.error(`Failed to find document id`, id);
+  //     return isValid ? found : null;
+  //   };
+
+  //   const elements = keys.map((key) => getDocumentById(key));
+  //   const ids = new Map<number, Element | null>(elements.entries());
+  //   this.ids$ = new Observable((subscriber) => {
+  //     subscriber.next(ids);
+  //     subscriber.complete();
+  //   });
+  // }
+  getDocumentElements(documentIds: string, LENGTH: number) {
+    const keys = this.getCSVFromString(documentIds, LENGTH);
     const getDocumentById = (id: string): Element | null => {
       const found = document.querySelector(`#${id}`);
       const isValid = found !== null && found !== undefined;
       !isValid && console.error(`Failed to find document id`, id);
       return isValid ? found : null;
     };
-
     const elements = keys.map((key) => getDocumentById(key));
-    const ids = new Map<number, Element | null>(elements.entries());
-    this.ids$ = new Observable((subscriber) => {
-      subscriber.next(ids);
-      subscriber.complete();
-    });
+    return new Map<number, Element | null>(elements.entries());
   }
-  getElementAtIndex<T>(index: number) {
-    return this.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(index) as T)
-    );
-  }
+  // getElementAtIndex<T>(index: number) {
+  //   return this.ids$.pipe(
+  //     this.unsubscribe.takeUntilDestroy,
+  //     map((el) => el.get(index) as T)
+  //   );
+  // }
   getSelectOptionsAsArray(select: HTMLSelectElement) {
     let selectOptions: HtmlSelectOption[] = [];
     for (let i = 0; i < select.options.length; i++) {

@@ -28,6 +28,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import {
   BehaviorSubject,
   map,
+  Observable,
   of,
   Subject,
   Subscription,
@@ -40,10 +41,14 @@ import {
 } from 'src/app/core/interfaces/form-inputs/login-form-inputs';
 import { FormInputService } from 'src/app/core/services/form-inputs/form-input.service';
 import { CommonModule } from '@angular/common';
-import { ElementDomManipulationService } from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
+import {
+  ElementDomManipulationService,
+  MElementPair,
+} from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
 import { ELoginForm } from 'src/app/core/enums/login-form';
 import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
 import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
+import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
 
 type FormInputData = {
   txtEmail: HTMLInputElement;
@@ -68,16 +73,17 @@ type FormInputData = {
   providers: [],
   encapsulation: ViewEncapsulation.Emulated,
 })
-export class LoginFormComponent implements AfterViewInit {
-  @Input('keys') loginPageKeys: string = '';
+export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
+  @Input('keys') keys: string = '';
   AppUtilities: typeof AppUtilities = AppUtilities;
   loginForm = this.fb.group({
     username: this.fb.control('', [Validators.required]),
     password: this.fb.control('', [Validators.required]),
   });
+  ids$!: Observable<MElementPair>;
   constructor(
     private fb: FormBuilder,
-    private elementService: ElementDomManipulationService,
+    private domService: ElementDomManipulationService,
     private unsubscribe: UnsubscribeService,
     private _appConfig: AppConfigService
   ) {
@@ -86,7 +92,7 @@ export class LoginFormComponent implements AfterViewInit {
   }
   private usernameEventListener() {
     const updateUsername = (value: string) => {
-      const username$ = this.elementService.ids$.pipe(
+      const username$ = this.ids$.pipe(
         this.unsubscribe.takeUntilDestroy,
         map((el) => el.get(ELoginForm.USERNAME) as HTMLInputElement)
       );
@@ -104,7 +110,7 @@ export class LoginFormComponent implements AfterViewInit {
   }
   private passwordEventHandler() {
     const updatePassword = (value: string) => {
-      const password$ = this.elementService.ids$.pipe(
+      const password$ = this.ids$.pipe(
         this.unsubscribe.takeUntilDestroy,
         map((el) => el.get(ELoginForm.PASSWORD) as HTMLInputElement)
       );
@@ -120,49 +126,54 @@ export class LoginFormComponent implements AfterViewInit {
         error: (err) => console.error(err.message),
       });
   }
-  private attachEventHandlers() {
+  ngAfterViewInit(): void {
+    this.initIds();
+  }
+  initIds(): void {
+    this.ids$ = new Observable((subscriber) => {
+      const ids = this.domService.getDocumentElements(
+        this.keys,
+        Object.keys(ELoginForm).filter((key) => isNaN(Number(key))).length
+      );
+      ids.size > 0 && subscriber.next(ids);
+      subscriber.complete();
+    });
+    this.ids$ && this.attachEventHandlers();
+  }
+  attachEventHandlers() {
     this.usernameEventListener();
     this.passwordEventHandler();
   }
-  ngAfterViewInit(): void {
-    this.elementService.parseDocumentKeys(
-      this.loginPageKeys,
-      Object.keys(ELoginForm).filter((key) => isNaN(Number(key))).length
-    );
-    this.attachEventHandlers();
-  }
   onLoginClicked() {
-    const submit$ = this.elementService.ids$.pipe(
+    const submit$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(ELoginForm.LOGIN_BUTTON))
     );
     const subscribe = () => {
       submit$.subscribe({
-        next: (el) => this.elementService.clickButton(el as HTMLInputElement),
+        next: (el) => this.domService.clickButton(el as HTMLInputElement),
         error: (err) => console.error(err),
       });
     };
     this.loginForm.valid ? subscribe() : this.loginForm.markAllAsTouched();
   }
   openAdmissionPage(event: MouseEvent) {
-    const admissionLink$ = this.elementService.ids$.pipe(
+    const admissionLink$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(ELoginForm.ADMISSION_LINK))
     );
     admissionLink$.subscribe({
-      next: (el) =>
-        this.elementService.clickAnchorHref(el as HTMLAnchorElement),
+      next: (el) => this.domService.clickAnchorHref(el as HTMLAnchorElement),
       error: (err) => console.error(err),
     });
   }
   openForgotPasswordPage(event: MouseEvent) {
-    const forgotPassword$ = this.elementService.ids$.pipe(
+    const forgotPassword$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
       map((el) => el.get(ELoginForm.FORGOT_LINK))
     );
     forgotPassword$.subscribe({
-      next: (el) =>
-        this.elementService.clickAnchorHref(el as HTMLAnchorElement),
+      next: (el) => this.domService.clickAnchorHref(el as HTMLAnchorElement),
       error: (err) => console.error(err),
     });
   }

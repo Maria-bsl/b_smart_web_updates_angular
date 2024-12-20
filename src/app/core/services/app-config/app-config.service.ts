@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
+import { Observable, of, switchMap, zip } from 'rxjs';
 import { MessageBoxDialogComponent } from 'src/app/components/dialogs/message-box-dialog/message-box-dialog.component';
 
 @Injectable({
@@ -11,8 +13,14 @@ export class AppConfigService {
   constructor(
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
-    private _dialog: MatDialog
+    private _dialog: MatDialog,
+    private tr: TranslateService
   ) {}
+  /**
+   * Registers icons to be available to <mat-icon>
+   * @param icons - List of icon names with .svg file extension excluded
+   * @param path - Folder path where to find icons specified
+   */
   addIcons(icons: string[], path: string) {
     icons.forEach((icon) => {
       this.iconRegistry.addSvgIcon(
@@ -21,12 +29,49 @@ export class AppConfigService {
       );
     });
   }
-  openMessageBox(title: string, message: string) {
-    const dialogRef = this._dialog.open(MessageBoxDialogComponent, {
-      data: {
-        title: title,
-        message: message,
-      },
-    });
+  /**
+   * Opens a message box dialog
+   * @param title NGX-Translate string for message box title
+   * @param message NGX-Translate string for message box content message
+   * @returns An observable of the expected dialog box.
+   */
+  openMessageBox(
+    title: string,
+    message: string
+  ): Observable<MatDialogRef<MessageBoxDialogComponent, any>> {
+    const dialogRef = (msg1: string, msg2: string) => {
+      return this._dialog.open(MessageBoxDialogComponent, {
+        data: {
+          title: msg1,
+          message: msg2,
+        },
+      });
+    };
+    const merged = zip(this.tr.get(title), this.tr.get(message));
+    return merged.pipe(
+      switchMap((results) => of(dialogRef(results[0], results[1])))
+    );
+  }
+  /**
+   * Initializes languages to be used
+   */
+  initLanguage() {
+    this.tr.addLangs(['en', 'sw']);
+    this.tr.setDefaultLang('en');
+    this.tr.use('en');
+  }
+  /**
+   * Current language being used.
+   * @returns The current language in use.
+   */
+  getCurrentLanguage() {
+    return this.tr.currentLang;
+  }
+  /**
+   * Current language being used.
+   * @param code - language code E.G en,sw,lg
+   */
+  setCurrentLanguage(code: string) {
+    this.tr.use(code);
   }
 }

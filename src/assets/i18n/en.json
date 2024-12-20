@@ -1,5 +1,6 @@
 {
   "defaults": {
+    "warning": "Warning",
     "submit": "Submit",
     "cancel": "Cancel",
     "reset": "Reset",
@@ -9,7 +10,9 @@
     "inactive": "InActive",
     "search": "Search",
     "month": "Month",
-    "noUsersFound": "No users found"
+    "noUsersFound": "No users found",
+    "seconds": "Seconds",
+    "minutes": "Minutes"
   },
   "loginForm": {
     "labels": {
@@ -28,6 +31,18 @@
       "logIn": "Log In",
       "forgotPassword": "Forgot password?",
       "admission": "Sign Up for Admission Here!"
+    }
+  },
+  "otpForm": {
+    "labels": {
+      "otpCode": "Otp Code",
+      "resendCode": "Resend code",
+      "verify": "Verify",
+      "backHome": "Back home",
+      "resendCodeIn": "Resend code in"
+    },
+    "errors": {
+      "invalidFormMessage": "Please enter the 6 digit code that has been sent to you."
     }
   },
   "changePassword": {

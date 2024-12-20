@@ -1,9 +1,39 @@
-import { NgOptimizedImage } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  signal,
+  SimpleChanges,
+  ViewEncapsulation,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { TranslateService } from '@ngx-translate/core';
+import { erase, error } from 'highcharts';
+import { delay, map, Observable, of } from 'rxjs';
+import { ENavBarForm } from 'src/app/core/enums/navbar.enum';
+import { ILanguage } from 'src/app/core/interfaces/helpers/languages/ilanguages';
+import { LanguagesPipe } from 'src/app/core/pipes/languages-pipe/languages.pipe';
+import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
+import {
+  ElementDomManipulationService,
+  MElementPair,
+} from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
+import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,13 +43,125 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatToolbarModule,
     MatSlideToggleModule,
     NgOptimizedImage,
+    MatSelectModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatMenuModule,
+    ReactiveFormsModule,
+    CommonModule,
+    LanguagesPipe,
   ],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss',
+  encapsulation: ViewEncapsulation.Emulated,
 })
-export class NavBarComponent {
-  @Output() public menuClicked = new EventEmitter<void>();
-  onMenuClicked() {
-    this.menuClicked.emit();
+export class NavBarComponent implements AfterViewInit {
+  @Output('languageChanged') public languageChanged =
+    new EventEmitter<string>();
+  @Input('keys') keys: string = '';
+  s_username = signal<string>('');
+  s_designation = signal<string>('');
+  s_loginTime = signal<string>('');
+  formGroup: FormGroup = this.fb.group({
+    language: this.fb.control('en', []),
+  });
+  languages$: Observable<ILanguage[]> = of([
+    { code: 'en', label: 'English', icon: 'gb' },
+    { code: 'sw', label: 'Swahili', icon: 'tz' },
+  ]);
+  ids$!: Observable<MElementPair>;
+  constructor(
+    private _appConfig: AppConfigService,
+    private fb: FormBuilder,
+    private unsubscribe: UnsubscribeService,
+    private domService: ElementDomManipulationService
+  ) {
+    this._appConfig.initLanguage();
+    let icons = ['gb', 'tz'];
+    let feather = ['chevron-down', 'log-out', 'chevron-up'];
+    this._appConfig.addIcons(icons, '../assets/assets/images');
+    this._appConfig.addIcons(feather, '../assets/assets/feather');
+    this.languageChangeHandler();
+  }
+  private languageChangeHandler() {
+    const setLanguage = (value: string) => {
+      if (this._appConfig.getCurrentLanguage() !== value) {
+        this._appConfig.setCurrentLanguage(value);
+        this.languageChanged.emit(value);
+      }
+    };
+    this.language.valueChanges
+      .pipe(this.unsubscribe.takeUntilDestroy)
+      .subscribe({
+        next: (value) => value && setLanguage(value),
+        error: (err) => console.error(err),
+      });
+  }
+  private parseUsernameEventHandler() {
+    const username$ = this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((e) => e.get(ENavBarForm.USER_NAME) as HTMLSpanElement)
+    );
+    username$.subscribe({
+      next: (username) => this.s_username.set(username.innerHTML),
+      error: (err) => console.error(err),
+    });
+  }
+  private parseDesignationEventHandler() {
+    const designation$ = this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((e) => e.get(ENavBarForm.DESIGNATION) as HTMLSpanElement)
+    );
+    designation$.subscribe({
+      next: (designation) => this.s_designation.set(designation.innerHTML),
+      error: (err) => console.error(err),
+    });
+  }
+  private parseLoginTimeEventHandler() {
+    const loginTime$ = this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((e) => e.get(ENavBarForm.LOGIN_TIME) as HTMLSpanElement)
+    );
+    loginTime$.pipe(delay(500)).subscribe({
+      next: (loginTime) => {
+        this.s_loginTime.set(loginTime.innerHTML);
+      },
+      error: (err) => console.error(err),
+    });
+  }
+  private attachEventHandlers() {
+    this.parseUsernameEventHandler();
+    this.parseDesignationEventHandler();
+    this.parseLoginTimeEventHandler();
+  }
+  changeLanguage(event: MouseEvent, value: string) {
+    this.language.setValue(value);
+  }
+  private initIds() {
+    this.ids$ = new Observable((subscriber) => {
+      const ids = this.domService.getDocumentElements(
+        this.keys,
+        Object.keys(ENavBarForm).filter((key) => isNaN(Number(key))).length
+      );
+      ids.size > 0 && subscriber.next(ids);
+      subscriber.complete();
+    });
+    this.ids$ && this.attachEventHandlers();
+  }
+  ngAfterViewInit(): void {
+    this.initIds();
+  }
+  logoutClicked(event: MouseEvent) {
+    const logOut$ = this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((e) => e.get(ENavBarForm.LOG_OUT) as HTMLAnchorElement)
+    );
+    logOut$.pipe(this.unsubscribe.takeUntilDestroy).subscribe({
+      next: (logOut) => this.domService.clickAnchorHref(logOut),
+      error: (err) => console.error(err),
+    });
+  }
+  get language() {
+    return this.formGroup.get('language') as FormControl;
   }
 }

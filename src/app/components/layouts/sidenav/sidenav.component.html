@@ -1,61 +1,295 @@
-<!-- <div class="w-full h-full flex flex-col py-8">
-  <div class="w-full grid place-items-center">
-    <img class="w-28" src="assets/images/b-smart-acamedia-logo.png" alt="" />
-  </div>
-  <div class="pt-8">
-    <mat-tree
-      [dataSource]="sidenavService.dataSource"
-      [treeControl]="sidenavService.treeControl"
-    >
-      <mat-tree-node
-        [@simpleFade]="node.level ? 1 : 0"
-        *matTreeNodeDef="let node"
-        matTreeNodePadding
-        class="!relative !mx-2"
+<!-- <mat-tree
+  [dataSource]="dataSource"
+  [treeControl]="treeControl"
+  class="example-tree bg-transparent w-full h-full"
+  #tree
+>
+  <mat-tree-node *matTreeNodeDef="let node">
+    <li class="mat-tree-node !h-fit py-0.5">
+      <button
+        (click)="
+          node.children.length > 0
+            ? toggleNode(node)
+            : nodeClicked($event, node)
+        "
+        [ngClass]="node.isChild ? '!ml-10 my-1 !font-light' : ''"
+        [class]="
+          (node | isSidenavActiveLink : currentPathName())
+            ? 'bg-[#f26f21] hover:bg-[#f26f21]'
+            : ''
+        "
+        type="button"
+        class="mat-tree-node btn btn-ghost w-full h-full relative text-white text-sm"
       >
-        <a class="btn btn-ghost w-full text-left relative">
+        <div
+          class="absolute top-0 left-0 right-0 bottom-0 w-full h-full flex flex-row items-center space-x-1 p-1"
+        >
+          <mat-icon
+            *ngIf="!node.isChild"
+            [svgIcon]="node | sidenavItemPipe"
+          ></mat-icon>
+          <h6 class="text-sm font-medium pt-1 mx-2">
+            {{ node.name }}
+          </h6>
+        </div>
+      </button>
+    </li>
+  </mat-tree-node>
+  <mat-nested-tree-node
+    *matTreeNodeDef="let node; when: hasChild"
+    [cdkTreeNodeTypeaheadLabel]="node.name"
+  >
+    <li class="relative !h-fit py-0.5">
+      <button
+        (click)="
+          node.children.length > 0
+            ? toggleNode(node)
+            : nodeClicked($event, node)
+        "
+        type="button"
+        class="mat-tree-node btn btn-ghost w-full h-full relative text-white text-sm"
+        [class]="
+          (node | isSidenavActiveLink : currentPathName()) && !node.isChild
+            ? 'bg-[#f26f21] hover:bg-[#f26f21]'
+            : ''
+        "
+      >
+        <div class="absolute top-0 left-0 right-0 bottom-0 w-full h-full p-1">
           <div
-            [routerLink]="sidenavService.getLink(node.name)"
-            [routerLinkActive]="'bg-primary font-m_bold text-white'"
-            class="absolute w-full h-full flex flex-row items-center p-4 space-x-2 font-m_light"
+            class="flex flex-row items-center justify-between relative w-full h-full"
           >
-            <mat-icon>{{ sidenavService.getIcon(node.name) }}</mat-icon>
-            <p class="text-sm">{{ node.name }}</p>
+            <div class="flex flex-row items-center space-x-1">
+              <mat-icon
+                *ngIf="!node.isChild"
+                [svgIcon]="node | sidenavItemPipe"
+              ></mat-icon>
+              <h6 class="text-sm font-medium mx-2 mt-1">
+                {{ node.name }}
+              </h6>
+            </div>
+            <mat-icon
+              [svgIcon]="
+                treeControl.isExpanded(node) ? 'chevron-up' : 'chevron-down'
+              "
+              matPrefix
+              class="mat-icon-rtl-mirror text-white"
+            ></mat-icon>
           </div>
-        </a>
-      </mat-tree-node>
-      <mat-tree-node
-        [@simpleFade]="node.level ? 1 : 0"
-        *matTreeNodeDef="let node; when: sidenavService.hasChild"
-        matTreeNodePadding
-        class="!relative mx-2"
+        </div>
+      </button>
+      <ul
+        class="dropdown-list relative"
+        [@slideVertical]="treeControl.isExpanded(node) ? 'show' : null"
       >
-        <a
-          (click)="nodeClicked(node)"
-          matTreeNodeToggle
-          class="btn btn-ghost w-full text-left relative group"
+        <ng-container matTreeNodeOutlet></ng-container>
+      </ul>
+    </li>
+  </mat-nested-tree-node>
+</mat-tree> -->
+
+<!-- <mat-drawer #drawer mode="side" opened class="!bg-[#015aa8]">
+  <mat-tree
+    [dataSource]="dataSource"
+    [treeControl]="treeControl"
+    class="example-tree h-full !bg-[#015aa8] w-0 -translate-x-[260px] md:-translate-x-0 transition-all duration-200"
+    [class]="
+      'md:w-[' +
+      s_sidenavWidth() +
+      'px]' +
+      ' ' +
+      'lg:w-[' +
+      s_sidenavWidth() +
+      'px]'
+    "
+    #tree
+    #treeElementContainer
+  >
+    <mat-tree-node *matTreeNodeDef="let node">
+      <li class="mat-tree-node !h-fit py-0.5">
+        <button
+          (click)="
+            node.children.length > 0
+              ? toggleNode(node)
+              : nodeClicked($event, node)
+          "
+          [ngClass]="node.isChild ? '!ml-10 my-1 !font-light' : ''"
+          [class]="
+            (node | isSidenavActiveLink : currentPathName())
+              ? 'bg-[#f26f21] hover:bg-[#f26f21]'
+              : ''
+          "
+          type="button"
+          class="mat-tree-node btn btn-ghost w-full h-full relative !text-white !text-sm"
         >
           <div
-            [routerLink]="sidenavService.getLink(node.name)"
-            [routerLinkActive]="
-              'bg-primary font-m_bold text-white hover:text-white'
+            [ngClass]="
+              s_sidenavWidth() === SIDEBAR_SIZES[1]
+                ? 'flex flex-row items-center space-x-1 p-1'
+                : 'grid place-items-center py-1 pr-2'
             "
-            class="absolute w-full h-full flex flex-row items-center p-4 justify-between font-m_light hover:text-primary duration-200"
+            class="absolute top-0 left-0 right-0 bottom-0 w-full h-full"
           >
-            <div class="flex flex-row items-center space-x-2">
-              <mat-icon>{{ sidenavService.getIcon(node.name) }}</mat-icon>
-              <p class="text-sm">{{ node.name }}</p>
-            </div>
-            <mat-icon class="mat-icon-rtl-mirror">
-              {{
-                sidenavService.treeControl.isExpanded(node)
-                  ? "arrow_drop_up"
-                  : "arrow_drop_down"
-              }}
-            </mat-icon>
+            <mat-icon
+              *ngIf="!node.isChild"
+              [svgIcon]="node | sidenavItemPipe"
+            ></mat-icon>
+            <h6
+              *ngIf="s_sidenavWidth() === SIDEBAR_SIZES[1]"
+              class="!text-sm !font-normal pt-1 mx-2"
+            >
+              {{ node.name }}
+            </h6>
           </div>
-        </a>
-      </mat-tree-node>
-    </mat-tree>
-  </div>
-</div> -->
+        </button>
+      </li>
+    </mat-tree-node>
+    <mat-nested-tree-node
+      *matTreeNodeDef="let node; when: hasChild"
+      [cdkTreeNodeTypeaheadLabel]="node.name"
+    >
+      <li class="relative !h-fit py-0.5">
+        <button
+          (click)="
+            node.children.length > 0
+              ? toggleNode(node)
+              : nodeClicked($event, node)
+          "
+          type="button"
+          class="mat-tree-node btn btn-ghost w-full h-full relative !text-white !text-sm"
+          [class]="
+            (node | isSidenavActiveLink : currentPathName()) && !node.isChild
+              ? 'bg-[#f26f21] hover:bg-[#f26f21]'
+              : ''
+          "
+        >
+          <div class="absolute top-0 left-0 right-0 bottom-0 w-full h-full p-1">
+            <div
+              [ngClass]="
+                s_sidenavWidth() === SIDEBAR_SIZES[1]
+                  ? 'justify-between'
+                  : 'justify-center'
+              "
+              class="flex flex-row items-center relative w-full h-full"
+            >
+              <div class="flex flex-row items-center space-x-1">
+                <mat-icon
+                  *ngIf="!node.isChild"
+                  [svgIcon]="node | sidenavItemPipe"
+                ></mat-icon>
+                <h6
+                  *ngIf="s_sidenavWidth() === SIDEBAR_SIZES[1]"
+                  class="!text-sm !font-normal mx-2 mt-1"
+                >
+                  {{ node.name }}
+                </h6>
+              </div>
+              <mat-icon
+                *ngIf="s_sidenavWidth() === SIDEBAR_SIZES[1]"
+                [svgIcon]="
+                  treeControl.isExpanded(node) ? 'chevron-up' : 'chevron-down'
+                "
+                matPrefix
+                class="mat-icon-rtl-mirror text-white"
+              ></mat-icon>
+            </div>
+          </div>
+        </button>
+        <ul
+          class="dropdown-list relative"
+          [@slideVertical]="treeControl.isExpanded(node) ? 'show' : null"
+        >
+          <ng-container matTreeNodeOutlet></ng-container>
+        </ul>
+      </li>
+    </mat-nested-tree-node>
+  </mat-tree>
+</mat-drawer> -->
+
+<mat-tree
+  [dataSource]="dataSource"
+  [treeControl]="treeControl"
+  class="example-tree bg-transparent w-full h-full"
+  #tree
+>
+  <mat-tree-node *matTreeNodeDef="let node">
+    <li class="mat-tree-node !h-fit py-0.5">
+      <button
+        (click)="
+          node.children.length > 0
+            ? toggleNode(node)
+            : nodeClicked($event, node)
+        "
+        [ngClass]="node.isChild ? '!ml-10 my-1 !font-light' : ''"
+        [class]="
+          (node | isSidenavActiveLink : currentPathName())
+            ? 'bg-[#f26f21] hover:bg-[#f26f21]'
+            : ''
+        "
+        type="button"
+        class="mat-tree-node btn btn-ghost w-full h-full relative text-white text-sm"
+      >
+        <div
+          class="absolute top-0 left-0 right-0 bottom-0 w-full h-full flex flex-row items-center space-x-1 p-1"
+        >
+          <mat-icon
+            *ngIf="!node.isChild"
+            [svgIcon]="node | sidenavItemPipe"
+          ></mat-icon>
+          <h6 class="text-sm font-medium pt-1 mx-2">
+            {{ node.name }}
+          </h6>
+        </div>
+      </button>
+    </li>
+  </mat-tree-node>
+  <mat-nested-tree-node
+    *matTreeNodeDef="let node; when: hasChild"
+    [cdkTreeNodeTypeaheadLabel]="node.name"
+  >
+    <li class="relative !h-fit py-0.5">
+      <button
+        (click)="
+          node.children.length > 0
+            ? toggleNode(node)
+            : nodeClicked($event, node)
+        "
+        type="button"
+        class="mat-tree-node btn btn-ghost w-full h-full relative text-white text-sm"
+        [class]="
+          (node | isSidenavActiveLink : currentPathName()) && !node.isChild
+            ? 'bg-[#f26f21] hover:bg-[#f26f21]'
+            : ''
+        "
+      >
+        <div class="absolute top-0 left-0 right-0 bottom-0 w-full h-full p-1">
+          <div
+            class="flex flex-row items-center justify-between relative w-full h-full"
+          >
+            <div class="flex flex-row items-center space-x-1">
+              <mat-icon
+                *ngIf="!node.isChild"
+                [svgIcon]="node | sidenavItemPipe"
+              ></mat-icon>
+              <h6 class="text-sm font-medium mx-2 mt-1">
+                {{ node.name }}
+              </h6>
+            </div>
+            <mat-icon
+              [svgIcon]="
+                treeControl.isExpanded(node) ? 'chevron-up' : 'chevron-down'
+              "
+              matPrefix
+              class="mat-icon-rtl-mirror text-white"
+            ></mat-icon>
+          </div>
+        </div>
+      </button>
+      <ul
+        class="dropdown-list relative"
+        [@slideVertical]="treeControl.isExpanded(node) ? 'show' : null"
+      >
+        <ng-container matTreeNodeOutlet></ng-container>
+      </ul>
+    </li>
+  </mat-nested-tree-node>
+</mat-tree>

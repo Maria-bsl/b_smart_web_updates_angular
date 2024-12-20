@@ -34,6 +34,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { LoginFormComponent } from './app/components/forms/admin/login-form/login-form.component';
 import { OtpFormComponent } from './app/components/forms/public/otp-form/otp-form.component';
+import { NavBarComponent } from './app/components/layouts/nav-bar/nav-bar.component';
+import { SidenavComponent } from './app/components/layouts/sidenav/sidenav.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, '../assets/assets/i18n/', '.json');
@@ -110,6 +112,14 @@ function defineCustomElement(
     defineCustomElement(
       'admission-form',
       createCustomElement(AdmissionFormComponent, { injector: app.injector })
+    );
+    defineCustomElement(
+      'nav-bar',
+      createCustomElement(NavBarComponent, { injector: app.injector })
+    );
+    defineCustomElement(
+      'side-nav',
+      createCustomElement(SidenavComponent, { injector: app.injector })
     );
     // defineCustomElement(
     //   'change-password-page',

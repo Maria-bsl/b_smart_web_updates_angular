@@ -15,6 +15,14 @@
   justify-content: center;
 }
 
+// .circle:hover {
+//   --percentage: attr(data-progress hover, 100);
+//   // background: conic-gradient(
+//   //   #4caf50 calc(var(--percentage) * 1%),
+//   //   #ddd calc(var(--percentage) * 1%)
+//   // );
+// }
+
 .mask,
 .fill {
   width: 100%;
@@ -32,7 +40,7 @@
 .inside-circle {
   width: 80%;
   height: 80%;
-  background: white;
+  background: #fff9a8;
   border-radius: 50%;
   display: flex;
   align-items: center;
