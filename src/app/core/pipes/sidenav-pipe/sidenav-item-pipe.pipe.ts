@@ -59,7 +59,7 @@ export class SidenavItemPipePipe implements PipeTransform {
       case 'Audit Trail':
         return 'chart-simple-solid';
       default:
-        return '';
+        return node.name ?? '';
     }
   }
 }

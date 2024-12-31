@@ -98,8 +98,7 @@ export class OtpFormComponent
     private _appConfig: AppConfigService
   ) {
     this._appConfig.initLanguage();
-    const icons = ['chevron-left'];
-    this._appConfig.addIcons(icons, '/assets/feather');
+    this.registerIcons();
   }
   private otpTextFieldEventHandler() {
     const updateOtpTextField = (value: string) => {
@@ -143,6 +142,10 @@ export class OtpFormComponent
   }
   ngAfterViewInit(): void {
     this.initIds();
+  }
+  registerIcons(): void {
+    const icons = ['chevron-left'];
+    this._appConfig.addIcons(icons, '/assets/feather');
   }
   initIds() {
     this.ids$ = new Observable((subscriber) => {

@@ -180,10 +180,6 @@ export class DashboardPageComponent
     createChart();
     //createChart('Total Schools', 'Active Schools');
   }
-  private registerIcons() {
-    let icons = ['hut', 'airplay'];
-    this.appConfig.addIcons(icons, '/assets/icons');
-  }
   private changeEventHandler(
     htmlInput: HTMLInputElement,
     input: WritableSignal<string>
@@ -284,6 +280,10 @@ export class DashboardPageComponent
     if (changes['keys']) {
       this.initIds();
     }
+  }
+  registerIcons() {
+    const icons = ['hut', 'airplay'];
+    this.appConfig.addIcons(icons, '/assets/icons');
   }
   initIds() {
     this.ids$ = new Observable((subscriber) => {

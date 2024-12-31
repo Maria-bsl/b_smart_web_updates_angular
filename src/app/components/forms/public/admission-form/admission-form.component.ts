@@ -222,6 +222,7 @@ export class AdmissionFormComponent
   ngAfterViewInit(): void {
     this.initIds();
   }
+  registerIcons(): void {}
   initIds() {
     this.ids$ = new Observable((subscriber) => {
       const ids = this.domService.getDocumentElements(

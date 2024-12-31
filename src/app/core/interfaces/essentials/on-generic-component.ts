@@ -18,4 +18,8 @@ export declare interface OnGenericComponent {
    * Event handlers for the HTML Elements.
    */
   attachEventHandlers(): void;
+  /**
+   * Register custom svg icons
+   */
+  registerIcons(): void;
 }

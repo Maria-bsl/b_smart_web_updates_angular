@@ -3,8 +3,12 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
+  Pipe,
+  PipeTransform,
   ViewEncapsulation,
 } from '@angular/core';
 import {
@@ -42,6 +46,7 @@ import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/un
 import { GetCapchaImageSourcePipe } from 'src/app/core/pipes/forgot-password-pipes/forgot-password-pipes.pipe';
 import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
 import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-forgot-password-form',
@@ -58,19 +63,20 @@ import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generi
   ],
   templateUrl: './forgot-password-form.component.html',
   styleUrl: './forgot-password-form.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForgotPasswordFormComponent
   implements AfterViewInit, OnGenericComponent
 {
   @Input('keys') keys: string = '';
+  @Output('refreshcaptcha') refreshcaptcha = new EventEmitter<void>();
   EForgotPasswordForm: typeof EForgotPasswordForm = EForgotPasswordForm;
   formGroup: FormGroup = this.fb.group({
     username: this.fb.control('', [Validators.required]),
     secretQuestion: this.fb.control('', [Validators.required]),
     answer: this.fb.control('', [Validators.required]),
-    capcha: this.fb.control('', [Validators.required]),
+    captcha: this.fb.control('', [Validators.required]),
   });
   AppUtilities: typeof AppUtilities = AppUtilities;
   $secretQuestions!: Observable<HtmlSelectOption[]>;
@@ -79,18 +85,14 @@ export class ForgotPasswordFormComponent
     private fb: FormBuilder,
     private unsubscribe: UnsubscribeService,
     private domService: ElementDomManipulationService,
-    private _appConfig: AppConfigService
+    private _appConfig: AppConfigService,
+    private http: HttpClient
   ) {
-    const icons = ['refresh-ccw', 'chevron-left'];
-    this._appConfig.addIcons(icons, '/assets/feather');
+    this.registerIcons();
   }
-  private usernameEventListener() {
-    const updateUsername = (value: string) => {
-      const username$ = this.ids$.pipe(
-        this.unsubscribe.takeUntilDestroy,
-        map((el) => el.get(EForgotPasswordForm.USERNAME) as HTMLInputElement)
-      );
-      username$.subscribe({
+  private usernameValueChanges() {
+    const subscribe = (value: string) => {
+      this.username$.subscribe({
         next: (userInput) => (userInput.value = value),
         error: (err) => console.error(err.message),
       });
@@ -98,86 +100,54 @@ export class ForgotPasswordFormComponent
     this.username.valueChanges
       .pipe(this.unsubscribe.takeUntilDestroy)
       .subscribe({
-        next: (value) => updateUsername(value),
+        next: (value) => subscribe(value),
         error: (err) => console.error(err.message),
       });
   }
-  private secretQuestionEventHandler() {
-    const setSecretQuestion = (value: string, el: HTMLSelectElement) => {
-      el.value = value;
-      this.domService.dispatchSelectElementChangeEvent(el);
-    };
-    const secretQuestion$ = this.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map(
-        (el) => el.get(EForgotPasswordForm.SECRET_QUESTION) as HTMLSelectElement
-      )
-    );
-    const updateSecretQuestion = (value: string) => {
-      secretQuestion$.subscribe({
-        next: (selectElement) => setSecretQuestion(value, selectElement),
+  private secretQuestionValueChanges() {
+    const subscribe = (value: string) => {
+      this.secretQuestion$.subscribe({
+        next: (select) =>
+          (select.value = value) &&
+          this.domService.dispatchSelectElementChangeEvent(select),
         error: (err) => console.error(err.message),
-      });
-    };
-    const populateOptions = (questions: HTMLSelectElement) => {
-      let questionsList = this.domService.getSelectOptionsAsArray(questions);
-      if (!AppUtilities.isValueEmptyElement(questions)) {
-        this.secretQuestion.setValue(questions.value);
-      }
-      this.$secretQuestions = new Observable((subscriber) => {
-        subscriber.next(questionsList);
-        subscriber.complete();
       });
     };
     this.secretQuestion.valueChanges
       .pipe(this.unsubscribe.takeUntilDestroy)
       .subscribe({
-        next: (value) => updateSecretQuestion(value),
+        next: (value) => subscribe(value),
         error: (err) => console.error(err.message),
       });
-    secretQuestion$.subscribe({
-      next: (el) => populateOptions(el),
-      error: (err) => console.error(err.message),
-    });
   }
-  private answerEventListener() {
-    const updateAnswer = (value: string) => {
-      const answer$ = this.ids$.pipe(
-        this.unsubscribe.takeUntilDestroy,
-        map((el) => el.get(EForgotPasswordForm.ANSWER) as HTMLInputElement)
-      );
-      answer$.subscribe({
+  private answerValueChanges() {
+    const subscribe = (value: string) => {
+      this.answer$.subscribe({
         next: (input) => (input.value = value),
         error: (err) => console.error(err.message),
       });
     };
     this.answer.valueChanges.pipe(this.unsubscribe.takeUntilDestroy).subscribe({
-      next: (value) => updateAnswer(value),
+      next: (value) => subscribe(value),
       error: (err) => console.error(err.message),
     });
   }
-  private capchaCodeEventHandler() {
-    const updateCapcha = (value: string) => {
-      const capcha$ = this.ids$.pipe(
-        this.unsubscribe.takeUntilDestroy,
-        map((el) => el.get(EForgotPasswordForm.CAPCHA_TEXT) as HTMLInputElement)
-      );
-      capcha$.subscribe({
+  private captchaValueChanges() {
+    const subscribe = (value: string) => {
+      this.captcha$.subscribe({
         next: (input) => (input.value = value),
         error: (err) => console.error(err.message),
       });
     };
-    this.answer.valueChanges.pipe(this.unsubscribe.takeUntilDestroy).subscribe({
-      next: (value) => updateCapcha(value),
-      error: (err) => console.error(err.message),
-    });
+    this.captcha.valueChanges
+      .pipe(this.unsubscribe.takeUntilDestroy)
+      .subscribe({
+        next: (value) => subscribe(value),
+        error: (err) => console.error(err.message),
+      });
   }
-  private hasInvalidCapchaError() {
-    const capcha$ = this.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(EForgotPasswordForm.INVALID_CAPCHA) as any)
-    );
-    capcha$.subscribe({
+  private hasInvalidCaptchaError() {
+    this.invalidCaptchaText$.subscribe({
       next: (el) => {
         el.style.display === 'none' ? {} : toast.error(el.textContent);
       },
@@ -186,7 +156,11 @@ export class ForgotPasswordFormComponent
   }
   ngAfterViewInit(): void {
     this.initIds();
-    this.hasInvalidCapchaError();
+    this.hasInvalidCaptchaError();
+  }
+  registerIcons() {
+    const icons = ['refresh-ccw', 'chevron-left'];
+    this._appConfig.addIcons(icons, '/assets/feather');
   }
   initIds() {
     this.ids$ = new Observable((subscriber) => {
@@ -200,16 +174,68 @@ export class ForgotPasswordFormComponent
     });
     this.ids$ && this.attachEventHandlers();
   }
+  private formControlEvents() {
+    this.usernameValueChanges();
+    this.secretQuestionValueChanges();
+    this.answerValueChanges();
+    this.captchaValueChanges();
+  }
   attachEventHandlers() {
-    this.usernameEventListener();
-    this.secretQuestionEventHandler();
-    this.answerEventListener();
-    this.capchaCodeEventHandler();
+    this.initFormControls();
+    this.formControlEvents();
+  }
+  private initUsernameValue() {
+    this.username$.subscribe({
+      next: (input) => this.username.setValue(input.value),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private initSecretQuestionValue() {
+    const populateOptions = (questions: HTMLSelectElement) => {
+      let questionsList = this.domService.getSelectOptionsAsArray(questions);
+      if (!AppUtilities.isValueEmptyElement(questions)) {
+        this.secretQuestion.setValue(questions.value);
+      }
+      this.$secretQuestions = new Observable((subscriber) => {
+        subscriber.next(questionsList);
+        subscriber.complete();
+      });
+    };
+    this.secretQuestion$.subscribe({
+      next: (el) => {
+        populateOptions(el);
+        this.secretQuestion.setValue(el.value);
+      },
+      error: (err) => console.error(err.message),
+    });
+  }
+  private initAnswerValue() {
+    this.answer$.subscribe({
+      next: (input) => this.answer.setValue(input.value),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private initCaptchaValue() {
+    this.captcha$.subscribe({
+      next: (input) => this.captcha.setValue(input.value),
+      error: (err) => console.error(err.message),
+    });
+  }
+  /**
+   * Initializes form control value
+   */
+  private initFormControls() {
+    this.initUsernameValue();
+    this.initSecretQuestionValue();
+    this.initAnswerValue();
+    this.initCaptchaValue();
   }
   refreshCaptcha(event: MouseEvent) {
     const captcha$ = this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(EForgotPasswordForm.CAPCHA_BUTTON) as HTMLInputElement)
+      map(
+        (el) => el.get(EForgotPasswordForm.CAPTCHA_BUTTON) as HTMLInputElement
+      )
     );
     captcha$.subscribe({
       next: (input) => this.domService.clickButton(input),
@@ -254,7 +280,39 @@ export class ForgotPasswordFormComponent
   get answer() {
     return this.formGroup.get('answer') as FormControl;
   }
-  get capcha() {
-    return this.formGroup.get('capcha') as FormControl;
+  get captcha() {
+    return this.formGroup.get('captcha') as FormControl;
+  }
+  get username$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EForgotPasswordForm.USERNAME) as HTMLInputElement)
+    );
+  }
+  get secretQuestion$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map(
+        (el) => el.get(EForgotPasswordForm.SECRET_QUESTION) as HTMLSelectElement
+      )
+    );
+  }
+  get answer$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EForgotPasswordForm.ANSWER) as HTMLInputElement)
+    );
+  }
+  get captcha$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EForgotPasswordForm.CAPTCHA_TEXT) as HTMLInputElement)
+    );
+  }
+  get invalidCaptchaText$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EForgotPasswordForm.INVALID_CAPTCHA) as any)
+    );
   }
 }

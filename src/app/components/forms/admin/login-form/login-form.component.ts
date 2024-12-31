@@ -8,6 +8,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  signal,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -49,6 +50,8 @@ import { ELoginForm } from 'src/app/core/enums/login-form';
 import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
 import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
 import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
+import { GetCapchaImageSourcePipe } from 'src/app/core/pipes/forgot-password-pipes/forgot-password-pipes.pipe';
+import { toast } from 'ngx-sonner';
 
 type FormInputData = {
   txtEmail: HTMLInputElement;
@@ -67,6 +70,7 @@ type FormInputData = {
     MatButtonModule,
     RouterModule,
     CommonModule,
+    GetCapchaImageSourcePipe,
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
@@ -76,27 +80,25 @@ type FormInputData = {
 export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
   @Input('keys') keys: string = '';
   AppUtilities: typeof AppUtilities = AppUtilities;
+  ELoginForm: typeof ELoginForm = ELoginForm;
   loginForm = this.fb.group({
     username: this.fb.control('', [Validators.required]),
     password: this.fb.control('', [Validators.required]),
+    captcha: this.fb.control('', []),
   });
   ids$!: Observable<MElementPair>;
+  passwordHasError = signal<boolean>(false);
   constructor(
     private fb: FormBuilder,
     private domService: ElementDomManipulationService,
     private unsubscribe: UnsubscribeService,
     private _appConfig: AppConfigService
   ) {
-    let icons = ['lock'];
-    this._appConfig.addIcons(icons, '../assets/assets/feather');
+    this.registerIcons();
   }
-  private usernameEventListener() {
-    const updateUsername = (value: string) => {
-      const username$ = this.ids$.pipe(
-        this.unsubscribe.takeUntilDestroy,
-        map((el) => el.get(ELoginForm.USERNAME) as HTMLInputElement)
-      );
-      username$.subscribe({
+  private usernameValueChanges() {
+    const subscribe = (value: string) => {
+      this.username$.subscribe({
         next: (userInput) => (userInput.value = value),
         error: (err) => console.error(err.message),
       });
@@ -104,17 +106,13 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
     this.username.valueChanges
       .pipe(this.unsubscribe.takeUntilDestroy)
       .subscribe({
-        next: (value) => updateUsername(value),
+        next: (value) => subscribe(value),
         error: (err) => console.error(err.message),
       });
   }
-  private passwordEventHandler() {
-    const updatePassword = (value: string) => {
-      const password$ = this.ids$.pipe(
-        this.unsubscribe.takeUntilDestroy,
-        map((el) => el.get(ELoginForm.PASSWORD) as HTMLInputElement)
-      );
-      password$.subscribe({
+  private passwordValueChanges() {
+    const subscribe = (value: string) => {
+      this.password$.subscribe({
         next: (userInput) => (userInput.value = value),
         error: (err) => console.error(err.message),
       });
@@ -122,12 +120,76 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
     this.password.valueChanges
       .pipe(this.unsubscribe.takeUntilDestroy)
       .subscribe({
-        next: (value) => updatePassword(value),
+        next: (value) => subscribe(value),
         error: (err) => console.error(err.message),
       });
   }
+  private captchaTextValueChanges() {
+    const subscribe = (value: string) => {
+      this.captchaText$.subscribe({
+        next: (input) => (input.value = value),
+        error: (err) => console.error(err.message),
+      });
+    };
+    this.captcha.valueChanges
+      .pipe(this.unsubscribe.takeUntilDestroy)
+      .subscribe({
+        next: (value) => subscribe(value),
+        error: (err) => console.error(err.message),
+      });
+  }
+  private attachValueChanges() {
+    this.usernameValueChanges();
+    this.passwordValueChanges();
+    this.captchaTextValueChanges();
+  }
+  private initUsername() {
+    this.username$.subscribe({
+      next: (input) => this.username.setValue(input.value),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private initPassword() {
+    this.password$.subscribe({
+      next: (input) => this.password.setValue(input.value),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private initCaptcha() {
+    this.captchaText$.subscribe({
+      next: (input) => this.captcha.setValue(input.value),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private hasInvalidCaptchaError() {
+    this.invalidCaptcha$.subscribe({
+      next: (el) => {
+        el.style.display === 'none' ? {} : toast.error(el.textContent);
+      },
+      error: (err) => console.error(err.message),
+    });
+  }
+  private initFormControls() {
+    this.initUsername();
+    this.initPassword();
+    this.initCaptcha();
+  }
+  private verifyHasPasswordError() {
+    this.passwordHasError$.subscribe({
+      next: (input) =>
+        input.value.toLocaleLowerCase() === 'error' &&
+        this.passwordHasError.set(true),
+      error: (err) => console.error(err.message),
+    });
+  }
   ngAfterViewInit(): void {
     this.initIds();
+    this.hasInvalidCaptchaError();
+    this.verifyHasPasswordError();
+  }
+  registerIcons(): void {
+    const icons = ['lock', 'refresh-ccw'];
+    this._appConfig.addIcons(icons, '../assets/assets/feather');
   }
   initIds(): void {
     this.ids$ = new Observable((subscriber) => {
@@ -141,40 +203,34 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
     this.ids$ && this.attachEventHandlers();
   }
   attachEventHandlers() {
-    this.usernameEventListener();
-    this.passwordEventHandler();
+    this.initFormControls();
+    this.attachValueChanges();
   }
-  onLoginClicked() {
-    const submit$ = this.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(ELoginForm.LOGIN_BUTTON))
-    );
+  onLoginClicked(event: MouseEvent) {
     const subscribe = () => {
-      submit$.subscribe({
-        next: (el) => this.domService.clickButton(el as HTMLInputElement),
+      this.submit$.subscribe({
+        next: (el) => this.domService.clickButton(el),
         error: (err) => console.error(err),
       });
     };
     this.loginForm.valid ? subscribe() : this.loginForm.markAllAsTouched();
   }
   openAdmissionPage(event: MouseEvent) {
-    const admissionLink$ = this.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(ELoginForm.ADMISSION_LINK))
-    );
-    admissionLink$.subscribe({
+    this.admissionLink$.subscribe({
       next: (el) => this.domService.clickAnchorHref(el as HTMLAnchorElement),
       error: (err) => console.error(err),
     });
   }
   openForgotPasswordPage(event: MouseEvent) {
-    const forgotPassword$ = this.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(ELoginForm.FORGOT_LINK))
-    );
-    forgotPassword$.subscribe({
+    this.forgotPassword$.subscribe({
       next: (el) => this.domService.clickAnchorHref(el as HTMLAnchorElement),
       error: (err) => console.error(err),
+    });
+  }
+  refreshCaptcha(event: MouseEvent) {
+    this.captchaButton$.subscribe({
+      next: (input) => this.domService.clickButton(input),
+      error: (err) => console.error(err.message),
     });
   }
   get username() {
@@ -182,5 +238,62 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
   }
   get password() {
     return this.loginForm.get('password') as FormControl;
+  }
+  get captcha() {
+    return this.loginForm.get('captcha') as FormControl;
+  }
+  get captchaButton$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(ELoginForm.CAPTCHA_BUTTON) as HTMLInputElement)
+    );
+  }
+  get captchaText$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(ELoginForm.CAPTCHA_TEXT) as HTMLInputElement)
+    );
+  }
+  get password$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(ELoginForm.PASSWORD) as HTMLInputElement)
+    );
+  }
+  get username$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(ELoginForm.USERNAME) as HTMLInputElement)
+    );
+  }
+  get forgotPassword$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(ELoginForm.FORGOT_LINK))
+    );
+  }
+  get admissionLink$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(ELoginForm.ADMISSION_LINK))
+    );
+  }
+  get submit$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(ELoginForm.LOGIN_BUTTON) as HTMLInputElement)
+    );
+  }
+  get invalidCaptcha$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(ELoginForm.INVALID_CAPTCHA_MSG) as any)
+    );
+  }
+  get passwordHasError$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(ELoginForm.PASSWORD_HAS_ERROR) as HTMLInputElement)
+    );
   }
 }

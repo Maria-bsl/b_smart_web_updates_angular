@@ -16,6 +16,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -33,7 +34,9 @@ import {
   ElementDomManipulationService,
   MElementPair,
 } from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
+import { SidenavService } from 'src/app/core/services/sidenav/sidenav.service';
 import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
+import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
 
 @Component({
   selector: 'app-nav-bar',
@@ -47,6 +50,7 @@ import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/un
     MatIconModule,
     MatFormFieldModule,
     MatMenuModule,
+    MatButtonModule,
     ReactiveFormsModule,
     CommonModule,
     LanguagesPipe,
@@ -54,6 +58,7 @@ import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/un
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss',
   encapsulation: ViewEncapsulation.Emulated,
+  animations: [inOutAnimation],
 })
 export class NavBarComponent implements AfterViewInit {
   @Output('languageChanged') public languageChanged =
@@ -74,14 +79,18 @@ export class NavBarComponent implements AfterViewInit {
     private _appConfig: AppConfigService,
     private fb: FormBuilder,
     private unsubscribe: UnsubscribeService,
-    private domService: ElementDomManipulationService
+    private domService: ElementDomManipulationService,
+    private _sidenavService: SidenavService
   ) {
     this._appConfig.initLanguage();
+    this.languageChangeHandler();
+    this.registerIcons();
+  }
+  private registerIcons() {
     let icons = ['gb', 'tz'];
-    let feather = ['chevron-down', 'log-out', 'chevron-up'];
+    let feather = ['chevron-down', 'log-out', 'chevron-up', 'menu', 'x'];
     this._appConfig.addIcons(icons, '../assets/assets/images');
     this._appConfig.addIcons(feather, '../assets/assets/feather');
-    this.languageChangeHandler();
   }
   private languageChangeHandler() {
     const setLanguage = (value: string) => {
@@ -161,7 +170,13 @@ export class NavBarComponent implements AfterViewInit {
       error: (err) => console.error(err),
     });
   }
+  openSidebar(event: MouseEvent) {
+    this._sidenavService.s_isOpened.set(!this._sidenavService.s_isOpened());
+  }
   get language() {
     return this.formGroup.get('language') as FormControl;
+  }
+  get isOpenedSideBar() {
+    return this._sidenavService.s_isOpened();
   }
 }

@@ -36,6 +36,11 @@ import { LoginFormComponent } from './app/components/forms/admin/login-form/logi
 import { OtpFormComponent } from './app/components/forms/public/otp-form/otp-form.component';
 import { NavBarComponent } from './app/components/layouts/nav-bar/nav-bar.component';
 import { SidenavComponent } from './app/components/layouts/sidenav/sidenav.component';
+import {
+  MatSidenav,
+  MatSidenavContainer,
+  MatSidenavContent,
+} from '@angular/material/sidenav';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, '../assets/assets/i18n/', '.json');

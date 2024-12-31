@@ -2,7 +2,7 @@
   id="login-form-id"
   [formGroup]="loginForm"
   class="flex flex-col relative space-y-0 w-full"
-  (ngSubmit)="onLoginClicked()"
+  (ngSubmit)="onLoginClicked($event)"
 >
   <div class="flex flex-col space-y-1 mat-form-container">
     <div class="w-full">
@@ -36,6 +36,37 @@
       </mat-error>
     </mat-form-field>
   </div>
+  <ng-container *ngIf="passwordHasError()">
+    <div class="flex flex-col space-y-0.5">
+      <p class="text-xs font-bold">Verification code</p>
+      <div class="flex flex-row items-center space-x-2 w-full">
+        <img
+          #capchaImage
+          [src]="
+            (ids$ | async)!
+              | getCapchaImageSourcePipe : ELoginForm.CAPTCHA_IMAGE
+          "
+          alt=""
+          srcset=""
+        />
+        <button (click)="refreshCaptcha($event)" type="button" mat-icon-button>
+          <mat-icon svgIcon="refresh-ccw" matPrefix></mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="flex flex-col space-y-0.5">
+      <p class="text-xs font-bold">Enter captcha code</p>
+      <mat-form-field class="w-full" appearance="outline">
+        <input
+          [autocomplete]="true"
+          [formControl]="captcha"
+          placeholder="Enter code"
+          matInput
+          type="text"
+        />
+      </mat-form-field>
+    </div>
+  </ng-container>
   <div class="w-full flex flex-row items-center justify-between py-1">
     <button
       class="forgot-password-bg"
