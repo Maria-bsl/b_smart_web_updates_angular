@@ -41,6 +41,7 @@ import {
   MatSidenavContainer,
   MatSidenavContent,
 } from '@angular/material/sidenav';
+import { PaymentDetailsFormComponent } from './app/components/forms/admin/payment-details-form/payment-details-form.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, '../assets/assets/i18n/', '.json');
@@ -125,6 +126,12 @@ function defineCustomElement(
     defineCustomElement(
       'side-nav',
       createCustomElement(SidenavComponent, { injector: app.injector })
+    );
+    defineCustomElement(
+      'payment-details-report',
+      createCustomElement(PaymentDetailsFormComponent, {
+        injector: app.injector,
+      })
     );
 
     // defineCustomElement(

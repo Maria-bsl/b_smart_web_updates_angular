@@ -246,5 +246,43 @@
       "paidInvoices": "Paid invoices",
       "pendingInvoices": "Pending invoices"
     }
+  },
+  "patDetReport": {
+    "title": "Payment details report",
+    "form": {
+      "labels": {
+        "zone": "Zone",
+        "school": "School",
+        "fee": "Fee",
+        "class": "Class",
+        "steamCombination": "Stream/Combination",
+        "admissionNo": "Admission No.",
+        "referenceNo": "Reference No.",
+        "currency": "Currency",
+        "dateFrom": "Date from",
+        "dateTo": "Date to"
+      },
+      "placeholders": {
+        "zone": "Select zone",
+        "school": "Select school",
+        "fee": "Select fee",
+        "class": "Select class",
+        "steamCombination": "Select stream/combination",
+        "admissionNo": "Enter admission No.",
+        "referenceNo": "Enter reference No.",
+        "currency": "Specify Currency",
+        "dateFrom": "Choose a date",
+        "dateTo": "Choose a date"
+      },
+      "errors": {
+        "dateFrom": "Please select a starting date",
+        "dateTo": "Please select an ending date"
+      }
+    },
+    "actions": {
+      "viewReport": "View report",
+      "downloadPdf": "Download PDF",
+      "downloadExcel": "Download Excel"
+    }
   }
 }

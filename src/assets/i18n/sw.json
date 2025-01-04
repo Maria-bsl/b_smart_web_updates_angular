@@ -231,5 +231,43 @@
       "paidInvoices": "Ankara Zilizolipwa",
       "pendingInvoices": "Ankara Zinazosubiri"
     }
+  },
+  "patDetReport": {
+    "title": "Ripoti ya maelezo ya malipo",
+    "form": {
+      "labels": {
+        "zone": "Eneo",
+        "school": "Shule",
+        "fee": "Ada",
+        "class": "Darasa",
+        "steamCombination": "Mkondo/Muunganiko",
+        "admissionNo": "Nambari ya Usajili",
+        "referenceNo": "Nambari ya Rejea",
+        "currency": "Sarafu",
+        "dateFrom": "Tarehe kuanzia",
+        "dateTo": "Tarehe hadi"
+      },
+      "placeholders": {
+        "zone": "Chagua eneo",
+        "school": "Chagua shule",
+        "fee": "Chagua ada",
+        "class": "Chagua darasa",
+        "steamCombination": "Chagua mkondo/muunganiko",
+        "admissionNo": "Ingiza Nambari ya Usajili",
+        "referenceNo": "Ingiza Nambari ya Rejea",
+        "currency": "Taja Sarafu",
+        "dateFrom": "Chagua tarehe",
+        "dateTo": "Chagua tarehe"
+      },
+      "errors": {
+        "dateFrom": "Tafadhali chagua tarehe ya kuanza",
+        "dateTo": "Tafadhali chagua tarehe ya mwisho"
+      }
+    },
+    "actions": {
+      "viewReport": "Angalia ripoti",
+      "downloadPdf": "Pakua PDF",
+      "downloadExcel": "Pakua Excel"
+    }
   }
 }

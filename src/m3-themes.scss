@@ -166,6 +166,7 @@ $b_smart_v1-dark-theme: mat.m2-define-dark-theme(
   @include mat.all-component-themes($theme);
   @include mat.form-field-density(-4);
   @include mat.tree-density(-3);
+  @include mat.datepicker-density(-4);
 }
 
 // .light-theme {
