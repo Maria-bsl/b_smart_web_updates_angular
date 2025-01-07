@@ -12,7 +12,10 @@
     "month": "Month",
     "noUsersFound": "No users found",
     "seconds": "Seconds",
-    "minutes": "Minutes"
+    "minutes": "Minutes",
+    "errors": {
+      "noDataMatchingFilter": "No data matching the filter"
+    }
   },
   "loginForm": {
     "labels": {
@@ -249,6 +252,7 @@
   },
   "patDetReport": {
     "title": "Payment details report",
+    "noDataFound": "No data found",
     "form": {
       "labels": {
         "zone": "Zone",
@@ -278,6 +282,22 @@
         "dateFrom": "Please select a starting date",
         "dateTo": "Please select an ending date"
       }
+    },
+    "tableColumns": {
+      "sno": "SNO",
+      "class": "Class",
+      "stream": "Stream/Combination",
+      "date": "Date",
+      "admission": "Admission",
+      "studentName": "Student name",
+      "payerName": "Payer name",
+      "fee": "Fee",
+      "term": "Term",
+      "paidAmount": "Paid Amount",
+      "referenceNo": "Reference No.",
+      "transactionChannel": "Transaction channel",
+      "receiptNo": "Receipt No.",
+      "currency": "Currency"
     },
     "actions": {
       "viewReport": "View report",

@@ -1,15 +1,21 @@
 {
   "defaults": {
-    "submit": "Tuma",
+    "warning": "Onyo",
+    "submit": "Wasilisha",
     "cancel": "Ghairi",
     "reset": "Weka Upya",
     "pleaseFill": "Tafadhali jaza",
     "status": "Hali",
     "active": "Hai",
-    "inactive": "Si Hai",
+    "inactive": "Haifanyi kazi",
     "search": "Tafuta",
     "month": "Mwezi",
-    "noUsersFound": "Hakuna watumiaji waliopatikana"
+    "noUsersFound": "Hakuna watumiaji waliopatikana",
+    "seconds": "Sekunde",
+    "minutes": "Dakika",
+    "errors": {
+      "noDataMatchingFilter": "Hakuna data inayolingana na kichujio"
+    }
   },
   "loginForm": {
     "labels": {
@@ -234,6 +240,7 @@
   },
   "patDetReport": {
     "title": "Ripoti ya maelezo ya malipo",
+    "noDataFound": "Hakuna data iliyopatikana",
     "form": {
       "labels": {
         "zone": "Eneo",
@@ -263,6 +270,22 @@
         "dateFrom": "Tafadhali chagua tarehe ya kuanza",
         "dateTo": "Tafadhali chagua tarehe ya mwisho"
       }
+    },
+    "tableColumns": {
+      "sno": "Namba ya Serial",
+      "class": "Darasa",
+      "stream": "Mtiririko/Mchanganyiko",
+      "date": "Tarehe",
+      "admission": "Usajili",
+      "studentName": "Jina la Mwanafunzi",
+      "payerName": "Jina la Mlipa",
+      "fee": "Ada",
+      "term": "Muhula",
+      "paidAmount": "Kiasi Kilicholipwa",
+      "referenceNo": "Namba ya Rejea",
+      "transactionChannel": "Njia ya Muamala",
+      "receiptNo": "Namba ya Risiti",
+      "currency": "Sarafu"
     },
     "actions": {
       "viewReport": "Angalia ripoti",

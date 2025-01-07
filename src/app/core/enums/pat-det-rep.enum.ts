@@ -1,6 +1,4 @@
 export enum EPaymentDetailsReport {
-  DATE_FROM,
-  DATE_TO,
   ZONE,
   SCHOOL,
   FEE,
@@ -8,4 +6,10 @@ export enum EPaymentDetailsReport {
   STREAM_COMBINATION,
   ADMISSION_NO,
   REFERENCE_NO,
+  CURRENCY,
+  DATE_FROM,
+  DATE_TO,
+  VIEW_REPORT_BUTTON,
+  DOWNLOAD_PDF_BUTTON,
+  DOWNLOAD_EXCEL_BUTTON,
 }
