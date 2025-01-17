@@ -15,6 +15,12 @@
               [formControl]="zone"
               [placeholder]="'patDetReport.form.placeholders.zone' | translate"
             >
+              <mat-option
+                *ngFor="let zoneItem of templateData.zoneList$ | async"
+                [value]="zoneItem.value"
+              >
+                {{ zoneItem.text }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -29,6 +35,12 @@
               "
               [formControl]="school"
             >
+              <mat-option
+                *ngFor="let schoolItem of templateData.schoolList$ | async"
+                [value]="schoolItem.value"
+              >
+                {{ schoolItem.text }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -41,6 +53,12 @@
               [formControl]="fee"
               [placeholder]="'patDetReport.form.placeholders.fee' | translate"
             >
+              <mat-option
+                *ngFor="let feesItem of templateData.feesList$ | async"
+                [value]="feesItem.value"
+              >
+                {{ feesItem.text }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -53,6 +71,12 @@
               [placeholder]="'patDetReport.form.placeholders.class' | translate"
               [formControl]="paymentClass"
             >
+              <mat-option
+                *ngFor="let classItem of templateData.paymentClasses$ | async"
+                [value]="classItem.value"
+              >
+                {{ classItem.text }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -67,6 +91,12 @@
               "
               [formControl]="stream"
             >
+              <mat-option
+                *ngFor="let streamItem of templateData.streamList$ | async"
+                [value]="streamItem.value"
+              >
+                {{ streamItem.text }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -109,6 +139,12 @@
               "
               [formControl]="currency"
             >
+              <mat-option
+                *ngFor="let currencyItem of templateData.currencies$ | async"
+                [value]="currencyItem.value"
+              >
+                {{ currencyItem.text }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>

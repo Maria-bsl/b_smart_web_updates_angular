@@ -8,6 +8,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Output,
   signal,
   ViewChild,
   ViewEncapsulation,
@@ -88,6 +89,7 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
   });
   ids$!: Observable<MElementPair>;
   passwordHasError = signal<boolean>(false);
+  @Output('login') loginClicked: EventEmitter<void> = new EventEmitter();
   constructor(
     private fb: FormBuilder,
     private domService: ElementDomManipulationService,
@@ -127,7 +129,7 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
   private captchaTextValueChanges() {
     const subscribe = (value: string) => {
       this.captchaText$.subscribe({
-        next: (input) => (input.value = value),
+        next: (input) => input && (input.value = value),
         error: (err) => console.error(err.message),
       });
     };
@@ -157,14 +159,16 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
   }
   private initCaptcha() {
     this.captchaText$.subscribe({
-      next: (input) => this.captcha.setValue(input.value),
+      next: (input) => input && this.captcha.setValue(input.value),
       error: (err) => console.error(err.message),
     });
   }
   private hasInvalidCaptchaError() {
     this.invalidCaptcha$.subscribe({
       next: (el) => {
-        el.style.display === 'none' ? {} : toast.error(el.textContent);
+        if (el) {
+          el.style.display === 'none' ? {} : toast.error(el.textContent);
+        }
       },
       error: (err) => console.error(err.message),
     });
@@ -176,9 +180,12 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
   }
   private verifyHasPasswordError() {
     this.passwordHasError$.subscribe({
-      next: (input) =>
-        input.value.toLocaleLowerCase() === 'error' &&
-        this.passwordHasError.set(true),
+      next: (input) => {
+        if (input) {
+          input.value.toLocaleLowerCase() === 'error' &&
+            this.passwordHasError.set(true);
+        }
+      },
       error: (err) => console.error(err.message),
     });
   }
@@ -207,13 +214,9 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
     this.attachValueChanges();
   }
   onLoginClicked(event: MouseEvent) {
-    const subscribe = () => {
-      this.submit$.subscribe({
-        next: (el) => this.domService.clickButton(el),
-        error: (err) => console.error(err),
-      });
-    };
-    this.loginForm.valid ? subscribe() : this.loginForm.markAllAsTouched();
+    this.loginForm.valid
+      ? this.loginClicked.emit()
+      : this.loginForm.markAllAsTouched();
   }
   openAdmissionPage(event: MouseEvent) {
     this.admissionLink$.subscribe({

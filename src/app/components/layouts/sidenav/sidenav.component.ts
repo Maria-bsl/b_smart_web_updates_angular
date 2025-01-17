@@ -55,6 +55,7 @@ import {
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { AppConst } from 'src/app/utilities/app-consts';
 import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sidenav',
@@ -68,6 +69,7 @@ import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generi
     MatSidenavModule,
     SidenavItemPipePipe,
     IsActiveSidenavLinkPipe,
+    TranslateModule,
   ],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss',
@@ -103,6 +105,7 @@ export class SidenavComponent
     private _appConfig: AppConfigService,
     private _sidenavService: SidenavService
   ) {
+    //this._appConfig.initLanguage();
     this.registerIcons();
   }
   private literalsTextChanged(change: SimpleChange) {

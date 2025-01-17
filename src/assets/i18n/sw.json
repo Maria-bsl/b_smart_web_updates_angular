@@ -17,6 +17,24 @@
       "noDataMatchingFilter": "Hakuna data inayolingana na kichujio"
     }
   },
+  "sideNavItems": {
+    "Dashboard": "Dashibodi",
+    "Setup": "Usanidi",
+    "Email Resend": "Tuma Barua Pepe Tena",
+    "School Group": "Kundi la Shule",
+    "Change Password": "Badilisha Nenosiri",
+    "Access Rights": "Haki za Ufikiaji",
+    "Reset Password": "Weka Upya Nenosiri",
+    "Block/UnBlock User": "Zuia/Aruhusu Mtumiaji",
+    "Notifications": "Arifa",
+    "Send SMS to Parents": "Tuma SMS kwa Wazazi",
+    "Schools": "Shule",
+    "Fee Reverse Inbox": "Ada ya Kurudi Nyuma",
+    "Approvals": "Idhini",
+    "Returns": "Rudisha",
+    "Reports": "Ripoti",
+    "Audit Trail": "Kipimo cha Ukaguzi"
+  },
   "loginForm": {
     "labels": {
       "username": "Jina la Mtumiaji",

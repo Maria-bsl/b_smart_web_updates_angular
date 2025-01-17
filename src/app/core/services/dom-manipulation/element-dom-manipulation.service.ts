@@ -100,7 +100,12 @@ export class ElementDomManipulationService {
   clickButton(button: HTMLButtonElement | HTMLInputElement) {
     try {
       if (!button) throw new Error('Button is undefined.');
-      button.click();
+      const event = new MouseEvent('click', {
+        bubbles: true,
+        view: window,
+      });
+      button.dispatchEvent(event);
+      //button.click();
     } catch (err: any) {}
   }
   clickAnchorHref(anchor: HTMLAnchorElement) {

@@ -58,7 +58,13 @@ export class AppConfigService {
   initLanguage() {
     this.tr.addLangs(['en', 'sw']);
     this.tr.setDefaultLang('en');
-    this.tr.use('en');
+    //this.tr.use('en');
+    let code = localStorage.getItem('currentLang');
+    if (code) {
+      this.tr.use(code);
+    } else {
+      this.tr.use('en');
+    }
   }
   /**
    * Current language being used.
@@ -72,6 +78,7 @@ export class AppConfigService {
    * @param code - language code E.G en,sw,lg
    */
   setCurrentLanguage(code: string) {
+    localStorage.setItem('currentLang', code);
     this.tr.use(code);
   }
 }

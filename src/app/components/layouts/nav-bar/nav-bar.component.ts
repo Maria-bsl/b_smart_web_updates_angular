@@ -68,7 +68,7 @@ export class NavBarComponent implements AfterViewInit {
   s_designation = signal<string>('');
   s_loginTime = signal<string>('');
   formGroup: FormGroup = this.fb.group({
-    language: this.fb.control('en', []),
+    language: this.fb.control(localStorage.getItem('currentLang') ?? 'en', []),
   });
   languages$: Observable<ILanguage[]> = of([
     { code: 'en', label: 'English', icon: 'gb' },
@@ -85,6 +85,9 @@ export class NavBarComponent implements AfterViewInit {
     this._appConfig.initLanguage();
     this.languageChangeHandler();
     this.registerIcons();
+    if (this.language.value !== this._appConfig.getCurrentLanguage()) {
+      this.language.setValue(this._appConfig.getCurrentLanguage());
+    }
   }
   private registerIcons() {
     let icons = ['gb', 'tz'];
