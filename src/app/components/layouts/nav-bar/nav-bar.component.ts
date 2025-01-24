@@ -34,6 +34,7 @@ import {
   ElementDomManipulationService,
   MElementPair,
 } from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
+import { LanguageService } from 'src/app/core/services/language-service/language.service';
 import { SidenavService } from 'src/app/core/services/sidenav/sidenav.service';
 import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
 import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
@@ -68,7 +69,7 @@ export class NavBarComponent implements AfterViewInit {
   s_designation = signal<string>('');
   s_loginTime = signal<string>('');
   formGroup: FormGroup = this.fb.group({
-    language: this.fb.control(localStorage.getItem('currentLang') ?? 'en', []),
+    language: this.fb.control('', []),
   });
   languages$: Observable<ILanguage[]> = of([
     { code: 'en', label: 'English', icon: 'gb' },
@@ -80,13 +81,17 @@ export class NavBarComponent implements AfterViewInit {
     private fb: FormBuilder,
     private unsubscribe: UnsubscribeService,
     private domService: ElementDomManipulationService,
-    private _sidenavService: SidenavService
+    private _sidenavService: SidenavService,
+    private languageService: LanguageService
   ) {
-    this._appConfig.initLanguage();
+    //console.log(localStorage.getItem('currentLang'));
+    //this._appConfig.initLanguage();
     this.languageChangeHandler();
+    this.language.setValue(localStorage.getItem('currentLang'));
     this.registerIcons();
     if (this.language.value !== this._appConfig.getCurrentLanguage()) {
-      this.language.setValue(this._appConfig.getCurrentLanguage());
+      this.languageService.changeLanguage(this.language.value);
+      //this.language.setValue(this._appConfig.getCurrentLanguage());
     }
   }
   private registerIcons() {

@@ -19,30 +19,60 @@
   },
   "sideNavItems": {
     "Dashboard": "Dashibodi",
-    "Setup": "Usanidi",
-    "Email Resend": "Tuma Barua Pepe Tena",
-    "School Group": "Kundi la Shule",
-    "Change Password": "Badilisha Nenosiri",
-    "Access Rights": "Haki za Ufikiaji",
-    "Reset Password": "Weka Upya Nenosiri",
-    "Block/UnBlock User": "Zuia/Aruhusu Mtumiaji",
+    "Setup": "Mipangilio",
+    "EmailResend": "Tuma Barua Pepe Tena",
+    "SchoolGroup": "Kundi la Shule",
+    "ChangePassword": "Badilisha Nenosiri",
+    "AccessRights": "Haki za Ufikiaji",
+    "ResetPassword": "Weka Upya Nenosiri",
+    "Block/UnBlockUser": "Zuia/Ruhusu Mtumiaji",
     "Notifications": "Arifa",
-    "Send SMS to Parents": "Tuma SMS kwa Wazazi",
+    "SendSMSToParents": "Tuma SMS kwa Wazazi",
     "Schools": "Shule",
-    "Fee Reverse Inbox": "Ada ya Kurudi Nyuma",
     "Approvals": "Idhini",
-    "Returns": "Rudisha",
+    "Returns": "Marejesho",
     "Reports": "Ripoti",
-    "Audit Trail": "Kipimo cha Ukaguzi"
+    "AuditTrail": "Rekodi za Ukaguzi",
+    "Academic": "Masomo",
+    "Designation": "Cheo",
+    "Zone": "Eneo",
+    "Region": "Mkoa",
+    "District": "Wilaya",
+    "Ward": "Kata",
+    "Medium": "Njia",
+    "Term": "Muda wa Masomo",
+    "BankBranches": "Matawi ya Benki",
+    "Fee": "Ada",
+    "Questions": "Maswali",
+    "CreateUser": "Unda Mtumiaji",
+    "AccessModules": "Moduli za Ufikiaji",
+    "Packages": "Vifurushi",
+    "PackagePrice": "Bei ya Kifurushi",
+    "PasswordAging": "Ukomavu wa Nenosiri",
+    "SMTPConfiguration": "Usanidi wa SMTP",
+    "SMSConfiguration": "Usanidi wa SMS",
+    "EmailText": "Maandishi ya Barua Pepe",
+    "SMSText": "Maandishi ya SMS",
+    "SchoolRegistration": "Usajili wa Shule",
+    "UpdateSchool Info": "Sasisha Taarifa za Shule",
+    "FeeReverseInbox": "Sanduku la Kuondoa Ada"
   },
   "loginForm": {
     "labels": {
       "username": "Jina la Mtumiaji",
-      "password": "Nenosiri"
+      "password": "Nenosiri",
+      "verificationCode": "Msimbo wa uthibitishaji",
+      "captcha": "Captcha",
+      "slogan": "Tunarahisisha udhibiti wa maelezo ya shule yako.",
+      "mobileAppComingSoon": "Programu yetu mpya inakuja hivi karibuni.",
+      "paymentMethodsText": "Fuatilia ada ya shule ya mtoto wako na ulipe kwa simu ya mkononi huduma ikiwa ni pamoja na M-PESA au AIRTEL MONEY.",
+      "schoolPerformanceText": "Endelea kusasishwa na shughuli za mtoto wako na utendaji wa shule.",
+      "schoolSentimentText": "Endelea kushikamana na shule ya mtoto wako na hisia za mwalimu."
     },
     "placeholders": {
       "username": "Ingiza jina la mtumiaji",
-      "password": "Ingiza nenosiri"
+      "password": "Ingiza nenosiri",
+      "captcha": "Ingiza msombo"
     },
     "errors": {
       "username": "Tafadhali ingiza jina la mtumiaji",
@@ -51,7 +81,9 @@
     "actions": {
       "logIn": "Ingia",
       "forgotPassword": "Umesahau nenosiri?",
-      "admission": "Jiandikishe kwa Kiingilio Hapa!"
+      "admission": "Jiandikishe kwa Kiingilio Hapa!",
+      "downloadMobileApp": "Pata mobile app hapa (wa wazazi)",
+      "poweredBy": "Inayoendeshwa na"
     }
   },
   "changePassword": {

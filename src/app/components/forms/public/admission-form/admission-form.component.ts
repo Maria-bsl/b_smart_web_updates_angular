@@ -62,9 +62,12 @@ export class AdmissionFormComponent
 {
   @Input('keys') keys: string = '';
   formGroup!: FormGroup;
-  schoolsNameList$ = new BehaviorSubject<HtmlSelectOption[]>([]);
-  academicYearList$ = new BehaviorSubject<HtmlSelectOption[]>([]);
-  classGroupsList$ = new BehaviorSubject<HtmlSelectOption[]>([]);
+  //schoolsNameList$ = new BehaviorSubject<HtmlSelectOption[]>([]);
+  schoolsNameList$!: Observable<HtmlSelectOption[]>;
+  //academicYearList$ = new BehaviorSubject<HtmlSelectOption[]>([]);
+  academicYearList$!: Observable<HtmlSelectOption[]>;
+  //classGroupsList$ = new BehaviorSubject<HtmlSelectOption[]>([]);
+  classGroupsList$!: Observable<HtmlSelectOption[]>;
   AppUtilities: typeof AppUtilities = AppUtilities;
   ids$!: Observable<MElementPair>;
   constructor(
@@ -218,6 +221,104 @@ export class AdmissionFormComponent
         error: (err) => console.error(err.message),
       });
   }
+  private initSchoolName() {
+    const populateOptions = (select: HTMLSelectElement) => {
+      if (!AppUtilities.isValueEmptyElement(select)) {
+        this.schoolName.setValue(select.value);
+      }
+      this.schoolsNameList$ = new Observable((subs) => {
+        const listView = this.domService.getSelectOptionsAsArray(select);
+        subs.next(listView);
+        subs.complete();
+      });
+    };
+    this.schoolName$.subscribe({
+      next: (select) => populateOptions(select),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private initAcademicYear() {
+    const populateOptions = (select: HTMLSelectElement) => {
+      if (!AppUtilities.isValueEmptyElement(select)) {
+        this.academicYear.setValue(select.value);
+      }
+      this.academicYearList$ = new Observable((subs) => {
+        const listView = this.domService.getSelectOptionsAsArray(select);
+        subs.next(listView);
+        subs.complete();
+      });
+    };
+    this.admissionYear$.subscribe({
+      next: (select) => populateOptions(select),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private initClassGroups() {
+    const populateOptions = (select: HTMLSelectElement) => {
+      if (!AppUtilities.isValueEmptyElement(select)) {
+        this.classGroup.setValue(select.value);
+      }
+      this.classGroupsList$ = new Observable((subs) => {
+        const listView = this.domService.getSelectOptionsAsArray(select);
+        subs.next(listView);
+        subs.complete();
+      });
+    };
+    this.classGroup$.subscribe({
+      next: (select) => populateOptions(select),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private initIndexNumber() {
+    this.indexNumber$.subscribe({
+      next: (input) => this.indexNo.setValue(input.value),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private initStudentName() {
+    this.studentName$.subscribe({
+      next: (input) => this.studentName.setValue(input.value),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private initParentName() {
+    this.parentName$.subscribe({
+      next: (input) => this.parentName.setValue(input.value),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private initParentMobile() {
+    this.parentMobile$.subscribe({
+      next: (input) => this.parentMobile.setValue(input.value),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private initParentEmail() {
+    this.parentEmail$.subscribe({
+      next: (input) => this.parentEmail.setValue(input.value),
+      error: (err) => console.error(err.message),
+    });
+  }
+  private attachValueChanges() {
+    this.schoolNameEventHandler();
+    this.academicYearEventHandler();
+    this.classGroupEventHandler();
+    this.indexNumberEventHandler();
+    this.studentNameEventHandler();
+    this.parentNameEventHandler();
+    this.parentMobileEventHandler();
+    this.parentEmailEventHandler();
+  }
+  private initFormControls() {
+    this.initSchoolName();
+    this.initAcademicYear();
+    this.initClassGroups();
+    this.initIndexNumber();
+    this.initStudentName();
+    this.initParentName();
+    this.initParentMobile();
+    this.initParentEmail();
+  }
   ngOnInit(): void {}
   ngAfterViewInit(): void {
     this.initIds();
@@ -235,14 +336,8 @@ export class AdmissionFormComponent
     this.ids$ && this.attachEventHandlers();
   }
   attachEventHandlers() {
-    this.schoolNameEventHandler();
-    this.academicYearEventHandler();
-    this.classGroupEventHandler();
-    this.indexNumberEventHandler();
-    this.studentNameEventHandler();
-    this.parentNameEventHandler();
-    this.parentMobileEventHandler();
-    this.parentEmailEventHandler();
+    this.initFormControls();
+    this.attachValueChanges();
   }
   resetForm() {
     const cancel$ = this.ids$.pipe(
@@ -266,6 +361,54 @@ export class AdmissionFormComponent
       });
     };
     this.formGroup.valid ? subscribe() : this.formGroup.markAllAsTouched();
+  }
+  get schoolName$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EAdmissionForm.SCHOOL_NAME) as HTMLSelectElement)
+    );
+  }
+  get admissionYear$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EAdmissionForm.ADMISSION_YEAR) as HTMLSelectElement)
+    );
+  }
+  get classGroup$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EAdmissionForm.CLASS_GROUP) as HTMLSelectElement)
+    );
+  }
+  get indexNumber$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EAdmissionForm.INDEX_NUMBER) as HTMLInputElement)
+    );
+  }
+  get studentName$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EAdmissionForm.STUDENT_NAME) as HTMLInputElement)
+    );
+  }
+  get parentName$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EAdmissionForm.PARENT_NAME) as HTMLInputElement)
+    );
+  }
+  get parentMobile$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EAdmissionForm.PARENT_MOBILE) as HTMLInputElement)
+    );
+  }
+  get parentEmail$() {
+    return this.ids$.pipe(
+      this.unsubscribe.takeUntilDestroy,
+      map((el) => el.get(EAdmissionForm.PARENT_EMAIL) as HTMLInputElement)
+    );
   }
   get schoolName() {
     return this.formGroup.get('schoolName') as FormControl;

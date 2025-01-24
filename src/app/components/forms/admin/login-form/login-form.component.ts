@@ -29,6 +29,7 @@ import { HttpClient } from '@angular/common/http';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import {
   BehaviorSubject,
+  filter,
   map,
   Observable,
   of,
@@ -52,12 +53,17 @@ import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/un
 import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
 import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
 import { GetCapchaImageSourcePipe } from 'src/app/core/pipes/forgot-password-pipes/forgot-password-pipes.pipe';
-import { toast } from 'ngx-sonner';
+import { NgxSonnerToaster, toast } from 'ngx-sonner';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/core/services/language-service/language.service';
+import { ILanguage } from 'src/app/core/interfaces/helpers/languages/ilanguages';
+import { MatRippleModule } from '@angular/material/core';
 
-type FormInputData = {
-  txtEmail: HTMLInputElement;
-  txtPwd: HTMLInputElement;
-  btnLogin: HTMLInputElement;
+type LoginEventBody = {
+  username: string;
+  password: string;
 };
 
 @Component({
@@ -72,6 +78,11 @@ type FormInputData = {
     RouterModule,
     CommonModule,
     GetCapchaImageSourcePipe,
+    NgxSonnerToaster,
+    MatCardModule,
+    MatDividerModule,
+    TranslateModule,
+    MatRippleModule,
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss',
@@ -82,21 +93,43 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
   @Input('keys') keys: string = '';
   AppUtilities: typeof AppUtilities = AppUtilities;
   ELoginForm: typeof ELoginForm = ELoginForm;
+  language!: FormControl<string | null>;
   loginForm = this.fb.group({
     username: this.fb.control('', [Validators.required]),
     password: this.fb.control('', [Validators.required]),
     captcha: this.fb.control('', []),
   });
   ids$!: Observable<MElementPair>;
+  languages$: Observable<ILanguage[]> = of([
+    { code: 'en', label: 'ENG', icon: 'gb' },
+    { code: 'sw', label: 'SWA', icon: 'tz' },
+  ]);
+  @ViewChild('myNav') myNav!: ElementRef<HTMLDivElement>;
   passwordHasError = signal<boolean>(false);
-  @Output('login') loginClicked: EventEmitter<void> = new EventEmitter();
+  @Output('login') loginClicked: EventEmitter<LoginEventBody> =
+    new EventEmitter();
   constructor(
     private fb: FormBuilder,
     private domService: ElementDomManipulationService,
     private unsubscribe: UnsubscribeService,
-    private _appConfig: AppConfigService
+    private _appConfig: AppConfigService,
+    private languageService: LanguageService
   ) {
+    this.init();
     this.registerIcons();
+  }
+  private init() {
+    this.language = this.fb.control('sw', []);
+    this.languageService.initLanguages(
+      ['en', 'sw'],
+      this.language.value ?? 'sw'
+    );
+    this.language.valueChanges
+      .pipe(this.unsubscribe.takeUntilDestroy)
+      .subscribe({
+        next: (value) => this.languageService.changeLanguage(value!),
+        error: (e) => console.error(e),
+      });
   }
   private usernameValueChanges() {
     const subscribe = (value: string) => {
@@ -163,11 +196,17 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
       error: (err) => console.error(err.message),
     });
   }
+  /**
+   * Checks the custom captcha validator
+   * if visible will display error message
+   */
   private hasInvalidCaptchaError() {
     this.invalidCaptcha$.subscribe({
       next: (el) => {
+        //el && (el.style.display === 'none' ? toast.error(el.textContent) : {});
         if (el) {
-          el.style.display === 'none' ? {} : toast.error(el.textContent);
+          el.style.display === 'none' ? toast.error(el.textContent) : {};
+          this.passwordHasError.set(true);
         }
       },
       error: (err) => console.error(err.message),
@@ -178,25 +217,15 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
     this.initPassword();
     this.initCaptcha();
   }
-  private verifyHasPasswordError() {
-    this.passwordHasError$.subscribe({
-      next: (input) => {
-        if (input) {
-          input.value.toLocaleLowerCase() === 'error' &&
-            this.passwordHasError.set(true);
-        }
-      },
-      error: (err) => console.error(err.message),
-    });
-  }
   ngAfterViewInit(): void {
     this.initIds();
     this.hasInvalidCaptchaError();
-    this.verifyHasPasswordError();
   }
   registerIcons(): void {
-    const icons = ['lock', 'refresh-ccw'];
+    let icons = ['lock', 'refresh-ccw'];
     this._appConfig.addIcons(icons, '../assets/assets/feather');
+    icons = ['phone'];
+    this._appConfig.addIcons(icons, '../assets/assets/icons');
   }
   initIds(): void {
     this.ids$ = new Observable((subscriber) => {
@@ -214,9 +243,15 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
     this.attachValueChanges();
   }
   onLoginClicked(event: MouseEvent) {
-    this.loginForm.valid
-      ? this.loginClicked.emit()
-      : this.loginForm.markAllAsTouched();
+    if (this.loginForm.valid) {
+      const body: LoginEventBody = {
+        username: this.username.value,
+        password: this.password.value,
+      };
+      this.loginClicked.emit(body);
+    } else {
+      this.loginForm.markAllAsTouched();
+    }
   }
   openAdmissionPage(event: MouseEvent) {
     this.admissionLink$.subscribe({
@@ -236,6 +271,12 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
       error: (err) => console.error(err.message),
     });
   }
+  downloadMobileAppClicked(event: MouseEvent) {
+    this.myNav.nativeElement.style.height = '100%';
+  }
+  closeMobileAppAdvert(event: MouseEvent) {
+    this.myNav.nativeElement.style.height = '0%';
+  }
   get username() {
     return this.loginForm.get('username') as FormControl;
   }
@@ -248,12 +289,22 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
   get captchaButton$() {
     return this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
+      filter(
+        (el) =>
+          el.get(ELoginForm.CAPTCHA_BUTTON) !== null &&
+          el.get(ELoginForm.CAPTCHA_BUTTON) !== undefined
+      ),
       map((el) => el.get(ELoginForm.CAPTCHA_BUTTON) as HTMLInputElement)
     );
   }
   get captchaText$() {
     return this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
+      filter(
+        (el) =>
+          el.get(ELoginForm.CAPTCHA_BUTTON) !== null &&
+          el.get(ELoginForm.CAPTCHA_BUTTON) !== undefined
+      ),
       map((el) => el.get(ELoginForm.CAPTCHA_TEXT) as HTMLInputElement)
     );
   }
@@ -290,13 +341,12 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
   get invalidCaptcha$() {
     return this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
+      filter(
+        (el) =>
+          el.get(ELoginForm.INVALID_CAPTCHA_MSG) !== null &&
+          el.get(ELoginForm.INVALID_CAPTCHA_MSG) !== undefined
+      ),
       map((el) => el.get(ELoginForm.INVALID_CAPTCHA_MSG) as any)
-    );
-  }
-  get passwordHasError$() {
-    return this.ids$.pipe(
-      this.unsubscribe.takeUntilDestroy,
-      map((el) => el.get(ELoginForm.PASSWORD_HAS_ERROR) as HTMLInputElement)
     );
   }
 }

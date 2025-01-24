@@ -1,4 +1,9 @@
-<form
+<ngx-sonner-toaster
+  position="top-right"
+  [richColors]="true"
+></ngx-sonner-toaster>
+
+<!-- <form
   id="login-form-id"
   [formGroup]="loginForm"
   class="flex flex-col relative space-y-0 w-full"
@@ -37,7 +42,7 @@
     </mat-form-field>
   </div>
   <ng-container *ngIf="passwordHasError()">
-    <div class="flex flex-col space-y-0.5">
+    <div class="flex col-span-2 flex-col space-y-0.5">
       <p class="text-xs font-bold">Verification code</p>
       <div class="flex flex-row items-center space-x-2 w-full">
         <img
@@ -92,4 +97,321 @@
       Sign Up for Admission Here
     </button>
   </div>
-</form>
+</form> -->
+
+<!-- <div #overlayDiv class="absolute top-0 bottom-0 left-0 right-0 w-full h-full">
+  <a
+    (click)="overlayDiv.classList.replace('h-full', 'h-0')"
+    class="absolute top-4 z-50 text-white right-4"
+    onclick="closeNav()"
+    >&times;</a
+  >
+  <img
+    src="../assets/assets/images/desktop-mobile-ad.png"
+    srcset="
+      ../assets/assets/images/mobile-app-phone-ad.png  640w,
+      ../assets/assets/images/mobile-app-phone-ad.png  768w,
+      ../assets/assets/images/desktop-mobile-ad.png   1024w,
+      ../assets/assets/images/desktop-mobile-ad.png   1280w
+    "
+    sizes="(max-width: 640px) 640px,
+         (max-width: 768px) 768px,
+         (max-width: 1024px) 1024px,
+         1280px"
+    alt="Responsive Image"
+    class="w-full h-full object-cover"
+  />
+</div> -->
+
+<div #myNav id="myNav" class="overlay !z-50">
+  <div class="w-full flex flex-col h-full relative bg-cover">
+    <img
+      class="absolute top-0 left-0 right-0 bottom-0 w-full h-full object-fill z-0"
+      src="../assets/assets/images/bg-cover.png"
+      alt=""
+      srcset=""
+    />
+    <div class="flex flex-row justify-end p-4">
+      <a
+        class="absolute z-50 cursor-pointer"
+        (click)="closeMobileAppAdvert($event)"
+        >&times;</a
+      >
+    </div>
+    <div class="w-full h-full relative grid grid-cols-5">
+      <div
+        class="row-span-full col-span-full lg:col-span-3 flex flex-col p-4 space-y-4"
+      >
+        <div class="flex flex-row items-center justify-center lg:hidden w-full">
+          <img
+            src="../assets/assets/images/dashboard-phone.png"
+            class="col-span-full row-span-full object-cover max-w-44 h-auto"
+            alt=""
+            srcset=""
+          />
+          <img
+            src="../assets/assets/images/phone-login.png"
+            class="col-span-full row-span-full object-cover max-w-44 h-auto"
+            alt=""
+            srcset=""
+          />
+        </div>
+        <div class="bg-advert flex flex-col w-full p-4">
+          <h6 class="text-2xl lg:text-6xl py-2 text-white">
+            {{ "loginForm.labels.mobileAppComingSoon" | translate }}
+          </h6>
+          <div class="flex flex-col w-full space-y-1">
+            <div class="flex flex-row items-center space-x-2">
+              <img
+                src="../assets/assets/images/png culture.png"
+                alt=""
+                srcset=""
+                class="w-12"
+              />
+              <h6 class="text-sm text-white">
+                {{ "loginForm.labels.paymentMethodsText" | translate }}
+              </h6>
+            </div>
+            <div class="flex flex-row items-center space-x-2">
+              <img
+                src="../assets/assets/images/culture 2.png"
+                alt=""
+                srcset=""
+                class="w-12"
+              />
+              <h6 class="text-sm text-white">
+                {{ "loginForm.labels.schoolPerformanceText" | translate }}
+              </h6>
+            </div>
+            <div class="flex flex-row items-center space-x-2">
+              <img
+                src="../assets/assets/images/silhouettes.png"
+                alt=""
+                srcset=""
+                class="w-12"
+              />
+              <h6 class="text-sm text-white">
+                {{ "loginForm.labels.schoolSentimentText" | translate }}
+              </h6>
+            </div>
+          </div>
+        </div>
+        <div matRipple class="w-fit">
+          <img
+            src="../assets/assets/images/Google-Play.png"
+            alt=""
+            class="w-1/2"
+            srcset=""
+          />
+        </div>
+      </div>
+      <div class="row-span-full col-span-2 p-8 hidden lg:block">
+        <div class="w-full max-h-full overflow-hidden relative">
+          <img
+            class="object-cover"
+            src="../assets/assets/images/phone-login.png"
+            alt=""
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="w-full h-full overflow-hidden grid lg:grid-cols-5 grid-cols-1 grid-rows-1 bg-[var(--sys-surface)] relative"
+>
+  <div
+    class="w-full bg-[rgba(241,244,246,0.9)] h-full col-span-2 row-span-full grid place-items-center relative px-4"
+  >
+    <select
+      [formControl]="language"
+      class="absolute right-4 top-4 text-gray-500 mat-body-large bg-transparent"
+    >
+      <option
+        *ngFor="let lang of languages$ | async; index as ind"
+        #langOption
+        [value]="lang.code"
+        class="text-black"
+      >
+        {{ lang.label }}
+      </option>
+    </select>
+    <img
+      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-fit"
+      src="../assets/assets/images/nmb-light.png"
+      alt=""
+      srcset=""
+    />
+    <mat-card
+      class="!w-[80%] !bg-[rgba(255,255,255,0.9)]"
+      appearance="outlined"
+    >
+      <mat-card-title class="w-full grid place-items-center gap-y-3 !py-2">
+        <img
+          src="../assets/assets/images/B-Smart_Academia_transparent.png"
+          alt=""
+          srcset=""
+          class="w-28"
+        />
+        <h6 class="text-sm font-semibold">B-Smart Academia</h6>
+      </mat-card-title>
+      <mat-divider class="!w-full"></mat-divider>
+      <mat-card-content>
+        <form
+          id="login-form-id"
+          [formGroup]="loginForm"
+          class="flex flex-col relative space-y-0 w-full py-2"
+          (ngSubmit)="onLoginClicked($event)"
+        >
+          <div class="flex flex-col space-y-2 mat-form-container">
+            <div class="w-full">
+              <p class="text-xs font-bold">
+                {{ "loginForm.labels.username" | translate }}
+              </p>
+              <mat-form-field class="w-full" appearance="outline">
+                <input
+                  [autocomplete]="true"
+                  [formControl]="username"
+                  [placeholder]="'loginForm.placeholders.username' | translate"
+                  matInput
+                  type="email"
+                />
+                <mat-error>
+                  @if(username.hasError('required')) {
+                  {{ "loginForm.errors.username" | translate }} }
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="flex flex-col space-y-0.5">
+            <p class="text-xs font-bold">
+              {{ "loginForm.labels.password" | translate }}
+            </p>
+            <mat-form-field class="w-full" appearance="outline">
+              <input
+                [autocomplete]="true"
+                [formControl]="password"
+                [placeholder]="'loginForm.placeholders.password' | translate"
+                matInput
+                type="password"
+              />
+              <mat-error>
+                @if(password.hasError('required')) {
+                {{ "loginForm.errors.password" | translate }} }
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <ng-container *ngIf="passwordHasError()">
+            <div class="flex col-span-2 flex-col space-y-0.5">
+              <p class="text-xs font-bold">
+                {{ "loginForm.labels.verificationCode" | translate }}
+              </p>
+              <div class="flex flex-row items-center space-x-2 w-full">
+                <img
+                  #capchaImage
+                  [src]="
+                    (ids$ | async)!
+                      | getCapchaImageSourcePipe : ELoginForm.CAPTCHA_IMAGE
+                  "
+                  alt=""
+                  srcset=""
+                />
+                <button
+                  (click)="refreshCaptcha($event)"
+                  type="button"
+                  mat-icon-button
+                >
+                  <mat-icon svgIcon="refresh-ccw" matPrefix></mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="flex flex-col space-y-0.5">
+              <p class="text-xs font-bold">
+                {{ "loginForm.placeholders.captcha" | translate }}
+              </p>
+              <mat-form-field class="w-full" appearance="outline">
+                <input
+                  [autocomplete]="true"
+                  [formControl]="captcha"
+                  [placeholder]="'loginForm.placeholders.captcha' | translate"
+                  matInput
+                  type="text"
+                />
+              </mat-form-field>
+            </div>
+          </ng-container>
+          <div class="w-full flex flex-row items-center justify-between py-1">
+            <button
+              class="forgot-password-bg"
+              mat-button
+              type="button"
+              (click)="openForgotPasswordPage($event)"
+            >
+              <mat-icon svgIcon="lock" matPrefix></mat-icon>
+              {{ "loginForm.actions.forgotPassword" | translate }}
+            </button>
+            <button
+              mat-flat-button
+              color="primary"
+              type="submit"
+              form="login-form-id"
+            >
+              {{ "loginForm.actions.logIn" | translate }}
+            </button>
+          </div>
+          <div class="w-full pt-4 pb-2">
+            <button
+              class="w-full !text-white"
+              mat-flat-button
+              color="accent"
+              type="button"
+              (click)="openAdmissionPage($event)"
+            >
+              {{ "loginForm.actions.admission" | translate }}
+            </button>
+          </div>
+          <mat-divider class="!w-full"></mat-divider>
+          <a
+            (click)="downloadMobileAppClicked($event)"
+            class="flex flex-row group items-center justify-center w-full py-1 cursor-pointer"
+          >
+            <mat-icon svgIcon="phone"></mat-icon>
+            <a class="text-xs group-hover:underline">
+              {{ "loginForm.actions.downloadMobileApp" | translate }}
+            </a>
+          </a>
+          <mat-divider class="!w-full"></mat-divider>
+          <div class="w-full grid place-items-center py-1">
+            <h6 class="text-xs">
+              {{ "loginForm.actions.poweredBy" | translate }}
+            </h6>
+            <h6 class="text-sm">Biz-Logic Solutions Ltd.</h6>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="w-full h-full col-span-3 lg:block hidden row-span-full relative">
+    <img
+      class="w-full h-full object-cover"
+      src="../assets/assets/images/shopnow.jpg"
+      style="filter: brightness(90%)"
+      alt=""
+      srcset=""
+    />
+    <img
+      class="absolute right-4 top-4"
+      src="../assets/assets/images/nmb-dark.png"
+      alt=""
+      srcset=""
+    />
+    <div
+      class="w-full h-fit absolute p-2 bottom-20 left-0 right-0 flex flex-col"
+    >
+      <h6 class="text-6xl text-white">
+        {{ "loginForm.labels.slogan" | translate }}
+      </h6>
+    </div>
+  </div>
+</div>

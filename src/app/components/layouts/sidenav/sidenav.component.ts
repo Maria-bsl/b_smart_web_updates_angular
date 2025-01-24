@@ -56,6 +56,7 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { AppConst } from 'src/app/utilities/app-consts';
 import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
 import { TranslateModule } from '@ngx-translate/core';
+import { LanguageService } from 'src/app/core/services/language-service/language.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -103,9 +104,9 @@ export class SidenavComponent
     private domService: ElementDomManipulationService,
     private unsubscribe: UnsubscribeService,
     private _appConfig: AppConfigService,
-    private _sidenavService: SidenavService
+    private _sidenavService: SidenavService,
+    private languageService: LanguageService
   ) {
-    //this._appConfig.initLanguage();
     this.registerIcons();
   }
   private literalsTextChanged(change: SimpleChange) {
@@ -267,7 +268,9 @@ export class SidenavComponent
           setTimeout(() => {
             if (!sidebar.classList.contains('show-lite')) {
               sidebar.classList.add('show-lite');
-              toggle();
+              setTimeout(() => {
+                toggle();
+              }, 100);
             }
           }, 50);
         }

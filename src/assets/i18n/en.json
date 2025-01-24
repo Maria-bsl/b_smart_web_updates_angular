@@ -20,19 +20,19 @@
   "sideNavItems": {
     "Dashboard": "Dashboard",
     "Setup": "Setup",
-    "Email Resend": "Email Resend",
-    "School Group": "School Group",
-    "Change Password": "Change Password",
-    "Access Rights": "Access Rights",
-    "Reset Password": "Reset Password",
-    "Block/UnBlock User": "Block/UnBlock User",
+    "EmailResend": "Email Resend",
+    "SchoolGroup": "School Group",
+    "ChangePassword": "Change Password",
+    "AccessRights": "Access Rights",
+    "ResetPassword": "Reset Password",
+    "Block/UnBlockUser": "Block/UnBlock User",
     "Notifications": "Notifications",
-    "Send SMS to Parents": "Send SMS to Parents",
+    "SendSMSToParents": "Send SMS to Parents",
     "Schools": "Schools",
     "Approvals": "Approvals",
     "Returns": "Returns",
     "Reports": "Reports",
-    "Audit Trail": "Audit Trail",
+    "AuditTrail": "Audit Trail",
     "Academic": "Academic",
     "Designation": "Designation",
     "Zone": "Zone",
@@ -41,30 +41,38 @@
     "Ward": "Ward",
     "Medium": "Medium",
     "Term": "Term",
-    "Bank Branches": "Bank Branches",
+    "BankBranches": "Bank Branches",
     "Fee": "Fee",
     "Questions": "Questions",
-    "Create User": "Create User",
-    "Access Modules": "Access Modules",
+    "CreateUser": "Create User",
+    "AccessModules": "Access Modules",
     "Packages": "Packages",
-    "Package Price": "Package Price",
-    "Password Aging": "Password Aging",
-    "SMTP Configuration": "SMTP Configuration",
-    "SMS Configuration": "SMS Configuration",
-    "Email Text": "Email Text",
-    "SMS Text": "SMS Text",
-    "School Registration": "School Registration",
-    "Update School Info": "Update School Info",
-    "Fee Reverse Inbox": "Fee Reverse Inbox"
+    "PackagePrice": "Package Price",
+    "PasswordAging": "Password Aging",
+    "SMTPConfiguration": "SMTP Configuration",
+    "SMSConfiguration": "SMS Configuration",
+    "EmailText": "Email Text",
+    "SMSText": "SMS Text",
+    "SchoolRegistration": "School Registration",
+    "UpdateSchool Info": "Update School Info",
+    "FeeReverseInbox": "Fee Reverse Inbox"
   },
   "loginForm": {
     "labels": {
       "username": "Username",
-      "password": "Password"
+      "password": "Password",
+      "verificationCode": "Verification code",
+      "captcha": "Captcha",
+      "slogan": "We make managing your school's information easy!",
+      "mobileAppComingSoon": "Our new app coming soon",
+      "paymentMethodsText": "Track your child’s school fees and pay with mobile services including M-PESA or AIRTEL MONEY.",
+      "schoolPerformanceText": "Get up to date with your child’s activities and school performance.",
+      "schoolSentimentText": "Stay connected with your child’s school and teacher sentiments."
     },
     "placeholders": {
       "username": "Enter username",
-      "password": "Enter password"
+      "password": "Enter password",
+      "captcha": "Enter captcha code"
     },
     "errors": {
       "username": "Please enter username",
@@ -73,7 +81,9 @@
     "actions": {
       "logIn": "Log In",
       "forgotPassword": "Forgot password?",
-      "admission": "Sign Up for Admission Here!"
+      "admission": "Sign Up for Admission Here!",
+      "downloadMobileApp": "Download mobile app (parents)",
+      "poweredBy": "Powered by"
     }
   },
   "otpForm": {

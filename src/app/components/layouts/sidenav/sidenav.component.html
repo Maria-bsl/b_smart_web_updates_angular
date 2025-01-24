@@ -26,11 +26,10 @@
           >
             <mat-icon
               *ngIf="!node.isChild"
-              [svgIcon]="node | sidenavItemPipe"
+              [svgIcon]="(node | sidenavItemPipe).icon"
             ></mat-icon>
             <h6 class="text-sm font-medium pt-1 mx-2">
-              <!-- {{ "sideNavItems." + node.name.trim() | translate }} -->
-              {{ node.name.trim() | translate }}
+              {{ (node | sidenavItemPipe).localized | translate }}
             </h6>
           </div>
         </ng-container>
@@ -40,7 +39,7 @@
           >
             <mat-icon
               *ngIf="!node.isChild"
-              [svgIcon]="node | sidenavItemPipe"
+              [svgIcon]="(node | sidenavItemPipe).icon"
             ></mat-icon>
           </div>
         </ng-template>
@@ -75,11 +74,11 @@
               <div class="flex flex-row items-center space-x-1">
                 <mat-icon
                   *ngIf="!node.isChild"
-                  [svgIcon]="node | sidenavItemPipe"
+                  [svgIcon]="(node | sidenavItemPipe).icon"
                 ></mat-icon>
                 <h6 class="text-sm font-medium mx-2 mt-1">
                   <!-- {{ "sideNavItems." + node.name.trim() | translate }} -->
-                  {{ node.name.trim() | translate }}
+                  {{ (node | sidenavItemPipe).localized | translate }}
                 </h6>
               </div>
               <mat-icon
@@ -94,7 +93,7 @@
               <div class="grid place-items-center w-full h-full">
                 <mat-icon
                   *ngIf="!node.isChild"
-                  [svgIcon]="node | sidenavItemPipe"
+                  [svgIcon]="(node | sidenavItemPipe).icon"
                 ></mat-icon>
               </div>
             </ng-template>

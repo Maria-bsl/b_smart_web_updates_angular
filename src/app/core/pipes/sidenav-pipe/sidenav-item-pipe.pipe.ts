@@ -1,6 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { SideNavItem } from '../../interfaces/helpers/sidenav/side-nav-item';
 
+type NavItem = {
+  rawLabel: string;
+  icon: string;
+  localized: string;
+};
+
 @Pipe({
   name: 'isSidenavActiveLink',
   standalone: true,
@@ -24,42 +30,122 @@ export class IsActiveSidenavLinkPipe implements PipeTransform {
   standalone: true,
 })
 export class SidenavItemPipePipe implements PipeTransform {
-  transform(node: SideNavItem, ...args: unknown[]): string {
+  private createNavItem(
+    label: string,
+    icon: string,
+    localized: string
+  ): NavItem {
+    return {
+      rawLabel: label,
+      icon: icon,
+      localized: localized,
+    };
+  }
+  transform(node: SideNavItem, ...args: unknown[]): NavItem {
     switch (node.name?.trim()) {
       case 'Dashboard':
-        return 'house-solid';
+        return this.createNavItem(
+          'Dashboard',
+          'house-solid',
+          'sideNavItems.Dashboard'
+        );
       case 'Setup':
-        return 'cookie-bite-solid';
+        return this.createNavItem(
+          'Setup',
+          'cookie-bite-solid',
+          'sideNavItems.Setup'
+        );
       case 'Email Resend':
-        return 'paper-plane-solid';
+        return this.createNavItem(
+          'Email Resend',
+          'paper-plane-solid',
+          'sideNavItems.EmailResend'
+        );
       case 'School Group':
-        return 'group-arrows-rotate-solid';
+        return this.createNavItem(
+          'Email Resend',
+          'group-arrows-rotate-solid',
+          'sideNavItems.SchoolGroup'
+        );
       case 'Change Password':
-        return 'lock-solid';
+        return this.createNavItem(
+          'Change password',
+          'lock-solid',
+          'sideNavItems.ChangePassword'
+        );
       case 'Access Rights':
-        return 'circle-exclamation-solid';
+        return this.createNavItem(
+          'Access Rights',
+          'circle-exclamation-solid',
+          'sideNavItems.AccessRights'
+        );
       case 'Reset Password':
-        return 'key-solid';
+        return this.createNavItem(
+          'Reset Password',
+          'key-solid',
+          'sideNavItems.ResetPassword'
+        );
       case 'Block/UnBlock User':
-        return 'ban-solid';
+        return this.createNavItem(
+          'Block/UnBlock User',
+          'ban-solid',
+          'sideNavItems.Block/UnBlockUser'
+        );
       case 'Notifications':
-        return 'bell-solid';
+        return this.createNavItem(
+          'Notifications',
+          'bell-solid',
+          'sideNavItems.Notifications'
+        );
       case 'Send SMS to Parents':
-        return 'comments-solid';
+        return this.createNavItem(
+          'Send SMS to Parents',
+          'comments-solid',
+          'sideNavItems.SendSMSToParents'
+        );
       case 'Schools':
-        return 'landmark-solid';
+        return this.createNavItem(
+          'Schools',
+          'landmark-solid',
+          'sideNavItems.Schools'
+        );
       case 'Fee Reverse Inbox':
-        return 'clock-rotate-left-solid';
+        return this.createNavItem(
+          'Fee Reverse Inbox',
+          'clock-rotate-left-solid',
+          'sideNavItems.FeeReverseInbox'
+        );
       case 'Approvals':
-        return 'thumbs-up-solid';
+        return this.createNavItem(
+          'Approvals',
+          'thumbs-up-solid',
+          'sideNavItems.Approvals'
+        );
       case 'Returns':
-        return 'right-left-solid';
+        return this.createNavItem(
+          'Returns',
+          'right-left-solid',
+          'sideNavItems.Returns'
+        );
       case 'Reports':
-        return 'flag-solid';
+        return this.createNavItem(
+          'Reports',
+          'flag-solid',
+          'sideNavItems.Returns'
+        );
       case 'Audit Trail':
-        return 'chart-simple-solid';
+        return this.createNavItem(
+          'Audit Trail',
+          'chart-simple-solid',
+          'sideNavItems.Returns'
+        );
       default:
-        return node.name ?? '';
+        return this.createNavItem(
+          node.name ?? '',
+          'chart-simple-solid',
+          'sideNavItems.Returns'
+        );
+      //return node.name ?? '';
     }
   }
 }

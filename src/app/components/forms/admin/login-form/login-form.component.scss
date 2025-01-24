@@ -8,10 +8,151 @@
   color: #4495d1 !important;
 }
 
-// .mat-form-field input {
-//   height: calc(1.5em + 0.75rem + 2px);
-// }
+.bg-container {
+  --size: 100px;
+  --yellow: #edae49;
+  --dark-blue: #003d5b;
+  --teal: #039486;
+  background-color: var(--teal);
+}
 
-// .mat-mdc-text-field-wrapper {
-//   height: calc(1.5em + 0.75rem + 2px);
-// }
+.bg-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  background-color: var(--dark-blue);
+  animation: fade linear 4s infinite alternate;
+}
+
+.pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+      transparent 43%,
+      var(--dark-blue) 44%,
+      var(--dark-blue) 50%,
+      transparent 51%,
+      transparent 75%,
+      var(--yellow) 76%,
+      var(--yellow) 82%,
+      var(--dark-blue) 83%
+    ),
+    radial-gradient(
+      transparent 43%,
+      var(--dark-blue) 44%,
+      var(--dark-blue) 50%,
+      var(--teal) 51%,
+      var(--teal) 67%,
+      transparent 68%,
+      transparent 75%,
+      var(--yellow) 76%,
+      var(--yellow) 82%,
+      var(--teal) 83%
+    );
+  background-size: var(--size) var(--size);
+  background-position: 0 0, calc(var(--size) / 2) calc(var(--size) / 2);
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  33.33% {
+    opacity: 0;
+  }
+  66.66% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+
+.slick {
+  --s: 120px; /* control the size*/
+  --c1: #1a2030;
+  --c2: #0f9177;
+  --c3: #fdebad;
+  --c4: #d34434;
+  --c5: #b5d999;
+
+  --_g: radial-gradient(#0000 70%, var(--c1) 71%);
+  background: var(--_g), var(--_g) calc(var(--s) / 2) calc(var(--s) / 2),
+    conic-gradient(var(--c2) 25%, var(--c3) 0 50%, var(--c4) 0 75%, var(--c5) 0);
+  background-size: var(--s) var(--s);
+}
+
+.overlay {
+  height: 0%;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  // background-color: rgb(0, 0, 0);
+  // background-color: rgba(0, 0, 0, 0.9);
+  overflow-y: hidden;
+  transition: 0.5s;
+}
+
+.overlay-content {
+  position: relative;
+  top: 25%;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.overlay a {
+  //padding: 8px;
+  text-decoration: none;
+  font-size: 36px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.overlay a:hover,
+.overlay a:focus {
+  color: #f1f1f1;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 60px;
+}
+
+@media screen and (max-height: 450px) {
+  .overlay {
+    overflow-y: auto;
+  }
+  .overlay a {
+    font-size: 20px;
+  }
+  .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
+}
+
+.bg-advert {
+  background: rgb(62, 0, 60);
+  background: linear-gradient(
+    90deg,
+    rgba(62, 0, 60, 1) 0%,
+    rgba(62, 0, 60, 1) 35%,
+    rgba(164, 0, 159, 1) 100%
+  );
+}
