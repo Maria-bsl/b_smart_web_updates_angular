@@ -131,19 +131,207 @@ export class SidenavItemPipePipe implements PipeTransform {
         return this.createNavItem(
           'Reports',
           'flag-solid',
-          'sideNavItems.Returns'
+          'sideNavItems.Reports'
         );
       case 'Audit Trail':
         return this.createNavItem(
           'Audit Trail',
           'chart-simple-solid',
-          'sideNavItems.Returns'
+          'sideNavItems.AuditTrail'
         );
+      case 'Academic':
+        return this.createNavItem('Academic', '', 'sideNavItems.Academic');
+      case 'Designation':
+        return this.createNavItem(
+          'Designation',
+          '',
+          'sideNavItems.Designation'
+        );
+      case 'Zone':
+        return this.createNavItem('Zone', '', 'sideNavItems.Zone');
+      case 'Region':
+        return this.createNavItem('Region', '', 'sideNavItems.Region');
+      case 'District':
+        return this.createNavItem('District', '', 'sideNavItems.District');
+      case 'Ward':
+        return this.createNavItem('Ward', '', 'sideNavItems.Ward');
+      case 'Medium':
+        return this.createNavItem('Medium', '', 'sideNavItems.Medium');
+      case 'Term':
+        return this.createNavItem('Term', '', 'sideNavItems.Term');
+      case 'Bank Branches':
+        return this.createNavItem(
+          'Bank Branches',
+          '',
+          'sideNavItems.BankBranches'
+        );
+      case 'Fee':
+        return this.createNavItem('Fee', '', 'sideNavItems.Fee');
+      case 'Questions':
+        return this.createNavItem('Questions', '', 'sideNavItems.Questions');
+      case 'Create User':
+        return this.createNavItem('Create User', '', 'sideNavItems.CreateUser');
+      case 'Access Modules':
+        return this.createNavItem(
+          'Access Modules',
+          '',
+          'sideNavItems.AccessModules'
+        );
+      case 'Password Aging':
+        return this.createNavItem(
+          'Password Aging',
+          '',
+          'sideNavItems.PasswordAging'
+        );
+      case 'SMTP Configuration':
+        return this.createNavItem(
+          'SMTP Configuration',
+          '',
+          'sideNavItems.SMTPConfiguration'
+        );
+      case 'Email Text':
+        return this.createNavItem(
+          'SMTP Configuration',
+          '',
+          'sideNavItems.SMTPConfiguration'
+        );
+      case 'SMS Text':
+        return this.createNavItem('SMS Text', '', 'sideNavItems.SMSText');
+      case 'School Registration':
+        return this.createNavItem(
+          'School Registration',
+          '',
+          'sideNavItems.SchoolRegistration'
+        );
+      case 'School Modification':
+        return this.createNavItem(
+          'School Modification',
+          '',
+          'sideNavItems.SchoolModification'
+        );
+      case 'School Deletion':
+        return this.createNavItem(
+          'School Deletion',
+          '',
+          'sideNavItems.SchoolDeletion'
+        );
+      case 'School Deletion':
+        return this.createNavItem(
+          'School Deletion',
+          '',
+          'sideNavItems.SchoolDeletion'
+        );
+      case 'Registered School':
+        return this.createNavItem(
+          'Registered School',
+          '',
+          'sideNavItems.RegisteredSchool'
+        );
+      case 'School Fee Allocation':
+        return this.createNavItem(
+          'School Fee Allocation',
+          '',
+          'sideNavItems.SchoolFeeAllocation'
+        );
+      case 'Student Details':
+        return this.createNavItem(
+          'Student Details',
+          '',
+          'sideNavItems.StudentDetails'
+        );
+      case 'Academic Student Details':
+        return this.createNavItem(
+          'Academic Student Details',
+          '',
+          'sideNavItems.AcademicStudentDetails'
+        );
+      case 'Idle Schools':
+        return this.createNavItem(
+          'Idle Schools',
+          '',
+          'sideNavItems.IdleSchools'
+        );
+      case 'Fee Details':
+        return this.createNavItem('Fee Details', '', 'sideNavItems.FeeDetails');
+      case 'Fee Details Summary':
+        return this.createNavItem(
+          'Fee Details Summary',
+          '',
+          'sideNavItems.FeeDetailsSummary'
+        );
+      case 'Admission Fee Details':
+        return this.createNavItem(
+          'Admission Fee Details',
+          '',
+          'sideNavItems.AdmissionFeeDetails'
+        );
+      case 'Payment Details':
+        return this.createNavItem(
+          'Payment Details',
+          '',
+          'sideNavItems.PaymentDetails'
+        );
+      case 'Fee Balance':
+        return this.createNavItem('Fee Balance', '', 'sideNavItems.FeeBalance');
+      case 'Fee Balance Summary':
+        return this.createNavItem(
+          'Fee Balance Summary',
+          '',
+          'sideNavItems.FeeBalanceSummary'
+        );
+      case 'Payment Summary':
+        return this.createNavItem(
+          'Payment Summary',
+          '',
+          'sideNavItems.PaymentSummary'
+        );
+      case 'School Invoices':
+        return this.createNavItem(
+          'School Invoices',
+          '',
+          'sideNavItems.SchoolInvoices'
+        );
+      case 'Users(Bank) List':
+        return this.createNavItem(
+          'Users (Bank) List',
+          '',
+          'sideNavItems.UsersBankList'
+        );
+      case 'Users(Schools) List':
+        return this.createNavItem(
+          'Users (Schools) List',
+          '',
+          'sideNavItems.UsersSchoolsList'
+        );
+      case 'Parent Details':
+        return this.createNavItem(
+          'Parent Details',
+          '',
+          'sideNavItems.ParentDetails'
+        );
+      case 'School Logs':
+        return this.createNavItem('School Logs', '', 'sideNavItems.SchoolLogs');
+      case 'Class':
+        return this.createNavItem('Class', '', 'sideNavItems.Class');
+      case 'Section':
+        return this.createNavItem('Section', '', 'sideNavItems.Section');
+      case 'Allocation':
+        return this.createNavItem('Allocation', '', 'sideNavItems.Allocation');
+      case 'School Users':
+        return this.createNavItem(
+          'School Users',
+          '',
+          'sideNavItems.SchoolUsers'
+        );
+      case 'Students':
+        return this.createNavItem('Students', '', 'sideNavItems.Students');
+      case 'Fee Data':
+        return this.createNavItem('Fee Data', '', 'sideNavItems.FeeData');
       default:
         return this.createNavItem(
-          node.name ?? '',
+          'Mokokoli mpe moko',
           'chart-simple-solid',
-          'sideNavItems.Returns'
+          node.name ?? 'Mokokoli mpe moko'
         );
       //return node.name ?? '';
     }

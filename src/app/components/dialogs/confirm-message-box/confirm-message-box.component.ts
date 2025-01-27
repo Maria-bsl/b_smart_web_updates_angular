@@ -10,27 +10,34 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-confirm-message-box',
   standalone: true,
-  imports: [MatButtonModule, DialogModule, MatIconModule],
+  imports: [
+    MatButtonModule,
+    DialogModule,
+    MatIconModule,
+    MatDialogModule,
+    MatDividerModule,
+  ],
   templateUrl: './confirm-message-box.component.html',
   styleUrl: './confirm-message-box.component.scss',
 })
 export class ConfirmMessageBoxComponent {
-  closeClicked = new EventEmitter<void>();
   confirmClicked = new EventEmitter<void>();
   @ViewChild('dialogElement') dialogElement!: ElementRef<HTMLDialogElement>;
   data = inject(DIALOG_DATA);
-  constructor() {}
+  constructor(private _dialogRef: MatDialogRef<ConfirmMessageBoxComponent>) {}
   // openDialog() {
   //   this.dialogElement.nativeElement.showModal();
   // }
-  closeDialog() {
-    this.closeClicked.emit();
+  closeDialog(event: MouseEvent) {
+    this._dialogRef.close();
   }
-  onConfirmClicked() {
+  onConfirmClicked(event: MouseEvent) {
     this.confirmClicked.emit();
   }
 }

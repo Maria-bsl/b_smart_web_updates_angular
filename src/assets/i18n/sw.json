@@ -13,8 +13,25 @@
     "noUsersFound": "Hakuna watumiaji waliopatikana",
     "seconds": "Sekunde",
     "minutes": "Dakika",
+    "saveChanges": "Okoa mabadiliko?",
+    "line": "Mstari",
+    "forms": {
+      "labels": {
+        "phoneNumber": "Nambari ya simu"
+      },
+      "placeholders": {
+        "emailAddress": "Ex. toswaki@hotmail.com",
+        "phoneNumber": "xxx-xxx-xxx"
+      },
+      "errors": {
+        "cannotBeBlank": "Haiwezi kuwa tupo",
+        "invalidEmailAddress": "Barua pepe batili",
+        "phoneNumber": "Nambari ya simu batili"
+      }
+    },
     "errors": {
-      "noDataMatchingFilter": "Hakuna data inayolingana na kichujio"
+      "noDataMatchingFilter": "Hakuna data inayolingana na kichujio",
+      "pleaseSpecify": "Tafadhali, chagua"
     }
   },
   "sideNavItems": {
@@ -55,7 +72,32 @@
     "SMSText": "Maandishi ya SMS",
     "SchoolRegistration": "Usajili wa Shule",
     "UpdateSchool Info": "Sasisha Taarifa za Shule",
-    "FeeReverseInbox": "Sanduku la Kuondoa Ada"
+    "FeeReverseInbox": "Sanduku la Kuondoa Ada",
+    "SchoolModification": "Marekebisho ya shule",
+    "SchoolDeletion": "Kufutwa kwa shule",
+    "RegisteredSchool": "Shule Iliyosajiliwa",
+    "SchoolFeeAllocation": "Mgao wa Ada ya Shule",
+    "StudentDetails": "Maelezo ya Mwanafunzi",
+    "AcademicStudentDetails": "Maelezo wa Masomo",
+    "IdleSchools": "Shule Zilizopooza",
+    "FeeDetails": "Maelezo ya Ada",
+    "FeeDetailsSummary": "Muhtasari wa Ada",
+    "AdmissionFeeDetails": "Maelezo ya Ada ya Usajili",
+    "PaymentDetails": "Maelezo ya Malipo",
+    "FeeBalance": "Salio la Ada",
+    "FeeBalanceSummary": "Muhtasari wa Salio la Ada",
+    "PaymentSummary": "Muhtasari wa Malipo",
+    "SchoolInvoices": "Ankara za Shule",
+    "UsersBankList": "Watumiaji (Benki)",
+    "UsersSchoolsList": "Watumiaji (Shule)",
+    "ParentDetails": "Maelezo ya Wazazi",
+    "SchoolLogs": "Rekodi za Shule",
+    "Class": "Darasa",
+    "Section": "Sehemu",
+    "Allocation": "Mgao",
+    "SchoolUsers": "Watumiaji wa Shule",
+    "Students": "Wanafunzi",
+    "FeeData": "Takwimu za Ada"
   },
   "loginForm": {
     "labels": {
@@ -190,7 +232,61 @@
     }
   },
   "registerSchool": {
-    "title": "Sajili Shule Mpya"
+    "labels": {
+      "AddNewSchool": "Ongeza Shule ya Mpya",
+      "schoolInformation": "Habari za shule",
+      "contactDetails": "Maelezo ya mawasiliano",
+      "accountDetails": "Maelezo ya akaunti",
+      "accountNo": "Akaunti No.",
+      "updateSchool": "Hariri schule",
+      "deleteSchool": "Futa maelezo ya shule"
+    },
+    "form": {
+      "labels": {
+        "schoolAcronym": "Kifupi cha shule",
+        "schoolName": "Jina la shule",
+        "branch": "Tawi",
+        "institutionId": "Kitambulisho cha taasisi",
+        "schoolRegNo": "Nambari ya usajili",
+        "authorizedUser": "Mtumiaji aliyeidhinishwa",
+        "country": "Nchi",
+        "region": "Mkoa",
+        "district": "Wilaya",
+        "ward": "Kata",
+        "residentialAddress": "Anwani",
+        "website": "Tovuti",
+        "emailAddress": "Barua pepe",
+        "schoolNames": "Shule zetu"
+      },
+      "placeholders": {
+        "schoolAcronym": "Ingiza jina fupi la shule",
+        "schoolName": "Ingiza jina la shule",
+        "branch": "Tafadhali, chagua tawi",
+        "institutionId": "Ingiza kitambulisho cha taasisi",
+        "schoolRegNo": "Ingiza nambari ya usajili ya shule",
+        "authorizedUser": "Ingiza jina la Mtumiaji aliyeidhinishwa",
+        "country": "Tafadhali, chagua nchi",
+        "region": "Tafadhali, chagua mkoa",
+        "district": "Tafadhali, chagua wilaya",
+        "ward": "Tafadhali, chagua kata",
+        "residentialAddress": "Ingiza anwani ya shule",
+        "website": "Ingiza kiungo cha tovuti",
+        "accountNo": "Ingiza nambari ya akaunti",
+        "accountName": "Ingiza jina ya akaunti",
+        "currency": "Tafadhali, chagua sarafu",
+        "schoolNames": "Tafadhali, chagua shule"
+      },
+      "errors": {
+        "schoolAcronymLimit": "Vifupisho vinaweza kuwa na urefu wa vibambo 3",
+        "schoolName": "Unakosa jina la shule",
+        "branch": "Hujachagua tawi",
+        "institutionId": "Unakosa kitambulisho cha taasisi",
+        "schoolRegNo": "Unakosa nambari ya usajili ya shule",
+        "authorizedUser": "Unakosa jina la Mtumiaji aliyeidhinishwa",
+        "country": "Hujachagua nchi",
+        "schoolNames": "Lazima uchague shule"
+      }
+    }
   },
   "schoolGroups": {
     "title": "Makundi ya Shule",

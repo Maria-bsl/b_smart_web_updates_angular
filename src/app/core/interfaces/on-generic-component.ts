@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { MElementPair } from '../../services/dom-manipulation/element-dom-manipulation.service';
+import { MElementPair } from '../services/dom-manipulation/element-dom-manipulation.service';
 
 export declare interface OnGenericComponent {
   /**

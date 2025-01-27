@@ -147,10 +147,10 @@
   </div>
   <div class="flex flex-row items-center justify-end w-full py-2 space-x-2">
     <button (click)="resetForm()" mat-button color="warn" type="button">
-      Cancel
+      {{ "defaults.reset" | translate }}
     </button>
     <button type="submit" form="admission-form" mat-flat-button color="primary">
-      Register
+      {{ "defaults.submit" | translate }}
     </button>
   </div>
 </form>

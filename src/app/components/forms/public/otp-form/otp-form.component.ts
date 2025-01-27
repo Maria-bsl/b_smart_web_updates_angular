@@ -46,7 +46,7 @@ import { AppConfigService } from 'src/app/core/services/app-config/app-config.se
 import { OtpFormPipe } from 'src/app/core/pipes/otp-form-pipe/otp-form.pipe';
 import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
 import { TranslateModule } from '@ngx-translate/core';
-import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
+import { OnGenericComponent } from 'src/app/core/interfaces/on-generic-component';
 
 @Component({
   selector: 'app-otp-form',

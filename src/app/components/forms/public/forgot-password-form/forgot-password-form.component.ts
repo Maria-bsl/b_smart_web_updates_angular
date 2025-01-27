@@ -45,7 +45,7 @@ import { EForgotPasswordForm } from 'src/app/core/enums/forgot-password-form.enu
 import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
 import { GetCapchaImageSourcePipe } from 'src/app/core/pipes/forgot-password-pipes/forgot-password-pipes.pipe';
 import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
-import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
+import { OnGenericComponent } from 'src/app/core/interfaces/on-generic-component';
 import { HttpClient } from '@angular/common/http';
 
 @Component({

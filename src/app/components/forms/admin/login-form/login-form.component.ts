@@ -5,6 +5,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -43,7 +44,7 @@ import {
   LoginFormInputs,
 } from 'src/app/core/interfaces/form-inputs/login-form-inputs';
 import { FormInputService } from 'src/app/core/services/form-inputs/form-input.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, PlatformLocation } from '@angular/common';
 import {
   ElementDomManipulationService,
   MElementPair,
@@ -51,7 +52,7 @@ import {
 import { ELoginForm } from 'src/app/core/enums/login-form';
 import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
 import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
-import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
+import { OnGenericComponent } from 'src/app/core/interfaces/on-generic-component';
 import { GetCapchaImageSourcePipe } from 'src/app/core/pipes/forgot-password-pipes/forgot-password-pipes.pipe';
 import { NgxSonnerToaster, toast } from 'ngx-sonner';
 import { MatCardModule } from '@angular/material/card';
@@ -113,16 +114,20 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
     private domService: ElementDomManipulationService,
     private unsubscribe: UnsubscribeService,
     private _appConfig: AppConfigService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    @Inject(PlatformLocation) private platformLocation: PlatformLocation
   ) {
     this.init();
     this.registerIcons();
   }
   private init() {
-    this.language = this.fb.control('sw', []);
+    this.language = this.fb.control(
+      'sw', //localStorage.getItem('currentLang') ?? 'en',
+      []
+    );
     this.languageService.initLanguages(
       ['en', 'sw'],
-      this.language.value ?? 'sw'
+      this.language.value ?? 'en'
     );
     this.language.valueChanges
       .pipe(this.unsubscribe.takeUntilDestroy)

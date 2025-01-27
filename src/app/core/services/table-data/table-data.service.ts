@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Observable, of } from 'rxjs';
-import { TableHeader } from '../../interfaces/essentials/table-format';
+import { TableHeader } from '../../interfaces/table-format';
 
 @Injectable({
   providedIn: 'root',

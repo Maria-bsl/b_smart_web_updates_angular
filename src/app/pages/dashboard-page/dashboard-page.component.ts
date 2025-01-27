@@ -40,7 +40,7 @@ import { DashboardForm } from 'src/app/core/enums/admin/dashboard.enum';
 import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
 import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
 import { AppUtilities } from 'src/app/utilities/app-utilities';
-import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
+import { OnGenericComponent } from 'src/app/core/interfaces/on-generic-component';
 
 type CustomChartType = {
   updateFromInput?: boolean;

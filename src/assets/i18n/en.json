@@ -13,8 +13,25 @@
     "noUsersFound": "No users found",
     "seconds": "Seconds",
     "minutes": "Minutes",
+    "saveChanges": "Save changes?",
+    "line": "Line",
+    "forms": {
+      "labels": {
+        "phoneNumber": "Phone number"
+      },
+      "placeholders": {
+        "emailAddress": "Ex. toswaki@hotmail.com",
+        "phoneNumber": "xxx-xxx-xxx"
+      },
+      "errors": {
+        "cannotBeBlank": "Cannot be blank",
+        "invalidEmailAddress": "Invalid email address",
+        "phoneNumber": "Invalid phone number"
+      }
+    },
     "errors": {
-      "noDataMatchingFilter": "No data matching the filter"
+      "noDataMatchingFilter": "No data matching the filter",
+      "pleaseSpecify": "Please, specify"
     }
   },
   "sideNavItems": {
@@ -55,7 +72,34 @@
     "SMSText": "SMS Text",
     "SchoolRegistration": "School Registration",
     "UpdateSchool Info": "Update School Info",
-    "FeeReverseInbox": "Fee Reverse Inbox"
+    "FeeReverseInbox": "Fee Reverse Inbox",
+    "SchoolModification": "School Modification",
+    "SchoolDeletion": "School Deletion",
+
+    "RegisteredSchool": "Registered School",
+    "SchoolFeeAllocation": "School Fee Allocation",
+    "StudentDetails": "Student Details",
+    "AcademicStudentDetails": "Academic Student Details",
+    "IdleSchools": "Idle Schools",
+    "FeeDetails": "Fee Details",
+    "FeeDetailsSummary": "Fee Details Summary",
+    "AdmissionFeeDetails": "Admission Fee Details",
+    "PaymentDetails": "Payment Details",
+    "FeeBalance": "Fee Balance",
+    "FeeBalanceSummary": "Fee Balance Summary",
+    "PaymentSummary": "Payment Summary",
+    "SchoolInvoices": "School Invoices",
+    "UsersBankList": "Users (Bank) List",
+    "UsersSchoolsList": "Users (Schools) List",
+    "ParentDetails": "Parent Details",
+    "SchoolLogs": "School Logs",
+
+    "Class": "Class",
+    "Section": "Section",
+    "Allocation": "Allocation",
+    "SchoolUsers": "School Users",
+    "Students": "Students",
+    "FeeData": "Fee Data"
   },
   "loginForm": {
     "labels": {
@@ -63,7 +107,7 @@
       "password": "Password",
       "verificationCode": "Verification code",
       "captcha": "Captcha",
-      "slogan": "We make managing your school's information easy!",
+      "slogan": "Managing your school's information with ease.",
       "mobileAppComingSoon": "Our new app coming soon",
       "paymentMethodsText": "Track your child’s school fees and pay with mobile services including M-PESA or AIRTEL MONEY.",
       "schoolPerformanceText": "Get up to date with your child’s activities and school performance.",
@@ -202,7 +246,62 @@
     }
   },
   "registerSchool": {
-    "title": "Register New School"
+    "labels": {
+      "AddNewSchool": "Add a new school",
+      "schoolInformation": "School Information",
+      "contactDetails": "Contact details",
+      "accountDetails": "Account details",
+      "accountNo": "Account No.",
+      "updateSchool": "Edit school",
+      "deleteSchool": "Delete school info"
+    },
+    "form": {
+      "labels": {
+        "schoolAcronym": "School Acronym",
+        "schoolName": "School name",
+        "branch": "Branch",
+        "institutionId": "Institution Id",
+        "schoolRegNo": "Registration number",
+        "authorizedUser": "Authorized user",
+        "emailAddress": "Barua pepe",
+        "country": "Country",
+        "region": "Region",
+        "district": "District",
+        "ward": "Ward",
+        "residentialAddress": "Residential address",
+        "website": "Website",
+        "schoolNames": "Available schools"
+      },
+      "placeholders": {
+        "schoolAcronym": "Enter school short name",
+        "schoolName": "Enter school name",
+        "branch": "Please, select a branch",
+        "institutionId": "Enter institution Id",
+        "schoolRegNo": "Enter the school's registration number",
+        "authorizedUser": "Enter authorized user",
+        "emailAddress": "Ingiza barua pepe",
+        "country": "Please, select a country",
+        "region": "Please, select a region",
+        "district": "Please, select a district",
+        "ward": "Please, select a ward",
+        "residentialAddress": "The school address",
+        "website": "Enter website link",
+        "accountNo": "Enter account number",
+        "accountName": "Enter account name",
+        "currency": "Please, select a currency",
+        "schoolNames": "Please, select a school"
+      },
+      "errors": {
+        "schoolAcronymLimit": "Acronyms may be 3 characters long.",
+        "schoolName": "Missing school name",
+        "branch": "You have not selected a branch",
+        "institutionId": "Institution Id is missing",
+        "schoolRegNo": "Missing school registration number",
+        "authorizedUser": "Missing authorized user",
+        "country": "No country selected",
+        "schoolNames": "You must select a school"
+      }
+    }
   },
   "schoolGroups": {
     "title": "School Groups",

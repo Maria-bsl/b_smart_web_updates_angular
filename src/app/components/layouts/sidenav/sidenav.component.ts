@@ -54,7 +54,7 @@ import {
 } from 'src/app/core/pipes/sidenav-pipe/sidenav-item-pipe.pipe';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { AppConst } from 'src/app/utilities/app-consts';
-import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
+import { OnGenericComponent } from 'src/app/core/interfaces/on-generic-component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/core/services/language-service/language.service';
 

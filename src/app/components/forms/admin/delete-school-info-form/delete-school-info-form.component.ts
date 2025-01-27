@@ -1,61 +1,31 @@
 import { CommonModule } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { AfterViewInit, Component, Input } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {
-  BehaviorSubject,
-  defaultIfEmpty,
-  Observable,
-  of,
-  Subject,
-  Subscription,
-  takeUntil,
-  zip,
-} from 'rxjs';
-import { EUpdateSchool } from 'src/app/core/enums/admin/register-school-form-enum';
-import {
-  AccoountDetailsFormInputs,
-  UpdateSchoolFormActions,
-  UpdateSchoolFormInputs,
-} from 'src/app/core/interfaces/form-inputs/register-school-form-inputs';
-import { HtmlSelectOption } from 'src/app/core/interfaces/helpers/data/html-select-option';
-import { AppUtilities } from 'src/app/utilities/app-utilities';
-import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
-import { ConfirmMessageBoxComponent } from 'src/app/components/dialogs/confirm-message-box/confirm-message-box.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { defaultIfEmpty, Observable, of, zip } from 'rxjs';
+import { EUpdateSchool as EDeleteSchool } from 'src/app/core/enums/admin/register-school-form-enum';
+import { OnGenericComponent } from 'src/app/core/interfaces/on-generic-component';
+import { RegisterSchoolFormData } from 'src/app/core/interfaces/register-school-form-data';
+import { HasFormControlErrorPipe } from 'src/app/core/pipes/has-form-control-error/has-form-control-error.pipe';
+import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
 import {
   ElementDomManipulationService,
   MElementPair,
 } from 'src/app/core/services/dom-manipulation/element-dom-manipulation.service';
-import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
-import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
-import { RegisterSchoolFormService } from 'src/app/core/services/register-school-form/register-school-form.service';
 import { LanguageService } from 'src/app/core/services/language-service/language.service';
-import { OnGenericComponent } from 'src/app/core/interfaces/on-generic-component';
-import { RegisterSchoolFormData } from 'src/app/core/interfaces/register-school-form-data';
-import { HasFormControlErrorPipe } from 'src/app/core/pipes/has-form-control-error/has-form-control-error.pipe';
-import { MatDividerModule } from '@angular/material/divider';
+import { RegisterSchoolFormService } from 'src/app/core/services/register-school-form/register-school-form.service';
+import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
+import { AppUtilities } from 'src/app/utilities/app-utilities';
 
 @Component({
-  selector: 'app-update-school-info-form',
+  selector: 'app-delete-school-info-form',
   standalone: true,
   imports: [
     CommonModule,
@@ -70,10 +40,10 @@ import { MatDividerModule } from '@angular/material/divider';
     HasFormControlErrorPipe,
     MatDividerModule,
   ],
-  templateUrl: './update-school-info-form.component.html',
-  styleUrl: './update-school-info-form.component.scss',
+  templateUrl: './delete-school-info-form.component.html',
+  styleUrl: './delete-school-info-form.component.scss',
 })
-export class UpdateSchoolInfoFormComponent
+export class DeleteSchoolInfoFormComponent
   implements AfterViewInit, OnGenericComponent
 {
   AppUtilities: typeof AppUtilities = AppUtilities;
@@ -155,7 +125,7 @@ export class UpdateSchoolInfoFormComponent
       console.error(error.message);
     }
   }
-  registerIcons(): void {
+  registerIcons() {
     const icons = ['plus-lg', 'trash'];
     this._appConfig.addIcons(icons, '../assets/assets/icons');
   }
@@ -167,7 +137,7 @@ export class UpdateSchoolInfoFormComponent
     this.ids$ = new Observable((subscriber) => {
       const ids = this.domService.getDocumentElements(
         this.keys,
-        Object.keys(EUpdateSchool).filter((key) => isNaN(Number(key))).length
+        Object.keys(EDeleteSchool).filter((key) => isNaN(Number(key))).length
       );
       ids.size > 0 && subscriber.next(ids);
       subscriber.complete();
@@ -180,48 +150,6 @@ export class UpdateSchoolInfoFormComponent
     this.registerService.initFormControls();
     this.registerService.attachValueChanges();
   }
-  addBankDetail(event: MouseEvent, index: number) {
-    this.registerService.addAccountDetailButton$.subscribe({
-      next: (btn) => btn && this.domService.clickButton(btn),
-      error: (e) => console.error(e),
-    });
-  }
-  removeBankDetail(event: MouseEvent, index: number) {
-    const control = this.registerService.details.controls
-      .at(index)
-      ?.get('removeButton') as FormControl<HTMLLinkElement | null>;
-    control.value && control.value.click();
-  }
-  onSubmitForm(event: Event) {
-    const clickSubmit = () => {
-      this.registerService.registerSchoolButton$.subscribe({
-        next: (button) => this.domService.clickButton(button),
-        error: (e) => console.error(e),
-      });
-    };
-    const confirmMessage = (dialog: ConfirmMessageBoxComponent) => {
-      dialog.confirmClicked
-        .asObservable()
-        .pipe(this.unsubscribe.takeUntilDestroy)
-        .subscribe({
-          next: () => clickSubmit(),
-          error: (e) => console.error(e),
-        });
-    };
-    const openConfirmationDialog = () => {
-      const dialogRef$ = this._appConfig.openConfirmationDialog(
-        'registerSchool.labels.updateSchool',
-        'defaults.saveChanges'
-      );
-      dialogRef$.subscribe({
-        next: (dialog) => dialog && confirmMessage(dialog.componentInstance),
-        error: (e) => console.error(e),
-      });
-    };
-    this.registerService.formGroup.valid && openConfirmationDialog();
-    this.registerService.formGroup.markAllAsTouched();
-  }
-  resetForm(event: MouseEvent) {
-    this.registerService.formGroup.reset();
-  }
+  onSubmitForm(event: MouseEvent) {}
+  resetForm(event: MouseEvent) {}
 }

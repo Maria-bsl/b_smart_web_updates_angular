@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   BehaviorSubject,
   map,
@@ -27,7 +28,7 @@ import {
   takeUntil,
 } from 'rxjs';
 import { EAdmissionForm } from 'src/app/core/enums/admission-form.enum';
-import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
+import { OnGenericComponent } from 'src/app/core/interfaces/on-generic-component';
 import {
   AdmissionFormActions,
   AdmissionFormInputs,
@@ -41,6 +42,7 @@ import {
 import { FormInputService } from 'src/app/core/services/form-inputs/form-input.service';
 import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
 import { AppUtilities } from 'src/app/utilities/app-utilities';
+import { LanguageService } from 'src/app/core/services/language-service/language.service';
 
 @Component({
   selector: 'app-admission-form',
@@ -53,6 +55,7 @@ import { AppUtilities } from 'src/app/utilities/app-utilities';
     MatSelectModule,
     MatIconModule,
     MatButtonModule,
+    TranslateModule,
   ],
   templateUrl: './admission-form.component.html',
   styleUrl: './admission-form.component.scss',
@@ -74,8 +77,12 @@ export class AdmissionFormComponent
     private fb: FormBuilder,
     private domService: ElementDomManipulationService,
     private unsubscribe: UnsubscribeService,
-    private _appConfig: AppConfigService
+    private _appConfig: AppConfigService,
+    private languageService: LanguageService
   ) {
+    this.languageService.changeLanguage(
+      localStorage.getItem('currentLang') ?? 'en'
+    );
     this.createFormGroup();
   }
   private createFormGroup() {

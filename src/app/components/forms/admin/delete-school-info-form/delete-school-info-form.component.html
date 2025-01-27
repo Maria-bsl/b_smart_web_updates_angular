@@ -5,9 +5,46 @@
   (ngSubmit)="onSubmitForm($event)"
 >
   <h6 class="text-2xl">
-    {{ "registerSchool.labels.AddNewSchool" | translate }}
+    {{ "registerSchool.labels.deleteSchool" | translate }}
   </h6>
   <div class="w-full flex flex-col py-2 space-y-4">
+    <div class="flex flex-col w-full">
+      <p class="text-left text-xs font-bold">
+        {{ "registerSchool.form.labels.schoolNames" | translate }}
+      </p>
+      <mat-form-field class="w-full">
+        <mat-select
+          [formControl]="registerService.selectedSchool"
+          class="w-full"
+          [placeholder]="
+            'registerSchool.form.placeholders.schoolNames' | translate
+          "
+        >
+          <ng-container
+            *ngIf="
+              formData?.schoolNames$ && formData?.schoolNames$
+                | async as schoolNames
+            "
+          >
+            <mat-option
+              *ngFor="let selectSchool of schoolNames | slice : 1; index as ind"
+              [value]="selectSchool.value"
+            >
+              {{ selectSchool.text }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            registerService.selectedSchool | hasFormControlError : 'required'
+          "
+        >
+          <span>
+            {{ "registerSchool.form.errors.schoolNames" | translate }}
+          </span>
+        </mat-error>
+      </mat-form-field>
+    </div>
     <div class="flex flex-col space-y-2">
       <p class="text-lg">
         {{ "registerSchool.labels.schoolInformation" | translate }}
@@ -410,7 +447,10 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col space-y-2 w-full">
+    <div
+      class="flex flex-col space-y-2 w-full"
+      *ngIf="(formData?.currencies$ | async)?.length! > 0"
+    >
       <p class="text-lg">
         {{ "registerSchool.labels.accountDetails" | translate }}
       </p>
@@ -502,32 +542,6 @@
                       {{ "defaults.errors.pleaseSpecify" | translate }}
                     </mat-error>
                   </mat-form-field>
-                </div>
-                <div
-                  class="flex flex-row justify-center items-center space-x-2 flex-none w-fit"
-                >
-                  <button
-                    *ngIf="ind === registerService.details.controls.length - 1"
-                    (click)="addBankDetail($event, ind)"
-                    type="button"
-                    mat-icon-button
-                  >
-                    <mat-icon
-                      svgIcon="plus-lg"
-                      class="text-green-600"
-                    ></mat-icon>
-                  </button>
-                  <button
-                    *ngIf="
-                      registerService.details.controls.length > 0 && ind !== 0
-                    "
-                    (click)="removeBankDetail($event, ind)"
-                    type="button"
-                    mat-icon-button
-                    color="warn"
-                  >
-                    <mat-icon svgIcon="trash" class="text-red-600"></mat-icon>
-                  </button>
                 </div>
               </div>
             </div>
