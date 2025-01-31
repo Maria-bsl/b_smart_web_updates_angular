@@ -9,7 +9,9 @@
   <mat-divider></mat-divider>
   <div class="flex flex-row items-center justify-end"></div>
   <mat-dialog-actions class="!flex !items-center !justify-end !w-full">
-    <button mat-button color="warn" (click)="closeDialog($event)">No</button>
+    <button mat-button color="warn" type="button" (click)="closeDialog($event)">
+      No
+    </button>
     <button
       color="primary"
       (click)="onConfirmClicked($event)"

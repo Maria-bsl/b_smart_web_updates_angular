@@ -34,6 +34,7 @@ import {
   map,
   Observable,
   of,
+  OperatorFunction,
   Subject,
   Subscription,
   takeUntil,
@@ -66,6 +67,13 @@ type LoginEventBody = {
   username: string;
   password: string;
 };
+
+export const filterNotNull =
+  <T>(): OperatorFunction<T, Exclude<T, null | undefined>> =>
+  (source$) =>
+    source$.pipe(
+      filter((value) => value !== null && value !== undefined)
+    ) as Observable<Exclude<T, null | undefined>>;
 
 @Component({
   selector: 'app-login-form',
@@ -122,7 +130,7 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
   }
   private init() {
     this.language = this.fb.control(
-      'sw', //localStorage.getItem('currentLang') ?? 'en',
+      'en', //localStorage.getItem('currentLang') ?? 'en',
       []
     );
     this.languageService.initLanguages(
@@ -294,22 +302,14 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
   get captchaButton$() {
     return this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
-      filter(
-        (el) =>
-          el.get(ELoginForm.CAPTCHA_BUTTON) !== null &&
-          el.get(ELoginForm.CAPTCHA_BUTTON) !== undefined
-      ),
+      filterNotNull(),
       map((el) => el.get(ELoginForm.CAPTCHA_BUTTON) as HTMLInputElement)
     );
   }
   get captchaText$() {
     return this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
-      filter(
-        (el) =>
-          el.get(ELoginForm.CAPTCHA_BUTTON) !== null &&
-          el.get(ELoginForm.CAPTCHA_BUTTON) !== undefined
-      ),
+      filterNotNull(),
       map((el) => el.get(ELoginForm.CAPTCHA_TEXT) as HTMLInputElement)
     );
   }
@@ -346,11 +346,7 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
   get invalidCaptcha$() {
     return this.ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
-      filter(
-        (el) =>
-          el.get(ELoginForm.INVALID_CAPTCHA_MSG) !== null &&
-          el.get(ELoginForm.INVALID_CAPTCHA_MSG) !== undefined
-      ),
+      filterNotNull(),
       map((el) => el.get(ELoginForm.INVALID_CAPTCHA_MSG) as any)
     );
   }

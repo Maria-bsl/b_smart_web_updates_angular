@@ -4,15 +4,20 @@ import { FormControl } from '@angular/forms';
 import {
   BehaviorSubject,
   filter,
+  from,
   map,
+  merge,
   Observable,
   of,
   Subject,
   switchMap,
+  tap,
 } from 'rxjs';
 import { HtmlSelectOption } from '../../interfaces/helpers/data/html-select-option';
 import { UnsubscribeService } from '../unsubscribe-service/unsubscribe.service';
 import { AppUtilities } from 'src/app/utilities/app-utilities';
+import { filterNotNull } from 'src/app/components/forms/admin/login-form/login-form.component';
+import { THtmlElementControls } from '../admin/setup/academic/academic.service';
 
 export type MElementPair = Map<number, Element | null>;
 
@@ -32,7 +37,7 @@ export class ElementDomManipulationService {
         if (regex.test(csvString)) {
           const ids = csvString.split(',');
           if (ids.length !== LENGTH) {
-            throw new Error('Missing document ids.');
+            throw new Error('Inconsistent keys length.');
           } else {
             return ids.map((id) => id.trim());
           }
@@ -67,6 +72,13 @@ export class ElementDomManipulationService {
       selectOptions.push(option);
     }
     return selectOptions;
+  }
+  createIds(keys: string, componentEnum: any) {
+    const ids = this.getDocumentElements(
+      keys,
+      Object.keys(componentEnum).filter((key) => isNaN(Number(key))).length
+    );
+    return of(ids);
   }
   htmlInputFormControlPhoneNumberValueChanges(
     prefix: string,
@@ -104,9 +116,8 @@ export class ElementDomManipulationService {
           switchMap((value) =>
             value
               ? input$.pipe(
-                  map((userInput) => {
+                  tap((userInput) => {
                     userInput.value = value;
-                    return userInput;
                   })
                 )
               : []
@@ -126,10 +137,9 @@ export class ElementDomManipulationService {
           switchMap((value) =>
             value
               ? select$.pipe(
-                  map((select) => {
+                  tap((select) => {
                     select.value = value;
                     this.dispatchSelectElementChangeEvent(select);
-                    return select;
                   })
                 )
               : []
@@ -142,22 +152,61 @@ export class ElementDomManipulationService {
     input$: Observable<HTMLInputElement>,
     control: FormControl
   ) {
-    input$.subscribe({
-      next: (input) => input.value && control.setValue(input.value),
-      error: (err) => console.error(err.message),
-    });
+    if (input$ && control) {
+      input$.subscribe({
+        next: (input) => input.value && control.setValue(input.value),
+        error: (err) => console.error(err.message),
+      });
+    }
   }
   initHtmlSelectFormControl(
     input$: Observable<HTMLSelectElement>,
     control: FormControl
   ) {
-    input$.subscribe({
-      next: (select) =>
-        select &&
-        !AppUtilities.isValueEmptyElement(select) &&
-        control.setValue(select.value),
-      error: (err) => console.error(err.message),
-    });
+    if (input$ && control) {
+      input$.subscribe({
+        next: (select) =>
+          select &&
+          !AppUtilities.isValueEmptyElement(select) &&
+          control.setValue(select.value),
+        error: (err) => console.error(err.message),
+      });
+    }
+  }
+  initHtmlRadioButtonGroup(
+    input$: Observable<NodeListOf<HTMLInputElement>>,
+    control: FormControl
+  ) {
+    if (input$ && control) {
+      input$.subscribe({
+        next: (inputs) => {
+          const firstValue = inputs.length > 0 ? inputs[0].value : null;
+          firstValue && control.setValue(firstValue);
+        },
+        error: (err) => console.error(err),
+      });
+    }
+  }
+  htmlRadioButtonGroupValueChanges(
+    input$: Observable<NodeListOf<HTMLInputElement>>,
+    control: FormControl
+  ) {
+    if (input$ && control) {
+      control.valueChanges
+        .pipe(
+          this.unsubscribe.takeUntilDestroy,
+          switchMap((value) => {
+            return input$.pipe(
+              tap((inputs) => {
+                inputs.forEach(
+                  (input) => input.value === value && input.click()
+                );
+              })
+            );
+          })
+        )
+        .subscribe({ error: (e) => console.error(e) });
+    }
   }
   setHtmlElementValue(
     input$: Observable<HTMLInputElement | HTMLSelectElement>,
@@ -168,6 +217,93 @@ export class ElementDomManipulationService {
       error: (err) => console.error(err.message),
     });
   }
+  registerFormControls(controls: THtmlElementControls[]) {
+    const elements$ = from(controls);
+    const filterControl$ = <T>(
+      el: THtmlElementControls,
+      controlType: new () => T
+    ) => {
+      return el[0].pipe(
+        filter((control) => control instanceof controlType),
+        map(() => el as [Observable<T>, FormControl])
+      );
+    };
+    const htmlInput$ = () => {
+      return elements$.pipe(
+        switchMap((el) => filterControl$(el, HTMLInputElement)),
+        tap(([input$, control]) => {
+          const updateInput = (input: HTMLInputElement) =>
+            input && control.setValue(input.value);
+          input$.subscribe(updateInput);
+        }),
+        tap(([input$, control]) => {
+          const updateInput = (value: string) =>
+            input$.subscribe((input) => (input.value = value));
+          control.valueChanges
+            .pipe(this.unsubscribe.takeUntilDestroy)
+            .subscribe(updateInput);
+        })
+      );
+    };
+    const htmlSelect$ = () => {
+      return elements$.pipe(
+        switchMap((el) => filterControl$(el, HTMLSelectElement)),
+        tap(([select$, control]) => {
+          const updateInput = (input: HTMLSelectElement) =>
+            input && control.setValue(input.value);
+          select$.subscribe(updateInput);
+        }),
+        tap(([select$, control]) => {
+          const updateSelect = (value: string) =>
+            select$.subscribe(
+              (select) =>
+                (select.value = value) &&
+                this.dispatchSelectElementChangeEvent(select)
+            );
+          control.valueChanges
+            .pipe(this.unsubscribe.takeUntilDestroy)
+            .subscribe(updateSelect);
+        })
+      );
+    };
+    const htmlRadioGroup$ = () => {
+      return elements$.pipe(
+        switchMap((el) => filterControl$(el, NodeList)),
+        tap(([nodeList$, control]) =>
+          nodeList$
+            .pipe(
+              map((inputs) =>
+                Array.from<HTMLInputElement>(
+                  inputs as NodeListOf<HTMLInputElement>
+                ).filter((input) => input.checked)
+              ),
+              filter((e) => e.length === 1),
+              tap((e) => control.setValue(e[0].value))
+            )
+            .subscribe()
+        ),
+        tap(([nodeList$, control]) =>
+          control.valueChanges
+            .pipe(
+              switchMap((value) =>
+                nodeList$.pipe(
+                  map(
+                    (inputs) =>
+                      Array.from<HTMLInputElement>(
+                        inputs as NodeListOf<HTMLInputElement>
+                      ).find((input) => input.value === value) ?? null
+                  ),
+                  filterNotNull(),
+                  tap((radio) => (radio.checked = true))
+                )
+              )
+            )
+            .subscribe()
+        )
+      );
+    };
+    return merge(htmlInput$(), htmlSelect$(), htmlRadioGroup$());
+  }
   dispatchSelectElementChangeEvent(selectElement: HTMLSelectElement) {
     if (selectElement) {
       let event = new Event('change', { bubbles: true });
@@ -177,7 +313,7 @@ export class ElementDomManipulationService {
   getDomElement$<T>(ids$: Observable<MElementPair>, index: number) {
     return ids$.pipe(
       this.unsubscribe.takeUntilDestroy,
-      filter((el) => el.get(index) !== null && el.get(index) !== undefined),
+      filterNotNull(),
       map((el) => el.get(index) as T)
     );
   }

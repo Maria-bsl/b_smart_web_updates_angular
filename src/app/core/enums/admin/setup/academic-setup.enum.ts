@@ -1,0 +1,15 @@
+export enum EAcademicSetup {
+  ACADEMIC_TEXTFIELD,
+  ACADEMIC_STATUS_RADIO_GROUP,
+  CREATE_BUTTON,
+  UPDATE_BUTTON,
+  DELETE_BUTTON,
+  CANCEL_BUTTON,
+}
+
+export enum EAcademicSetupItem {
+  RADIO_BUTTON,
+  ACADEMIC_YEAR,
+  Academic_SNO,
+  ACADEMIC_STATUS,
+}

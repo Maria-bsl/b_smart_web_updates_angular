@@ -1,0 +1,74 @@
+<section class="flex flex-col w-full divide-y">
+  <h6 class="text-2xl">
+    {{ "setupPages.academic.labels.academic" | translate }}
+  </h6>
+  <div class="flex flex-col space-y-8 w-full py-2">
+    <form
+      [@inOutAnimation]
+      id="academic-setup-form"
+      class="w-full flex flex-col"
+      [formGroup]="formGroup"
+      (ngSubmit)="submitForm($event)"
+    >
+      <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-3">
+        <div class="flex flex-col space-y-0.5 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "setupPages.academic.form.labels.academic" | translate }}
+          </h6>
+          <mat-form-field>
+            <input
+              type="text"
+              [placeholder]="
+                'setupPages.academic.form.placeholders.academic' | translate
+              "
+              matInput
+              [formControl]="academicYear"
+            />
+            <mat-error>
+              {{ "setupPages.academic.form.errors.academic" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col space-y-0.5 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "defaults.status" | translate }}
+          </h6>
+          <mat-radio-group class="!space-x-2" [formControl]="academicStatus">
+            <mat-radio-button class="radio-button" [value]="'Active'">{{
+              "defaults.active" | translate
+            }}</mat-radio-button>
+            <mat-radio-button [value]="'InActive'">{{
+              "defaults.inactive" | translate
+            }}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="flex flex-row items-center justify-end space-x-2">
+        <button
+          (click)="resetForm($event)"
+          color="warn"
+          mat-button
+          type="button"
+        >
+          {{ "defaults.reset" | translate }}
+        </button>
+        <button
+          type="submit"
+          form="academic-setup-form"
+          color="primary"
+          mat-flat-button
+        >
+          @if (setupTable.selection.hasValue()) {
+          {{ "defaults.update" | translate }}
+          } @else {
+          {{ "defaults.create" | translate }}
+          }
+        </button>
+      </div>
+    </form>
+    <app-academic-table
+      [tableJson]="academicTable"
+      #setupTable
+    ></app-academic-table>
+  </div>
+</section>

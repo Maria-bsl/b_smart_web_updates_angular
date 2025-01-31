@@ -107,6 +107,9 @@ export class SidenavComponent
     private _sidenavService: SidenavService,
     private languageService: LanguageService
   ) {
+    this.languageService.changeLanguage(
+      localStorage.getItem('currentLang') ?? 'en'
+    );
     this.registerIcons();
   }
   private literalsTextChanged(change: SimpleChange) {

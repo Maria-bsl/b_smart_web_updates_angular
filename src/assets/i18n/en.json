@@ -15,6 +15,10 @@
     "minutes": "Minutes",
     "saveChanges": "Save changes?",
     "line": "Line",
+    "update": "Update",
+    "create": "Create",
+    "delete": "Delete",
+    "thisCannotBeUndone": "This cannot be undone.",
     "forms": {
       "labels": {
         "phoneNumber": "Phone number"
@@ -452,6 +456,93 @@
       "viewReport": "View report",
       "downloadPdf": "Download PDF",
       "downloadExcel": "Download Excel"
+    }
+  },
+  "setupPages": {
+    "academic": {
+      "labels": {
+        "academic": "Academic(s)",
+        "addAcademicYear": "Insert",
+        "updateAcademicYear": "Update",
+        "removeAcademicYear": "Delete",
+        "tableColumns": {
+          "radioButton": "",
+          "academicYear": "Academic Year",
+          "academicStatus": "Status"
+        }
+      },
+      "form": {
+        "labels": {
+          "academic": "Academic"
+        },
+        "placeholders": {
+          "academic": "Enter academic year"
+        },
+        "errors": {
+          "academic": "Please select a year"
+        }
+      }
+    },
+    "designation": {
+      "labels": {
+        "designation": "Designation",
+        "tableColumns": {
+          "designation": "Designation"
+        }
+      },
+      "form": {
+        "placeholders": {
+          "designation": "Enter designation"
+        },
+        "errors": {
+          "designation": "Please, enter designation"
+        }
+      }
+    },
+    "zone": {
+      "labels": {
+        "zone": "Zone",
+        "tableColumns": {
+          "selector": "",
+          "zone": "Zone",
+          "status": "Status"
+        }
+      },
+      "form": {
+        "labels": {
+          "zone": "Zone"
+        },
+        "placeholders": {
+          "zone": "Enter zone"
+        },
+        "errors": {
+          "zone": "Please, enter a zone"
+        }
+      }
+    },
+    "region": {
+      "labels": {
+        "region": "Region",
+        "tableColumns": {
+          "region": "Region",
+          "country": "Country",
+          "status": "Status"
+        }
+      },
+      "form": {
+        "labels": {
+          "region": "Region",
+          "country": "Country"
+        },
+        "placeholders": {
+          "region": "Enter region",
+          "country": "Please, select a country"
+        },
+        "errors": {
+          "region": "You must enter a region",
+          "country": "Please, specify"
+        }
+      }
     }
   }
 }

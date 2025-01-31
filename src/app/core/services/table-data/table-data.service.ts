@@ -1,134 +1,156 @@
 import { Injectable } from '@angular/core';
-import { FormArray } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { Observable, of } from 'rxjs';
-import { TableHeader } from '../../interfaces/table-format';
+import {
+  BehaviorSubject,
+  combineLatest,
+  combineLatestWith,
+  concatMap,
+  filter,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
+import { KeyValuePair, TableHeader } from '../../interfaces/table-format';
+import { SelectionChange, SelectionModel } from '@angular/cdk/collections';
+import { ElementDomManipulationService } from '../dom-manipulation/element-dom-manipulation.service';
+import { UnsubscribeService } from '../unsubscribe-service/unsubscribe.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TableDataService<T> {
-  private table!: MatTable<T>;
-  private data: T[] = [];
-  private originalTableColumns: TableHeader[] = [];
-  private tableColumns: TableHeader[] = [];
-  private tableColumns$: Observable<TableHeader[]> = of([]);
-  private dataSource: MatTableDataSource<T> = new MatTableDataSource<T>([]);
-  private dataSourceFilterPredicate!: (data: T, filter: string) => boolean;
-  private dataSourceSortingDataAccessor!: (data: any, property: string) => any;
-
-  constructor() {}
-
-  public setTable(table: MatTable<T>) {
-    this.table = table;
-  }
-  public setData(data: T[]) {
-    this.data = data;
-  }
-  public setOriginalTableColumns(originalTableColumns: TableHeader[]) {
-    this.originalTableColumns = originalTableColumns;
-  }
-  public setTableColumns(tableColumns: TableHeader[]) {
-    this.tableColumns = tableColumns;
-  }
-  public setTableColumnsObservable(
-    tableColumns: TableHeader[] = this.tableColumns
+  private _dataSource = new MatTableDataSource<T>([]);
+  private _selection = new SelectionModel<T>(false, []);
+  private _searchControl = new FormControl<string>('', []);
+  constructor(
+    private _dom: ElementDomManipulationService,
+    private unsubscribe: UnsubscribeService
+  ) {}
+  init(
+    tableJson: string,
+    paginator: MatPaginator,
+    sort: MatSort,
+    createItem$: (item: KeyValuePair) => Observable<T>
   ) {
-    this.tableColumns$ = of(tableColumns);
-  }
-  public setDataSource(dataSource: MatTableDataSource<T>) {
-    this.dataSource = dataSource;
-  }
-  public getTable() {
-    return this.table;
-  }
-  public getData() {
-    return this.data;
-  }
-  public getOriginalTableColumns() {
-    return this.originalTableColumns;
-  }
-  public getTableColumns() {
-    return this.tableColumns;
-  }
-  public getTableColumnsObservable() {
-    return this.tableColumns$;
-  }
-  public getDataSource() {
-    return this.dataSource;
-  }
-  public searchTable(searchText: string) {
-    this.dataSource.filter = searchText.trim().toLocaleLowerCase();
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+    type SelectableTable = { selector?: HTMLInputElement };
+    const createTableList$ = (items: KeyValuePair[]) => {
+      const observables = items.filter((m) => !!m).map(createItem$);
+      return combineLatest(observables);
+    };
+    const createDataSource = (list: T[]) => {
+      this.dataSource = new MatTableDataSource(list);
+      this.dataSource.paginator = paginator;
+      this.dataSource.sort = sort;
+    };
+    const selectRow = (list: T[]) => {
+      const rows = list.filter(
+        (item) =>
+          (item as SelectableTable).selector &&
+          (item as SelectableTable).selector?.checked
+      );
+      rows.length > 0 && !!rows[0] && this.selection.select(rows[0]);
+    };
+    const selectionChanged = (selection: SelectionChange<T>) =>
+      selection.source.selected.length > 0 &&
+      !!(selection.source.selected[0] as SelectableTable)?.selector &&
+      this._dom.clickButton(
+        (selection.source.selected[0] as SelectableTable)?.selector!
+      );
+    try {
+      if (!tableJson) throw Error('Academic setup: Table json is invalid.');
+      const academicTable$ = createTableList$(JSON.parse(tableJson));
+      return academicTable$.pipe(
+        tap(createDataSource),
+        concatMap(() => this.dataSource.connect().asObservable().pipe(take(1))),
+        tap(selectRow),
+        concatMap(() =>
+          this.selection.changed.pipe(tap(selectionChanged), take(1))
+        )
+      );
+    } catch (error: any) {
+      console.error(error);
+      return of();
     }
   }
-  public prepareDataSource(paginator: MatPaginator, sort: MatSort) {
-    this.dataSource = new MatTableDataSource<T>(this.data);
-    this.dataSource.paginator = paginator;
-    this.dataSource.sort = sort;
-    if (this.dataSourceFilterPredicate) {
-      this.dataSource.filterPredicate = this.dataSourceFilterPredicate;
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource?.data.length;
+    return numSelected === numRows;
+  }
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
     }
-    if (this.dataSourceSortingDataAccessor) {
-      this.dataSource.sortingDataAccessor = this.dataSourceSortingDataAccessor;
+    this.selection.select(...this.dataSource?.data);
+  }
+  checkboxLabel(row?: T): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${
+      this.selection.isSelected(row) ? 'deselect' : 'select'
+    } row ${this.dataSource?.data.find((item) => item === row)}`;
+  }
+  onSelect(row: T) {
+    if (!this.selection.isSelected(row)) {
+      this.selection.clear(); // Ensure only one row is selected
+      this.selection.select(row); // Select the new row
     }
   }
-  public initDataSource(sort: MatSort) {
-    this.dataSource = new MatTableDataSource<T>(this.data);
-    this.dataSource.sort = sort;
-    if (this.dataSourceFilterPredicate) {
-      this.dataSource.filterPredicate = this.dataSourceFilterPredicate;
-    }
-    if (this.dataSourceSortingDataAccessor) {
-      this.dataSource.sortingDataAccessor = this.dataSourceSortingDataAccessor;
+  onMultipleSelect(row: T) {
+    this.selection.toggle(row);
+  }
+  onCheckboxChange(row: T) {
+    if (!this.selection.isSelected(row)) {
+      this.selection.toggle(row); // Only select if it's not already selected
     }
   }
-  public setDataSourceFilterPredicate(
-    filterPredicate: (data: T, filter: string) => boolean
-  ) {
-    this.dataSourceFilterPredicate = filterPredicate;
-    if (this.dataSource) {
-      this.dataSource.filterPredicate = this.dataSourceFilterPredicate;
-    }
+  applyFilter(keys: string[]) {
+    const searchValues = (item: T, searchableKeys: string[]) => {
+      const map = new Map<string, string>(Object.entries(item as {}));
+      return searchableKeys
+        .map((key) => map.get(key))
+        .filter((value) => value !== null && value !== undefined);
+    };
+    const match = (data: T, value: string) => {
+      const searches = searchValues(data, keys);
+      return searches.some((search) =>
+        search?.toLocaleLowerCase().includes(value.toLocaleLowerCase())
+      );
+    };
+    this.dataSource.filterPredicate = match;
+    this.searchControl.valueChanges
+      .pipe(this.unsubscribe.takeUntilDestroy)
+      .subscribe(
+        (value) =>
+          (this.dataSource.filter = value) &&
+          this.dataSource.paginator &&
+          this.dataSource.paginator.firstPage()
+      );
   }
-  public setDataSourceSortingDataAccessor(
-    sortingDataAccessor: (item: any, property: string) => any
-  ) {
-    this.dataSourceSortingDataAccessor = sortingDataAccessor;
-    if (this.dataSource) {
-      this.dataSource.sortingDataAccessor = this.dataSourceSortingDataAccessor;
-    }
+  set searchControl(searchControl: FormControl) {
+    this._searchControl = searchControl;
   }
-  public addedData(item: T) {
-    this.data.unshift(item);
-    this.dataSource._updateChangeSubscription();
+  set selection(selection: SelectionModel<T>) {
+    this._selection = selection;
   }
-  public editedData(item: T, index: number) {
-    if (index !== -1) {
-      this.data.splice(index, 1, item);
-      this.dataSource._updateChangeSubscription();
-    }
+  set dataSource(dataSource: MatTableDataSource<T>) {
+    this._dataSource = dataSource;
   }
-  public removedData(index: number) {
-    if (index !== -1) {
-      this.data.splice(index, 1);
-      this.dataSource._updateChangeSubscription();
-    }
+  get dataSource() {
+    return this._dataSource;
   }
-  public resetTableColumns(headers: FormArray) {
-    let tableColumns = headers.controls
-      .filter((header) => header.get('included')?.value)
-      .map((header) => {
-        return {
-          label: header.get('label')?.value,
-          value: header.get('value')?.value,
-          desc: header.get('desc')?.value,
-        } as TableHeader;
-      });
-    this.setTableColumns(tableColumns);
-    this.setTableColumnsObservable(tableColumns);
+  get selection() {
+    return this._selection;
+  }
+  get searchControl() {
+    return this._searchControl;
   }
 }

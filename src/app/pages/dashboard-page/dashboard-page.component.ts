@@ -41,6 +41,7 @@ import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/un
 import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
 import { AppUtilities } from 'src/app/utilities/app-utilities';
 import { OnGenericComponent } from 'src/app/core/interfaces/on-generic-component';
+import { LanguageService } from 'src/app/core/services/language-service/language.service';
 
 type CustomChartType = {
   updateFromInput?: boolean;
@@ -95,11 +96,12 @@ export class DashboardPageComponent
     private appConfig: AppConfigService,
     private domService: ElementDomManipulationService,
     private unsubscribe: UnsubscribeService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private languageService: LanguageService
   ) {
-    this.tr.addLangs(['en', 'sw']);
-    this.tr.setDefaultLang('en');
-    this.tr.use('en');
+    this.languageService.changeLanguage(
+      localStorage.getItem('currentLang') ?? 'en'
+    );
     this.registerIcons();
     this.initActiveSchoolsChart();
   }

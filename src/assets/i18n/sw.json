@@ -15,6 +15,10 @@
     "minutes": "Dakika",
     "saveChanges": "Okoa mabadiliko?",
     "line": "Mstari",
+    "update": "Sasisha",
+    "create": "Tengeneza",
+    "delete": "Futa",
+    "thisCannotBeUndone": "Hii haiwezi kutenduliwa.",
     "forms": {
       "labels": {
         "phoneNumber": "Nambari ya simu"
@@ -437,6 +441,93 @@
       "viewReport": "Angalia ripoti",
       "downloadPdf": "Pakua PDF",
       "downloadExcel": "Pakua Excel"
+    }
+  },
+  "setupPages": {
+    "academic": {
+      "labels": {
+        "academic": "Taaluma",
+        "addAcademicYear": "Ongeza",
+        "updateAcademicYear": "Sasisha",
+        "removeAcademicYear": "Futa",
+        "tableColumns": {
+          "radioButton": "",
+          "academicYear": "Mwaka wa Kitaaluma",
+          "academicStatus": "Hali"
+        }
+      },
+      "form": {
+        "labels": {
+          "academic": "Taaluma"
+        },
+        "placeholders": {
+          "academic": "Ingiza taaluma"
+        },
+        "errors": {
+          "academic": "Tafadhali, changua taaluma"
+        }
+      }
+    },
+    "designation": {
+      "labels": {
+        "designation": "Cheo",
+        "tableColumns": {
+          "designation": "Cheo"
+        }
+      },
+      "form": {
+        "placeholders": {
+          "designation": "Ingiza cheo"
+        },
+        "errors": {
+          "designation": "Tafadhali, ingiza cheo"
+        }
+      }
+    },
+    "zone": {
+      "labels": {
+        "zone": "Eneo",
+        "tableColumns": {
+          "selector": "",
+          "zone": "Eneo",
+          "status": "Hali"
+        }
+      },
+      "form": {
+        "labels": {
+          "zone": "Eneo"
+        },
+        "placeholders": {
+          "zone": "Ingiza eneo"
+        },
+        "errors": {
+          "zone": "Tafadhali, ingiza eneo"
+        }
+      }
+    },
+    "region": {
+      "labels": {
+        "region": "Mkoa",
+        "tableColumns": {
+          "region": "Mkoa",
+          "country": "Nchi",
+          "status": "Hali"
+        }
+      },
+      "form": {
+        "labels": {
+          "region": "Mkoa",
+          "country": "Nchi"
+        },
+        "placeholders": {
+          "region": "Ingiza mkoa",
+          "country": "Tafadhali, chagua nchi"
+        },
+        "errors": {
+          "region": "Lazima uingize mkoa",
+          "country": "Tafadhali, tafuta nchi"
+        }
+      }
     }
   }
 }

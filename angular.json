@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "C:/NMB_WEB/Scripts/Angular",
+            "outputPath": "C:/Users/scott/Documents/DEV/asp_net/NMB_WEBP/NMB_WEBP/Scripts/Angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["src/polyfills.ts"],

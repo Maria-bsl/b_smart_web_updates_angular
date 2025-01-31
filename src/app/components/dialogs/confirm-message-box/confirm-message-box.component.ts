@@ -35,6 +35,7 @@ export class ConfirmMessageBoxComponent {
   //   this.dialogElement.nativeElement.showModal();
   // }
   closeDialog(event: MouseEvent) {
+    event.preventDefault();
     this._dialogRef.close();
   }
   onConfirmClicked(event: MouseEvent) {

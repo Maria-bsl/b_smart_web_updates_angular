@@ -167,6 +167,7 @@ $b_smart_v1-dark-theme: mat.m2-define-dark-theme(
   @include mat.form-field-density(-4);
   @include mat.tree-density(-3);
   @include mat.button-density(0);
+  @include mat.radio-density(-4);
 }
 
 button,
