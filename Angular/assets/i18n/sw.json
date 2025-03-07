@@ -1,0 +1,573 @@
+{
+  "defaults": {
+    "warning": "Onyo",
+    "submit": "Wasilisha",
+    "cancel": "Ghairi",
+    "reset": "Weka Upya",
+    "pleaseFill": "Tafadhali jaza",
+    "status": "Hali",
+    "active": "Hai",
+    "inactive": "Haifanyi kazi",
+    "search": "Tafuta",
+    "month": "Mwezi",
+    "noUsersFound": "Hakuna watumiaji waliopatikana",
+    "seconds": "Sekunde",
+    "minutes": "Dakika",
+    "saveChanges": "Okoa mabadiliko?",
+    "line": "Mstari",
+    "update": "Sasisha",
+    "create": "Tengeneza",
+    "delete": "Futa",
+    "thisCannotBeUndone": "Hii haiwezi kutenduliwa.",
+    "forms": {
+      "labels": {
+        "phoneNumber": "Nambari ya simu"
+      },
+      "placeholders": {
+        "emailAddress": "Ex. toswaki@hotmail.com",
+        "phoneNumber": "xxx-xxx-xxx"
+      },
+      "errors": {
+        "cannotBeBlank": "Haiwezi kuwa tupo",
+        "invalidEmailAddress": "Barua pepe batili",
+        "phoneNumber": "Nambari ya simu batili"
+      }
+    },
+    "errors": {
+      "noDataMatchingFilter": "Hakuna data inayolingana na kichujio",
+      "pleaseSpecify": "Tafadhali, chagua"
+    }
+  },
+  "sideNavItems": {
+    "Dashboard": "Dashibodi",
+    "Setup": "Mipangilio",
+    "EmailResend": "Tuma Barua Pepe Tena",
+    "SchoolGroup": "Kundi la Shule",
+    "ChangePassword": "Badilisha Nenosiri",
+    "AccessRights": "Haki za Ufikiaji",
+    "ResetPassword": "Weka Upya Nenosiri",
+    "Block/UnBlockUser": "Zuia/Ruhusu Mtumiaji",
+    "Notifications": "Arifa",
+    "SendSMSToParents": "Tuma SMS kwa Wazazi",
+    "Schools": "Shule",
+    "Approvals": "Idhini",
+    "Returns": "Marejesho",
+    "Reports": "Ripoti",
+    "AuditTrail": "Rekodi za Ukaguzi",
+    "Academic": "Masomo",
+    "Designation": "Cheo",
+    "Zone": "Eneo",
+    "Region": "Mkoa",
+    "District": "Wilaya",
+    "Ward": "Kata",
+    "Medium": "Njia",
+    "Term": "Muda wa Masomo",
+    "BankBranches": "Matawi ya Benki",
+    "Fee": "Ada",
+    "Questions": "Maswali",
+    "CreateUser": "Unda Mtumiaji",
+    "AccessModules": "Moduli za Ufikiaji",
+    "Packages": "Vifurushi",
+    "PackagePrice": "Bei ya Kifurushi",
+    "PasswordAging": "Ukomavu wa Nenosiri",
+    "SMTPConfiguration": "Usanidi wa SMTP",
+    "SMSConfiguration": "Usanidi wa SMS",
+    "EmailText": "Maandishi ya Barua Pepe",
+    "SMSText": "Maandishi ya SMS",
+    "SchoolRegistration": "Usajili wa Shule",
+    "UpdateSchool Info": "Sasisha Taarifa za Shule",
+    "FeeReverseInbox": "Sanduku la Kuondoa Ada",
+    "SchoolModification": "Marekebisho ya shule",
+    "SchoolDeletion": "Kufutwa kwa shule",
+    "RegisteredSchool": "Shule Iliyosajiliwa",
+    "SchoolFeeAllocation": "Mgao wa Ada ya Shule",
+    "StudentDetails": "Maelezo ya Mwanafunzi",
+    "AcademicStudentDetails": "Maelezo wa Masomo",
+    "IdleSchools": "Shule Zilizopooza",
+    "FeeDetails": "Maelezo ya Ada",
+    "FeeDetailsSummary": "Muhtasari wa Ada",
+    "AdmissionFeeDetails": "Maelezo ya Ada ya Usajili",
+    "PaymentDetails": "Maelezo ya Malipo",
+    "FeeBalance": "Salio la Ada",
+    "FeeBalanceSummary": "Muhtasari wa Salio la Ada",
+    "PaymentSummary": "Muhtasari wa Malipo",
+    "SchoolInvoices": "Ankara za Shule",
+    "UsersBankList": "Watumiaji (Benki)",
+    "UsersSchoolsList": "Watumiaji (Shule)",
+    "ParentDetails": "Maelezo ya Wazazi",
+    "SchoolLogs": "Rekodi za Shule",
+    "Class": "Darasa",
+    "Section": "Sehemu",
+    "Allocation": "Mgao",
+    "SchoolUsers": "Watumiaji wa Shule",
+    "Students": "Wanafunzi",
+    "FeeData": "Takwimu za Ada"
+  },
+  "loginForm": {
+    "labels": {
+      "username": "Jina la Mtumiaji",
+      "password": "Nenosiri",
+      "verificationCode": "Msimbo wa uthibitishaji",
+      "captcha": "Captcha",
+      "slogan": "Tunarahisisha udhibiti wa maelezo ya shule yako.",
+      "mobileAppComingSoon": "Programu yetu mpya inakuja hivi karibuni.",
+      "paymentMethodsText": "Fuatilia ada ya shule ya mtoto wako na ulipe kwa simu ya mkononi huduma ikiwa ni pamoja na M-PESA au AIRTEL MONEY.",
+      "schoolPerformanceText": "Endelea kusasishwa na shughuli za mtoto wako na utendaji wa shule.",
+      "schoolSentimentText": "Endelea kushikamana na shule ya mtoto wako na hisia za mwalimu."
+    },
+    "placeholders": {
+      "username": "Ingiza jina la mtumiaji",
+      "password": "Ingiza nenosiri",
+      "captcha": "Ingiza msombo"
+    },
+    "errors": {
+      "username": "Tafadhali ingiza jina la mtumiaji",
+      "password": "Tafadhali jaza"
+    },
+    "actions": {
+      "logIn": "Ingia",
+      "forgotPassword": "Umesahau nenosiri?",
+      "admission": "Jiandikishe kwa Kiingilio Hapa!",
+      "downloadMobileApp": "Pata mobile app hapa (wa wazazi)",
+      "poweredBy": "Inayoendeshwa na"
+    }
+  },
+  "changePassword": {
+    "title": "Badilisha Nenosiri",
+    "labels": {
+      "passwordExpired": "Nenosiri lako limekwisha muda wake. Tafadhali libadilishe.",
+      "passwordUpdate": "Nenosiri lako halijasasishwa kwa siku 90 zilizopita. Tafadhali libadilishe."
+    },
+    "form": {
+      "labels": {
+        "currentPassword": "Nenosiri la Sasa",
+        "newPassword": "Nenosiri Jipya",
+        "confirmPassword": "Thibitisha Nenosiri"
+      },
+      "placeholders": {
+        "currentPassword": "Nenosiri lako la sasa",
+        "newPassword": "Ingiza nenosiri jipya",
+        "confirmPassword": "Thibitisha nenosiri"
+      },
+      "errors": {
+        "passwordsNotMatch": "Nenosiri hayaendani.",
+        "passwordRequirements": "Tumia herufi 8-14 zenye angalau namba moja, herufi maalum, herufi ndogo, na herufi kubwa.",
+        "emptyPassword": "Tafadhali jaza."
+      },
+      "dialog": {
+        "errors": {
+          "passwordsNotMatch": "Nenosiri uliloweka hayaendani.",
+          "passwordRequirements": "Nenosiri lazima liwe na herufi 8-14 zenye namba moja, herufi maalum, ndogo, na kubwa.",
+          "emptyPassword": "Sehemu ya nenosiri iko tupu."
+        }
+      }
+    }
+  },
+  "cpass": {
+    "title": "Sasisha Taarifa Zako",
+    "completeForm": "Tafadhali, jaza fomu hapa chini ili uendelee.",
+    "form": {
+      "labels": {
+        "secretQuestion": "Swali la Siri",
+        "answer": "Jibu",
+        "capcha": "Capcha"
+      },
+      "placeholders": {
+        "secretQuestion": "Chagua swali la siri",
+        "selectSecretQuestion": "Tafadhali, chagua swali",
+        "answer": "Andika jibu lako",
+        "capcha": "Ingiza nambari iliyo hapa chini"
+      },
+      "errors": {
+        "secretQuestion": "Tafadhali, chagua swali.",
+        "answer": "Tafadhali, toa jibu.",
+        "capcha": "Capcha haipo"
+      },
+      "dialog": {
+        "errors": {
+          "secretQuestion": "Lazima uchague swali la siri.",
+          "answer": "Tafadhali toa jibu la swali la siri.",
+          "capcha": "Msimbo wa capcha uliotoa si sahihi."
+        }
+      }
+    }
+  },
+  "blockUnblockUser": {
+    "title": "Zuia/Ruhusu Mtumiaji",
+    "blockUser": "Zuia Mtumiaji",
+    "unblockUser": "Ruhusu Mtumiaji",
+    "block": "Zuia",
+    "unblock": "Ruhusu",
+    "blockUserForm": {
+      "labels": {
+        "userType": "Aina ya Mtumiaji",
+        "institution": "Taasisi",
+        "enterInstitution": "Ingiza taasisi",
+        "fullName": "Jina Kamili",
+        "reasonForBlock": "Sababu ya Kuzuia",
+        "blockedUsers": "Watumiaji Waliozuiwa",
+        "unblockUsers": "Ruhusu Watumiaji"
+      },
+      "placeholders": {
+        "userType": "Chagua aina ya mtumiaji",
+        "institution": "Taasisi ya elimu",
+        "fullName": "Ingiza jina kamili la mtumiaji",
+        "reasonForBlock": "Sababu yako",
+        "action": "Zuia/Ruhusu Mtumiaji",
+        "selectAction": "Chagua hatua",
+        "selectUser": "Chagua mtumiaji",
+        "writeHere": "Andika hapa"
+      },
+      "errors": {
+        "userType": "Tafadhali, chagua aina ya mtumiaji",
+        "institution": "Taasisi haipo",
+        "fullName": "Tafadhali chagua taasisi",
+        "reasonForBlock": "Tafadhali toa sababu ya kuzuia",
+        "missingAction": "Tafadhali, chagua hatua"
+      }
+    },
+    "unblockUserForm": {
+      "labels": {
+        "blockedUsers": "Watumiaji Waliozuiwa"
+      },
+      "placeholders": {
+        "blockedUsers": "Chagua mtumiaji"
+      }
+    }
+  },
+  "registerSchool": {
+    "labels": {
+      "AddNewSchool": "Ongeza Shule ya Mpya",
+      "schoolInformation": "Habari za shule",
+      "contactDetails": "Maelezo ya mawasiliano",
+      "accountDetails": "Maelezo ya akaunti",
+      "accountNo": "Akaunti No.",
+      "updateSchool": "Hariri schule",
+      "deleteSchool": "Futa maelezo ya shule"
+    },
+    "form": {
+      "labels": {
+        "schoolAcronym": "Kifupi cha shule",
+        "schoolName": "Jina la shule",
+        "branch": "Tawi",
+        "institutionId": "Kitambulisho cha taasisi",
+        "schoolRegNo": "Nambari ya usajili",
+        "authorizedUser": "Mtumiaji aliyeidhinishwa",
+        "country": "Nchi",
+        "region": "Mkoa",
+        "district": "Wilaya",
+        "ward": "Kata",
+        "residentialAddress": "Anwani",
+        "website": "Tovuti",
+        "emailAddress": "Barua pepe",
+        "schoolNames": "Shule zetu"
+      },
+      "placeholders": {
+        "schoolAcronym": "Ingiza jina fupi la shule",
+        "schoolName": "Ingiza jina la shule",
+        "branch": "Tafadhali, chagua tawi",
+        "institutionId": "Ingiza kitambulisho cha taasisi",
+        "schoolRegNo": "Ingiza nambari ya usajili ya shule",
+        "authorizedUser": "Ingiza jina la Mtumiaji aliyeidhinishwa",
+        "country": "Tafadhali, chagua nchi",
+        "region": "Tafadhali, chagua mkoa",
+        "district": "Tafadhali, chagua wilaya",
+        "ward": "Tafadhali, chagua kata",
+        "residentialAddress": "Ingiza anwani ya shule",
+        "website": "Ingiza kiungo cha tovuti",
+        "accountNo": "Ingiza nambari ya akaunti",
+        "accountName": "Ingiza jina ya akaunti",
+        "currency": "Tafadhali, chagua sarafu",
+        "schoolNames": "Tafadhali, chagua shule"
+      },
+      "errors": {
+        "schoolAcronymLimit": "Vifupisho vinaweza kuwa na urefu wa vibambo 3",
+        "schoolName": "Unakosa jina la shule",
+        "branch": "Hujachagua tawi",
+        "institutionId": "Unakosa kitambulisho cha taasisi",
+        "schoolRegNo": "Unakosa nambari ya usajili ya shule",
+        "authorizedUser": "Unakosa jina la Mtumiaji aliyeidhinishwa",
+        "country": "Hujachagua nchi",
+        "schoolNames": "Lazima uchague shule"
+      }
+    }
+  },
+  "schoolGroups": {
+    "title": "Makundi ya Shule",
+    "welcomeMessage": "Karibu tena kwenye ukurasa wa makundi ya shule.",
+    "actions": {
+      "addSchoolGroup": "Ongeza Kundi la Shule"
+    },
+    "forms": {
+      "labels": {
+        "schoolGroup": "Kundi la Shule"
+      },
+      "placeholders": {
+        "schoolGroup": "Ingiza kundi la shule"
+      },
+      "errors": {}
+    },
+    "schoolGroupsTable": [
+      {
+        "label": "Kundi"
+      },
+      {
+        "label": "Hali"
+      }
+    ]
+  },
+  "sidenavItems": [
+    {
+      "name": "Dashibodi",
+      "icon": "dashboard",
+      "link": "/main",
+      "children": []
+    },
+    {
+      "name": "Usimamizi wa Watumiaji",
+      "icon": "groups",
+      "link": "/main/user",
+      "children": [
+        {
+          "name": "Haki za Ufikiaji"
+        }
+      ]
+    },
+    {
+      "name": "Usimamizi wa Shule",
+      "icon": "school",
+      "link": "/main/school",
+      "children": [
+        {
+          "name": "Ongeza Shule Mpya"
+        },
+        {
+          "name": "Sasisha Taarifa za Shule"
+        }
+      ]
+    },
+    {
+      "name": "Usimamizi wa Arifa",
+      "icon": "schedule_send",
+      "link": "/main/notifications",
+      "children": []
+    },
+    {
+      "name": "Usimamizi wa Idhini",
+      "icon": "fact_check",
+      "link": "/main/approvals",
+      "children": [
+        {
+          "name": "Usajili wa Shule"
+        },
+        {
+          "name": "Mabadiliko ya Shule"
+        }
+      ]
+    },
+    {
+      "name": "Usimamizi wa Marejesho",
+      "icon": "assignment_return",
+      "link": "/main/returns"
+    }
+  ],
+  "dashboardPage": {
+    "labels": {
+      "welcomeText": "Karibu",
+      "totalSchools": "Jumla ya Shule",
+      "activeSchools": "Shule Hai",
+      "billsIssued": "Ankara Zilizotolewa",
+      "students": "Wanafunzi",
+      "users": "Watumiaji",
+      "bankUsers": "Watumiaji wa Benki",
+      "schoolUsers": "Watumiaji wa Shule",
+      "collectedAmount": "Kiasi Kilichokusanywa",
+      "overview": "Muhtasari",
+      "lastYear": "Mwaka Uliopita",
+      "paidInvoices": "Ankara Zilizolipwa",
+      "pendingInvoices": "Ankara Zinazosubiri"
+    }
+  },
+  "patDetReport": {
+    "title": "Ripoti ya maelezo ya malipo",
+    "noDataFound": "Hakuna data iliyopatikana",
+    "form": {
+      "labels": {
+        "zone": "Eneo",
+        "school": "Shule",
+        "fee": "Ada",
+        "class": "Darasa",
+        "steamCombination": "Mkondo/Muunganiko",
+        "admissionNo": "Nambari ya Usajili",
+        "referenceNo": "Nambari ya Rejea",
+        "currency": "Sarafu",
+        "dateFrom": "Tarehe kuanzia",
+        "dateTo": "Tarehe hadi"
+      },
+      "placeholders": {
+        "zone": "Chagua eneo",
+        "school": "Chagua shule",
+        "fee": "Chagua ada",
+        "class": "Chagua darasa",
+        "steamCombination": "Chagua mkondo/muunganiko",
+        "admissionNo": "Ingiza Nambari ya Usajili",
+        "referenceNo": "Ingiza Nambari ya Rejea",
+        "currency": "Taja Sarafu",
+        "dateFrom": "Chagua tarehe",
+        "dateTo": "Chagua tarehe"
+      },
+      "errors": {
+        "dateFrom": "Tafadhali chagua tarehe ya kuanza",
+        "dateTo": "Tafadhali chagua tarehe ya mwisho"
+      }
+    },
+    "tableColumns": {
+      "sno": "Namba ya Serial",
+      "class": "Darasa",
+      "stream": "Mtiririko/Mchanganyiko",
+      "date": "Tarehe",
+      "admission": "Usajili",
+      "studentName": "Jina la Mwanafunzi",
+      "payerName": "Jina la Mlipa",
+      "fee": "Ada",
+      "term": "Muhula",
+      "paidAmount": "Kiasi Kilicholipwa",
+      "referenceNo": "Namba ya Rejea",
+      "transactionChannel": "Njia ya Muamala",
+      "receiptNo": "Namba ya Risiti",
+      "currency": "Sarafu"
+    },
+    "actions": {
+      "viewReport": "Angalia ripoti",
+      "downloadPdf": "Pakua PDF",
+      "downloadExcel": "Pakua Excel"
+    }
+  },
+  "setupPages": {
+    "academic": {
+      "labels": {
+        "academic": "Taaluma",
+        "addAcademicYear": "Ongeza",
+        "updateAcademicYear": "Sasisha",
+        "removeAcademicYear": "Futa",
+        "tableColumns": {
+          "radioButton": "",
+          "academicYear": "Mwaka wa Kitaaluma",
+          "academicStatus": "Hali"
+        }
+      },
+      "form": {
+        "labels": {
+          "academic": "Taaluma"
+        },
+        "placeholders": {
+          "academic": "Ingiza taaluma"
+        },
+        "errors": {
+          "academic": "Tafadhali, changua taaluma"
+        }
+      }
+    },
+    "designation": {
+      "labels": {
+        "designation": "Cheo",
+        "tableColumns": {
+          "designation": "Cheo"
+        }
+      },
+      "form": {
+        "placeholders": {
+          "designation": "Ingiza cheo"
+        },
+        "errors": {
+          "designation": "Tafadhali, ingiza cheo"
+        }
+      }
+    },
+    "zone": {
+      "labels": {
+        "zone": "Eneo",
+        "tableColumns": {
+          "selector": "",
+          "zone": "Eneo",
+          "status": "Hali"
+        }
+      },
+      "form": {
+        "labels": {
+          "zone": "Eneo"
+        },
+        "placeholders": {
+          "zone": "Ingiza eneo"
+        },
+        "errors": {
+          "zone": "Tafadhali, ingiza eneo"
+        }
+      }
+    },
+    "region": {
+      "labels": {
+        "region": "Mkoa",
+        "tableColumns": {
+          "region": "Mkoa",
+          "country": "Nchi",
+          "status": "Hali"
+        }
+      },
+      "form": {
+        "labels": {
+          "region": "Mkoa",
+          "country": "Nchi"
+        },
+        "placeholders": {
+          "region": "Ingiza mkoa",
+          "country": "Tafadhali, chagua nchi"
+        },
+        "errors": {
+          "region": "Lazima uingize mkoa",
+          "country": "Tafadhali, tafuta nchi"
+        }
+      }
+    },
+    "district": {
+      "labels": {
+        "district": "Wilaya",
+        "tableColumns": {
+          "district": "Wilaya",
+          "region": "Mkoa",
+          "status": "Hali"
+        }
+      },
+      "form": {
+        "labels": {
+          "district": "Wilaya"
+        },
+        "placeholders": {
+          "district": "Ingiza wilaya",
+          "region": "Tafadhali, chagua mkoa"
+        },
+        "errors": {
+          "district": "Tafadhali, ingiza wilaya",
+          "region": "Bora chagua mkoa"
+        }
+      }
+    },
+    "ward": {
+      "labels": {
+        "ward": "Wadi"
+      },
+      "forms": {
+        "placeholders": {
+          "ward": "Ingiza wadi",
+          "district": "Tafadhali, chagua wilaya",
+          "region": "Tafadhali, chagua mkoa"
+        },
+        "errors": {
+          "ward": "Tafadhali, toa wadi",
+          "district": "Lazima uchague wilaya",
+          "region": "Lazima uchague mkoa"
+        }
+      }
+    }
+  }
+}

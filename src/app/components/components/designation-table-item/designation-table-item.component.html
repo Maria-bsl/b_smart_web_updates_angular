@@ -1,0 +1,20 @@
+<div class="flex flex-row items-center space-x-2">
+  <ng-container *ngIf="label; else notExistLabel">
+    @if (isAdministrator) {
+    <h6 class="text-sm bg-indigo-100 text-indigo-600 rounded p-1 capitalize">
+      {{ label.toLocaleLowerCase() }}
+    </h6>
+    } @else if (isManager) {
+    <h6 class="text-sm bg-purple-100 text-purple-600 rounded p-1 capitalize">
+      {{ label.toLocaleLowerCase() }}
+    </h6>
+    } @else {
+    <h6 class="text-sm bg-gray-100 text-gray-600 rounded p-1 capitalize">
+      {{ label.toLocaleLowerCase() }}
+    </h6>
+    }
+  </ng-container>
+  <ng-template #notExistLabel>
+    <p>N/A</p>
+  </ng-template>
+</div>

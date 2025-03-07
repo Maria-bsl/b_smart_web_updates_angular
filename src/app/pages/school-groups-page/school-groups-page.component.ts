@@ -5,16 +5,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { SchoolGroupsTableViewComponent } from 'src/app/components/tables/school-groups-table-view/school-groups-table-view.component';
 
 @Component({
-  selector: 'app-school-groups-page',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    SchoolGroupsTableViewComponent,
-  ],
-  templateUrl: './school-groups-page.component.html',
-  styleUrl: './school-groups-page.component.scss',
+    selector: 'app-school-groups-page',
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        SchoolGroupsTableViewComponent,
+    ],
+    templateUrl: './school-groups-page.component.html',
+    styleUrl: './school-groups-page.component.scss'
 })
 export class SchoolGroupsPageComponent {
   @Input('table-data-content') tableDataContent: string = '';

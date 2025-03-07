@@ -42,6 +42,13 @@ import {
   MatSidenavContent,
 } from '@angular/material/sidenav';
 import { PaymentDetailsFormComponent } from './app/components/forms/admin/payment-details-form/payment-details-form.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { DeleteSchoolInfoFormComponent } from './app/components/forms/admin/delete-school-info-form/delete-school-info-form.component';
+import { APP_BASE_HREF } from '@angular/common';
+import { AcademicSetupComponent } from './app/pages/setup/academic-setup/academic-setup.component';
+import { DesignationSetupComponent } from './app/pages/setup/designation-setup/designation-setup.component';
+import { ZoneSetupComponent } from './app/pages/setup/zone-setup/zone-setup.component';
+import { RegionSetupComponent } from './app/pages/setup/region-setup/region-setup.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, '../assets/assets/i18n/', '.json');
@@ -71,6 +78,10 @@ function defineCustomElement(
 (async () => {
   const app = await createApplication({
     providers: [
+      {
+        provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+        useValue: { appearance: 'outline' },
+      },
       importProvidersFrom([
         MatDialogModule,
         TranslateModule.forRoot({
@@ -81,8 +92,8 @@ function defineCustomElement(
           },
           isolate: false,
           extend: true,
-          //defaultLanguage: 'en',
-          //useDefaultLang: true,
+          defaultLanguage: 'en',
+          useDefaultLang: true,
         }),
       ]),
       provideAnimationsAsync(),
@@ -130,6 +141,54 @@ function defineCustomElement(
     defineCustomElement(
       'payment-details-report',
       createCustomElement(PaymentDetailsFormComponent, {
+        injector: app.injector,
+      })
+    );
+    defineCustomElement(
+      'register-school-form',
+      createCustomElement(RegisterSchoolFormComponent, {
+        injector: app.injector,
+      })
+    );
+    defineCustomElement(
+      'update-school-info-form',
+      createCustomElement(UpdateSchoolInfoFormComponent, {
+        injector: app.injector,
+      })
+    );
+    defineCustomElement(
+      'delete-school-info-form',
+      createCustomElement(DeleteSchoolInfoFormComponent, {
+        injector: app.injector,
+      })
+    );
+    defineCustomElement(
+      'delete-school-info-form',
+      createCustomElement(DeleteSchoolInfoFormComponent, {
+        injector: app.injector,
+      })
+    );
+    defineCustomElement(
+      'academic-setup',
+      createCustomElement(AcademicSetupComponent, {
+        injector: app.injector,
+      })
+    );
+    defineCustomElement(
+      'designation-setup',
+      createCustomElement(DesignationSetupComponent, {
+        injector: app.injector,
+      })
+    );
+    defineCustomElement(
+      'zone-setup',
+      createCustomElement(ZoneSetupComponent, {
+        injector: app.injector,
+      })
+    );
+    defineCustomElement(
+      'region-setup',
+      createCustomElement(RegionSetupComponent, {
         injector: app.injector,
       })
     );

@@ -1,0 +1,9 @@
+<div class="flex flex-row items-center space-x-2">
+  <div
+    class="w-2 h-2 rounded-full"
+    [class]="
+      label.toLocaleLowerCase() === 'active' ? 'bg-green-600' : 'bg-red-600'
+    "
+  ></div>
+  <h6 class="text-sm">{{ label }}</h6>
+</div>

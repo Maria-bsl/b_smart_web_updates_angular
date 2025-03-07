@@ -4,7 +4,9 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, of, switchMap, zip } from 'rxjs';
+import { ConfirmMessageBoxComponent } from 'src/app/components/dialogs/confirm-message-box/confirm-message-box.component';
 import { MessageBoxDialogComponent } from 'src/app/components/dialogs/message-box-dialog/message-box-dialog.component';
+import { UnsubscribeService } from '../unsubscribe-service/unsubscribe.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +16,8 @@ export class AppConfigService {
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private _dialog: MatDialog,
-    private tr: TranslateService
+    private tr: TranslateService,
+    private unsubscribe: UnsubscribeService
   ) {}
   /**
    * Registers icons to be available to <mat-icon>
@@ -49,6 +52,21 @@ export class AppConfigService {
     };
     const merged = zip(this.tr.get(title), this.tr.get(message));
     return merged.pipe(
+      switchMap((results) => of(dialogRef(results[0], results[1])))
+    );
+  }
+  openConfirmationDialog(title: string, message: string) {
+    const dialogRef = (msg1: string, msg2: string) => {
+      return this._dialog.open(ConfirmMessageBoxComponent, {
+        data: {
+          title: msg1,
+          message: msg2,
+        },
+      });
+    };
+    const merged = zip(this.tr.get(title), this.tr.get(message));
+    return merged.pipe(
+      this.unsubscribe.takeUntilDestroy,
       switchMap((results) => of(dialogRef(results[0], results[1])))
     );
   }

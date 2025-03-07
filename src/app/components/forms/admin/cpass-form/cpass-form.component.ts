@@ -27,21 +27,20 @@ import { PasswordFieldComponent } from '../../../reusables/password-field/passwo
 import { HtmlSelectOption } from 'src/app/core/interfaces/helpers/data/html-select-option';
 
 @Component({
-  selector: 'app-cpass-form',
-  standalone: true,
-  //imports: [TranslocoModule, ReactiveFormsModule],
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-  ],
-  templateUrl: './cpass-form.component.html',
-  styleUrl: './cpass-form.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-cpass-form',
+    //imports: [TranslocoModule, ReactiveFormsModule],
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+    ],
+    templateUrl: './cpass-form.component.html',
+    styleUrl: './cpass-form.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CPassFormComponent {}
 // export class CPassFormComponent implements OnInit {

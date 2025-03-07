@@ -12,20 +12,19 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
-  selector: 'app-message-box-dialog',
-  templateUrl: './message-box-dialog.component.html',
-  styleUrls: ['./message-box-dialog.component.scss'],
-  standalone: true,
-  imports: [
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
-    MatButtonModule,
-    TranslateModule,
-    MatDividerModule,
-    MatButtonModule,
-  ],
+    selector: 'app-message-box-dialog',
+    templateUrl: './message-box-dialog.component.html',
+    styleUrls: ['./message-box-dialog.component.scss'],
+    imports: [
+        MatDialogTitle,
+        MatDialogContent,
+        MatDialogActions,
+        MatDialogClose,
+        MatButtonModule,
+        TranslateModule,
+        MatDividerModule,
+        MatButtonModule,
+    ]
 })
 export class MessageBoxDialogComponent implements OnInit {
   constructor(

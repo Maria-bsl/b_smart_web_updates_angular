@@ -1,0 +1,76 @@
+<section class="flex flex-col w-full divide-y">
+  <h6 class="text-2xl">
+    {{ "setupPages.zone.labels.zone" | translate }}
+  </h6>
+  <div class="flex flex-col space-y-8 w-full py-2">
+    <form
+      [@inOutAnimation]
+      id="academic-setup-form"
+      class="w-full flex flex-col"
+      [formGroup]="formGroup"
+      (ngSubmit)="submitForm($event)"
+    >
+      <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-3">
+        <div class="flex flex-col space-y-0.5 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "setupPages.zone.form.labels.zone" | translate }}
+          </h6>
+          <mat-form-field>
+            <input
+              type="text"
+              [placeholder]="
+                'setupPages.zone.form.placeholders.zone' | translate
+              "
+              matInput
+              [formControl]="zoneName"
+            />
+            <mat-error>
+              {{ "setupPages.zone.form.errors.zone" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col space-y-0.5 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "defaults.status" | translate }}
+          </h6>
+          <mat-radio-group class="!space-x-2" [formControl]="zoneStatus">
+            <mat-radio-button class="radio-button" [value]="'Active'">{{
+              "defaults.active" | translate
+            }}</mat-radio-button>
+            <mat-radio-button [value]="'InActive'">{{
+              "defaults.inactive" | translate
+            }}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="flex flex-row items-center justify-end space-x-2">
+        <button
+          (click)="resetForm($event)"
+          color="warn"
+          mat-button
+          type="button"
+        >
+          {{ "defaults.reset" | translate }}
+        </button>
+        <button
+          type="submit"
+          form="academic-setup-form"
+          color="primary"
+          mat-flat-button
+        >
+          <ng-container *ngIf="!!setupTable">
+            @if (setupTable.selection.hasValue()) {
+            {{ "defaults.update" | translate }}
+            } @else {
+            {{ "defaults.create" | translate }}
+            }
+          </ng-container>
+        </button>
+      </div>
+    </form>
+    <app-zone-setup-table
+      #zoneTable
+      [tableJson]="jsonTable"
+    ></app-zone-setup-table>
+  </div>
+</section>

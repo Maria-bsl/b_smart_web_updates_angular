@@ -7,23 +7,24 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build:elements": "ng build --configuration production --output-hashing none && node build-script.js"
+    "build:elements": "ng build --configuration production --output-hashing none && node build-script.js",
+    "debug": "browser-sync start --proxy \"http://localhost:62300\" --files \"C:/Users/scott/Documents/DEV/asp_net/NMB_WEBP/NMB_WEBP/Scripts/Angular/browser/*.css\" \"C:/Users/scott/Documents/DEV/asp_net/NMB_WEBP/NMB_WEBP/Scripts/Angular/browser/*.js\" \"C:/Users/scott/Documents/DEV/asp_net/NMB_WEBP/NMB_WEBP/Scripts/Angular/browser/*.map\""
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/build-angular": "^18.2.12",
-    "@angular/animations": "^18.2.13",
+    "@angular-devkit/build-angular": "^19.2.1",
+    "@angular/animations": "^19.2.1",
     "@angular/cdk": "^18.2.14",
-    "@angular/common": "^18.2.13",
-    "@angular/compiler": "^18.2.13",
-    "@angular/core": "^18.2.13",
-    "@angular/elements": "^18.2.13",
-    "@angular/forms": "^18.2.13",
+    "@angular/common": "^19.2.1",
+    "@angular/compiler": "^19.2.1",
+    "@angular/core": "^19.2.1",
+    "@angular/elements": "^19.2.1",
+    "@angular/forms": "^19.2.1",
     "@angular/material": "^18.2.14",
     "@angular/material-moment-adapter": "^19.0.4",
-    "@angular/platform-browser": "^18.2.13",
-    "@angular/platform-browser-dynamic": "^18.2.13",
-    "@angular/router": "^18.2.13",
+    "@angular/platform-browser": "^19.2.1",
+    "@angular/platform-browser-dynamic": "^19.2.1",
+    "@angular/router": "^19.2.1",
     "@ngx-translate/core": "^16.0.3",
     "@ngx-translate/http-loader": "^16.0.0",
     "b-smart-v1": "file:",
@@ -35,11 +36,11 @@
     "ngx-sonner": "^1.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.10"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular/cli": "~18.2.12",
-    "@angular/compiler-cli": "^18.2.13",
+    "@angular/cli": "~19.2.1",
+    "@angular/compiler-cli": "^19.2.1",
     "@types/jasmine": "~4.3.0",
     "@types/webpack-env": "^1.18.5",
     "autoprefixer": "^10.4.20",
@@ -54,6 +55,6 @@
     "karma-jasmine-html-reporter": "~2.0.0",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.12",
-    "typescript": "~5.4.5"
+    "typescript": "~5.8.2"
   }
 }

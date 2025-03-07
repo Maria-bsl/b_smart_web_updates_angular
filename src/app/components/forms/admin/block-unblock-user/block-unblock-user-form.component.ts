@@ -32,22 +32,20 @@ import { UserTypes } from 'src/app/core/enums/user-type';
 import { MatInput, MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'app-block-unblock-user',
-  standalone: true,
-  imports: [
-    MatRadioModule,
-    ReactiveFormsModule,
-    CommonModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    AutocompleteFilterExampleComponent,
-    MatAutocompleteModule,
-    MatButtonModule,
-    MatInputModule,
-  ],
-  templateUrl: './block-unblock-user-form.component.html',
-  styleUrl: './block-unblock-user-form.component.scss',
-  //changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-block-unblock-user',
+    imports: [
+        MatRadioModule,
+        ReactiveFormsModule,
+        CommonModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        AutocompleteFilterExampleComponent,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatInputModule,
+    ],
+    templateUrl: './block-unblock-user-form.component.html',
+    styleUrl: './block-unblock-user-form.component.scss'
 })
 export class BlockUnblockUserFormComponent implements OnInit {
   @Input('title') title: string = '';

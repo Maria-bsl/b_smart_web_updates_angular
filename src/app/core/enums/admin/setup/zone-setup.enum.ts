@@ -1,0 +1,15 @@
+export enum EZoneSetup {
+  ZONE_TEXTFIELD,
+  ZONE_STATUS_RADIO_GROUP,
+  CREATE_BUTTON,
+  UPDATE_BUTTON,
+  DELETE_BUTTON,
+  CANCEL_BUTTON,
+}
+
+export enum EZoneSetupItem {
+  RADIO_BUTTON,
+  ZONE_NAME,
+  ZONE_SNO,
+  ZONE_STATUS,
+}

@@ -40,7 +40,8 @@ import { DashboardForm } from 'src/app/core/enums/admin/dashboard.enum';
 import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/unsubscribe.service';
 import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
 import { AppUtilities } from 'src/app/utilities/app-utilities';
-import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
+import { OnGenericComponent } from 'src/app/core/interfaces/on-generic-component';
+import { LanguageService } from 'src/app/core/services/language-service/language.service';
 
 type CustomChartType = {
   updateFromInput?: boolean;
@@ -51,22 +52,21 @@ type CustomChartType = {
 };
 
 @Component({
-  selector: 'app-dashboard-page',
-  standalone: true,
-  imports: [
-    HighchartsChartModule,
-    CommonModule,
-    TranslateModule,
-    MatIconModule,
-    MatListModule,
-    MatDividerModule,
-    MatRippleModule,
-    MatButtonModule,
-  ],
-  templateUrl: './dashboard-page.component.html',
-  styleUrl: './dashboard-page.component.scss',
-  encapsulation: ViewEncapsulation.Emulated,
-  animations: [inOutAnimation],
+    selector: 'app-dashboard-page',
+    imports: [
+        HighchartsChartModule,
+        CommonModule,
+        TranslateModule,
+        MatIconModule,
+        MatListModule,
+        MatDividerModule,
+        MatRippleModule,
+        MatButtonModule,
+    ],
+    templateUrl: './dashboard-page.component.html',
+    styleUrl: './dashboard-page.component.scss',
+    encapsulation: ViewEncapsulation.Emulated,
+    animations: [inOutAnimation]
 })
 export class DashboardPageComponent
   implements AfterViewInit, OnChanges, OnGenericComponent
@@ -95,11 +95,12 @@ export class DashboardPageComponent
     private appConfig: AppConfigService,
     private domService: ElementDomManipulationService,
     private unsubscribe: UnsubscribeService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private languageService: LanguageService
   ) {
-    this.tr.addLangs(['en', 'sw']);
-    this.tr.setDefaultLang('en');
-    this.tr.use('en');
+    this.languageService.changeLanguage(
+      localStorage.getItem('currentLang') ?? 'en'
+    );
     this.registerIcons();
     this.initActiveSchoolsChart();
   }

@@ -33,21 +33,20 @@ import { PasswordFieldComponent } from '../../../reusables/password-field/passwo
 import { confirmPasswordValidator } from 'src/app/core/validators/custom-validators';
 
 @Component({
-  selector: 'app-change-password-form',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    PasswordFieldComponent,
-  ],
-  templateUrl: './change-password-form.component.html',
-  styleUrl: './change-password-form.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [],
+    selector: 'app-change-password-form',
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        ReactiveFormsModule,
+        PasswordFieldComponent,
+    ],
+    templateUrl: './change-password-form.component.html',
+    styleUrl: './change-password-form.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: []
 })
 export class ChangePasswordFormComponent implements AfterViewInit, OnInit {
   @Input() passwordUpdateMessageClientId!: string;

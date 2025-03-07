@@ -7,17 +7,16 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-autocomplete-filter-example',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-    AsyncPipe,
-  ],
-  templateUrl: './autocomplete-filter-example.component.html',
-  styleUrl: './autocomplete-filter-example.component.scss',
+    selector: 'app-autocomplete-filter-example',
+    imports: [
+        MatFormFieldModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        AsyncPipe,
+    ],
+    templateUrl: './autocomplete-filter-example.component.html',
+    styleUrl: './autocomplete-filter-example.component.scss'
 })
 export class AutocompleteFilterExampleComponent implements OnInit {
   @Input() formControl = new FormControl('', []);

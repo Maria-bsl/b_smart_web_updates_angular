@@ -7,11 +7,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: true,
-  imports: [RouterModule],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    imports: [RouterModule]
 })
 export class AppComponent implements OnInit {
   switchTheme = new FormControl<boolean>(false);

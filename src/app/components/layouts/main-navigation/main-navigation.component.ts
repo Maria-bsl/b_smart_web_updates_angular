@@ -7,17 +7,16 @@ import { NavBarComponent } from '../nav-bar/nav-bar.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 
 @Component({
-  selector: 'app-main-navigation',
-  standalone: true,
-  imports: [
-    MatSidenavModule,
-    MatToolbarModule,
-    MatSlideToggle,
-    MatIconModule,
-    NavBarComponent,
-  ],
-  templateUrl: './main-navigation.component.html',
-  styleUrl: './main-navigation.component.scss',
+    selector: 'app-main-navigation',
+    imports: [
+        MatSidenavModule,
+        MatToolbarModule,
+        MatSlideToggle,
+        MatIconModule,
+        NavBarComponent,
+    ],
+    templateUrl: './main-navigation.component.html',
+    styleUrl: './main-navigation.component.scss'
 })
 export class MainNavigationComponent {
   @ViewChild('sidenav') sidenav!: MatSidenav;

@@ -40,26 +40,25 @@ import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/un
 import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
 
 @Component({
-  selector: 'app-nav-bar',
-  standalone: true,
-  imports: [
-    MatIconModule,
-    MatToolbarModule,
-    MatSlideToggleModule,
-    NgOptimizedImage,
-    MatSelectModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatMenuModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    CommonModule,
-    LanguagesPipe,
-  ],
-  templateUrl: './nav-bar.component.html',
-  styleUrl: './nav-bar.component.scss',
-  encapsulation: ViewEncapsulation.Emulated,
-  animations: [inOutAnimation],
+    selector: 'app-nav-bar',
+    imports: [
+        MatIconModule,
+        MatToolbarModule,
+        MatSlideToggleModule,
+        NgOptimizedImage,
+        MatSelectModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatMenuModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        CommonModule,
+        LanguagesPipe,
+    ],
+    templateUrl: './nav-bar.component.html',
+    styleUrl: './nav-bar.component.scss',
+    encapsulation: ViewEncapsulation.Emulated,
+    animations: [inOutAnimation]
 })
 export class NavBarComponent implements AfterViewInit {
   @Output('languageChanged') public languageChanged =
@@ -84,14 +83,14 @@ export class NavBarComponent implements AfterViewInit {
     private _sidenavService: SidenavService,
     private languageService: LanguageService
   ) {
-    //console.log(localStorage.getItem('currentLang'));
-    //this._appConfig.initLanguage();
+    this.languageService.changeLanguage(
+      localStorage.getItem('currentLang') ?? 'en'
+    );
     this.languageChangeHandler();
     this.language.setValue(localStorage.getItem('currentLang'));
     this.registerIcons();
     if (this.language.value !== this._appConfig.getCurrentLanguage()) {
       this.languageService.changeLanguage(this.language.value);
-      //this.language.setValue(this._appConfig.getCurrentLanguage());
     }
   }
   private registerIcons() {
@@ -120,7 +119,11 @@ export class NavBarComponent implements AfterViewInit {
       map((e) => e.get(ENavBarForm.USER_NAME) as HTMLSpanElement)
     );
     username$.subscribe({
-      next: (username) => this.s_username.set(username.innerHTML),
+      next: (username) => {
+        username &&
+          this.s_username.set(username.textContent ?? username.innerHTML);
+        !username && console.warn('Navbar: username not found.');
+      },
       error: (err) => console.error(err),
     });
   }
@@ -130,7 +133,13 @@ export class NavBarComponent implements AfterViewInit {
       map((e) => e.get(ENavBarForm.DESIGNATION) as HTMLSpanElement)
     );
     designation$.subscribe({
-      next: (designation) => this.s_designation.set(designation.innerHTML),
+      next: (designation) => {
+        designation &&
+          this.s_designation.set(
+            designation.textContent ?? designation.innerHTML
+          );
+        !designation && console.warn('Navbar: designation not found.');
+      },
       error: (err) => console.error(err),
     });
   }
@@ -141,7 +150,9 @@ export class NavBarComponent implements AfterViewInit {
     );
     loginTime$.pipe(delay(500)).subscribe({
       next: (loginTime) => {
-        this.s_loginTime.set(loginTime.innerHTML);
+        loginTime &&
+          this.s_loginTime.set(loginTime.textContent ?? loginTime.innerHTML);
+        !loginTime && console.warn('Navbar: login time text not found.');
       },
       error: (err) => console.error(err),
     });
@@ -174,7 +185,10 @@ export class NavBarComponent implements AfterViewInit {
       map((e) => e.get(ENavBarForm.LOG_OUT) as HTMLAnchorElement)
     );
     logOut$.pipe(this.unsubscribe.takeUntilDestroy).subscribe({
-      next: (logOut) => this.domService.clickAnchorHref(logOut),
+      next: (logOut) => {
+        logOut && this.domService.clickAnchorHref(logOut);
+        !logOut && console.warn('Navbar: Failed to find log out button');
+      },
       error: (err) => console.error(err),
     });
   }

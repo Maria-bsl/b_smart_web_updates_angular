@@ -2,11 +2,10 @@ import { Component, Input } from '@angular/core';
 import { BlockUnblockUserFormComponent } from 'src/app/components/forms/admin/block-unblock-user/block-unblock-user-form.component';
 
 @Component({
-  selector: 'app-block-un-block-user-page',
-  standalone: true,
-  imports: [BlockUnblockUserFormComponent],
-  templateUrl: './block-un-block-user-page.component.html',
-  styleUrl: './block-un-block-user-page.component.scss',
+    selector: 'app-block-un-block-user-page',
+    imports: [BlockUnblockUserFormComponent],
+    templateUrl: './block-un-block-user-page.component.html',
+    styleUrl: './block-un-block-user-page.component.scss'
 })
 export class BlockUnBlockUserPageComponent {
   @Input('user-types-select') userTypesSelect: string = '';

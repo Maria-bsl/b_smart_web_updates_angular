@@ -2,12 +2,11 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CPassFormComponent } from 'src/app/components/forms/admin/cpass-form/cpass-form.component';
 
 @Component({
-  selector: 'app-c-pass-page',
-  standalone: true,
-  imports: [CPassFormComponent],
-  templateUrl: './c-pass-page.component.html',
-  styleUrl: './c-pass-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-c-pass-page',
+    imports: [CPassFormComponent],
+    templateUrl: './c-pass-page.component.html',
+    styleUrl: './c-pass-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CPassPageComponent {
   // @Input('secret-question-dropdown-client-id') secretQuestionClientId: string =

@@ -1,0 +1,566 @@
+<form
+  id="register-school-form"
+  [formGroup]="registerService.formGroup"
+  class="flex flex-col w-full divide-y"
+  (ngSubmit)="onSubmitForm($event)"
+>
+  <h6 class="text-2xl">
+    {{ "registerSchool.labels.deleteSchool" | translate }}
+  </h6>
+  <div class="w-full flex flex-col py-2 space-y-4">
+    <div class="flex flex-col w-full">
+      <p class="text-left text-xs font-bold">
+        {{ "registerSchool.form.labels.schoolNames" | translate }}
+      </p>
+      <mat-form-field class="w-full">
+        <mat-select
+          [formControl]="registerService.selectedSchool"
+          class="w-full"
+          [placeholder]="
+            'registerSchool.form.placeholders.schoolNames' | translate
+          "
+        >
+          <ng-container
+            *ngIf="
+              formData?.schoolNames$ && formData?.schoolNames$
+                | async as schoolNames
+            "
+          >
+            <mat-option
+              *ngFor="let selectSchool of schoolNames | slice : 1; index as ind"
+              [value]="selectSchool.value"
+            >
+              {{ selectSchool.text }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            registerService.selectedSchool | hasFormControlError : 'required'
+          "
+        >
+          <span>
+            {{ "registerSchool.form.errors.schoolNames" | translate }}
+          </span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="flex flex-col space-y-2">
+      <p class="text-lg">
+        {{ "registerSchool.labels.schoolInformation" | translate }}
+      </p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-3">
+        <div class="flex flex-col space-y-1 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "registerSchool.form.labels.schoolAcronym" | translate }}
+          </h6>
+          <mat-form-field>
+            <input
+              type="text"
+              class="!uppercase"
+              [placeholder]="
+                'registerSchool.form.placeholders.schoolAcronym' | translate
+              "
+              matInput
+              [formControl]="registerService.schoolAcronym"
+            />
+            <mat-error
+              *ngIf="
+                registerService.schoolAcronym &&
+                registerService.schoolAcronym.invalid &&
+                registerService.schoolAcronym.touched
+              "
+            >
+              {{ "registerSchool.form.errors.schoolAcronymLimit" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col space-y-1 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "registerSchool.form.labels.schoolName" | translate }}
+            <span class="text-red-500">*</span>
+          </h6>
+          <mat-form-field class="example-full-width">
+            <input
+              type="text"
+              matInput
+              [placeholder]="
+                'registerSchool.form.placeholders.schoolName' | translate
+              "
+              [formControl]="registerService.schoolName"
+            />
+            <mat-error
+              *ngIf="
+                registerService.schoolName | hasFormControlError : 'required'
+              "
+            >
+              {{ "registerSchool.form.errors.schoolName" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col w-full">
+          <p class="font-bold text-xs">
+            {{ "registerSchool.form.labels.branch" | translate
+            }}<span class="text-red-500">*</span>
+          </p>
+          <mat-form-field>
+            <mat-select
+              [formControl]="registerService.branchName"
+              class="w-full"
+              [placeholder]="
+                'registerSchool.form.placeholders.branch' | translate
+              "
+            >
+              <ng-container
+                *ngIf="
+                  formData?.branchesList$ && formData.branchesList$
+                    | async as branches
+                "
+              >
+                <mat-option
+                  *ngFor="let branch of branches | slice : 1; index as ind"
+                  [value]="branch.value"
+                >
+                  {{ branch.text }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                registerService.branchName | hasFormControlError : 'required'
+              "
+            >
+              <span>
+                {{ "registerSchool.form.errors.branch" | translate }}
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "registerSchool.form.labels.institutionId" | translate
+            }}<span class="text-red-500">*</span>
+          </h6>
+          <mat-form-field>
+            <input
+              type="text"
+              matInput
+              [formControl]="registerService.institutionId"
+              [placeholder]="
+                'registerSchool.form.placeholders.institutionId' | translate
+              "
+            />
+            <mat-error
+              *ngIf="
+                registerService.institutionId | hasFormControlError : 'required'
+              "
+            >
+              {{ "registerSchool.form.errors.institutionId" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col space-y-1 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "registerSchool.form.labels.schoolRegNo" | translate
+            }}<span class="text-red-500">*</span>
+          </h6>
+          <mat-form-field>
+            <input
+              type="text"
+              matInput
+              [formControl]="registerService.schoolRegNo"
+              [placeholder]="
+                'registerSchool.form.placeholders.schoolRegNo' | translate
+              "
+            />
+            <mat-error
+              *ngIf="
+                registerService.schoolRegNo | hasFormControlError : 'required'
+              "
+            >
+              {{ "registerSchool.form.errors.schoolRegNo" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col space-y-1 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "registerSchool.form.labels.authorizedUser" | translate
+            }}<span class="text-red-500">*</span>
+          </h6>
+          <mat-form-field class="example-full-width">
+            <input
+              type="text"
+              [formControl]="registerService.authorizedUser"
+              matInput
+              #message
+              [placeholder]="
+                'registerSchool.form.placeholders.authorizedUser' | translate
+              "
+            />
+            <mat-hint align="end">Enter full name</mat-hint>
+            <mat-error
+              *ngIf="
+                registerService.authorizedUser
+                  | hasFormControlError : 'required'
+              "
+            >
+              {{ "registerSchool.form.errors.authorizedUser" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col space-y-2">
+      <p class="text-lg">
+        {{ "registerSchool.labels.contactDetails" | translate }}
+      </p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-3">
+        <div class="flex flex-col space-y-1 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "registerSchool.form.labels.emailAddress" | translate
+            }}<span class="text-red-500">*</span>
+          </h6>
+          <mat-form-field class="example-full-width">
+            <input
+              type="email"
+              [formControl]="registerService.emailAddress"
+              matInput
+              #message
+              [placeholder]="
+                'defaults.forms.placeholders.emailAddress' | translate
+              "
+            />
+            <mat-error
+              *ngIf="
+                AppUtilities.hasFormControlError(registerService.emailAddress)
+              "
+            >
+              @if (registerService.emailAddress | hasFormControlError :
+              'required') {
+              {{ "defaults.forms.errors.cannotBeBlank" | translate }} } @else if
+              (registerService.emailAddress | hasFormControlError : 'email') {
+              {{ "defaults.forms.errors.invalidEmailAddress" | translate }} }
+              @else {}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col w-full space-y-1">
+          <p class="font-bold text-xs">
+            {{ "registerSchool.form.labels.country" | translate }}
+          </p>
+          <mat-form-field>
+            <mat-select
+              [placeholder]="
+                'registerSchool.form.placeholders.country' | translate
+              "
+              [formControl]="registerService.country"
+              class="w-full"
+            >
+              <ng-container
+                *ngIf="
+                  formData?.countriesList$ && formData.countriesList$
+                    | async as countries
+                "
+              >
+                <mat-option
+                  *ngFor="let country of countries | slice : 1; index as ind"
+                  [value]="country.value"
+                >
+                  {{ country.text }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col w-full space-y-1">
+          <p class="font-bold text-xs">
+            {{ "registerSchool.form.labels.region" | translate }}
+          </p>
+          <mat-form-field>
+            <mat-select
+              [placeholder]="
+                'registerSchool.form.placeholders.region' | translate
+              "
+              [formControl]="registerService.region"
+              class="w-full"
+            >
+              <ng-container
+                *ngIf="
+                  formData?.regionsList$ && formData.regionsList$
+                    | async as regions
+                "
+              >
+                <mat-option
+                  *ngFor="let region of regions | slice : 1; index as ind"
+                  [value]="region.value"
+                >
+                  {{ region.text }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col w-full space-y-1">
+          <p class="font-bold text-xs">
+            {{ "registerSchool.form.labels.district" | translate }}
+          </p>
+          <mat-form-field>
+            <mat-select
+              [placeholder]="
+                'registerSchool.form.placeholders.district' | translate
+              "
+              [formControl]="registerService.district"
+              class="w-full"
+            >
+              <ng-container
+                *ngIf="
+                  formData?.districtsList$ && formData.districtsList$
+                    | async as districts
+                "
+              >
+                <mat-option
+                  *ngFor="let district of districts | slice : 1; index as ind"
+                  [value]="district.value"
+                >
+                  {{ district.text }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col w-full space-y-1">
+          <p class="font-bold text-xs">
+            {{ "registerSchool.form.labels.ward" | translate }}
+          </p>
+          <mat-form-field>
+            <mat-select
+              [placeholder]="
+                'registerSchool.form.placeholders.ward' | translate
+              "
+              [formControl]="registerService.ward"
+              class="w-full"
+            >
+              <ng-container
+                *ngIf="
+                  formData?.wardsList$ && formData.wardsList$ | async as wards
+                "
+              >
+                <mat-option
+                  *ngFor="let ward of wards | slice : 1; index as ind"
+                  [value]="ward.value"
+                >
+                  {{ ward.text }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col space-y-1 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "registerSchool.form.labels.residentialAddress" | translate }}
+          </h6>
+          <mat-form-field>
+            <input
+              type="text"
+              matInput
+              [formControl]="registerService.address"
+              [placeholder]="
+                'registerSchool.form.placeholders.residentialAddress'
+                  | translate
+              "
+            />
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col space-y-1 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "registerSchool.form.labels.website" | translate }}
+          </h6>
+          <mat-form-field>
+            <input
+              type="text"
+              matInput
+              [formControl]="registerService.website"
+              [placeholder]="
+                'registerSchool.form.placeholders.website' | translate
+              "
+            />
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col space-y-1 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{
+              ("defaults.forms.labels.phoneNumber" | translate) +
+                " (" +
+                ("defaults.line" | translate).toLocaleLowerCase() +
+                " " +
+                "1)"
+            }}
+            <span class="text-red-500">*</span>
+          </h6>
+          <mat-form-field>
+            <span matTextPrefix>+255 &nbsp;</span>
+            <input
+              matInput
+              type="text"
+              [formControl]="registerService.mobileNumber"
+              [placeholder]="
+                'defaults.forms.placeholders.phoneNumber' | translate
+              "
+            />
+            <mat-error>
+              @if (registerService.mobileNumber | hasFormControlError :
+              'required') {
+              {{ "defaults.forms.errors.cannotBeBlank" | translate }} } @else if
+              (registerService.mobileNumber | hasFormControlError : 'pattern') {
+              {{ "defaults.forms.errors.phoneNumber" | translate }} }
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col space-y-1 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{
+              ("defaults.forms.labels.phoneNumber" | translate) +
+                " (" +
+                ("defaults.line" | translate).toLocaleLowerCase() +
+                " " +
+                "2)"
+            }}
+          </h6>
+          <mat-form-field>
+            <span matTextPrefix>+255 &nbsp;</span>
+            <input
+              type="text"
+              matInput
+              [formControl]="registerService.phoneNumber"
+              [placeholder]="
+                'defaults.forms.placeholders.phoneNumber' | translate
+              "
+            />
+            <mat-error
+              *ngIf="
+                registerService.phoneNumber | hasFormControlError : 'pattern'
+              "
+            >
+              {{ "defaults.forms.errors.phoneNumber" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex flex-col space-y-2 w-full"
+      *ngIf="(formData?.currencies$ | async)?.length! > 0"
+    >
+      <p class="text-lg">
+        {{ "registerSchool.labels.accountDetails" | translate }}
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3 w-full relative">
+        <ng-container formArrayName="details">
+          <div
+            *ngFor="
+              let detail of registerService.details.controls;
+              index as ind
+            "
+            [@inOutAnimation]
+            formGroupName="{{ ind }}"
+            class="flex flex-col col-span-full"
+          >
+            <p class="text-xs font-bold">
+              {{ "registerSchool.labels.accountNo" | translate }} {{ ind + 1 }}
+            </p>
+            <div class="flex flex-row items-center w-full">
+              <div
+                class="flex flex-col md:flex-row space-x-0 md:space-x-2 space-y-2 md:space-y-0 w-full"
+              >
+                <div class="w-full">
+                  <mat-form-field class="w-full">
+                    <input
+                      class="w-fit md:w-full"
+                      matInput
+                      formControlName="accountNo"
+                      [placeholder]="
+                        'registerSchool.form.placeholders.accountNo' | translate
+                      "
+                    />
+                    @if
+                    (registerService.details.controls.at(ind)?.get('accountNo')
+                    &&
+                    registerService.details.controls.at(ind)?.get('accountNo')?.invalid
+                    &&
+                    registerService.details.controls.at(ind)?.get('accountNo')?.touched)
+                    {
+                    <mat-error>
+                      {{ "defaults.forms.errors.cannotBeBlank" | translate }}
+                    </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="w-full">
+                  <mat-form-field class="w-full">
+                    <input
+                      class="w-fit md:w-full"
+                      matInput
+                      formControlName="accountName"
+                      [placeholder]="
+                        'registerSchool.form.placeholders.accountName'
+                          | translate
+                      "
+                    />
+                    <mat-error>
+                      {{ "defaults.forms.errors.cannotBeBlank" | translate }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="w-full">
+                  <mat-form-field class="!w-full">
+                    <mat-select
+                      class="!w-full"
+                      matSelect
+                      formControlName="currency"
+                      [placeholder]="
+                        'registerSchool.form.placeholders.currency' | translate
+                      "
+                    >
+                      <ng-container
+                        *ngIf="
+                          formData?.currencies$ && formData.currencies$
+                            | async as currencies
+                        "
+                      >
+                        <mat-option
+                          *ngFor="
+                            let curr of currencies | slice : 1;
+                            index as ind
+                          "
+                          [value]="curr.value"
+                        >
+                          {{ curr.text }}
+                        </mat-option>
+                      </ng-container>
+                    </mat-select>
+                    <mat-error>
+                      {{ "defaults.errors.pleaseSpecify" | translate }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-row items-center justify-end w-full py-2">
+    <button (click)="resetForm($event)" mat-button color="warn" type="button">
+      {{ "defaults.reset" | translate }}
+    </button>
+    <button
+      type="submit"
+      form="register-school-form"
+      mat-flat-button
+      color="primary"
+    >
+      {{ "defaults.submit" | translate }}
+    </button>
+  </div>
+</form>

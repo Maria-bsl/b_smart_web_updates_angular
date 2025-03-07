@@ -6,18 +6,17 @@ import { RouterModule } from '@angular/router';
 import { LoginFormComponent } from '../../components/forms/admin/login-form/login-form.component';
 
 @Component({
-  selector: 'app-login-page',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatDividerModule,
-    MatListModule,
-    LoginPageComponent,
-    LoginFormComponent,
-    RouterModule,
-  ],
-  templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.scss',
+    selector: 'app-login-page',
+    imports: [
+        MatCardModule,
+        MatDividerModule,
+        MatListModule,
+        LoginPageComponent,
+        LoginFormComponent,
+        RouterModule,
+    ],
+    templateUrl: './login-page.component.html',
+    styleUrl: './login-page.component.scss'
 })
 export class LoginPageComponent {
   @Input('login-button-client-id') loginButtonClientId: string = '';

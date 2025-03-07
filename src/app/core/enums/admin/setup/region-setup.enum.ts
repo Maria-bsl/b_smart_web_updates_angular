@@ -1,0 +1,17 @@
+export enum ERegionSetup {
+  REGION_TEXTFIELD,
+  REGION_RADIO_BUTTONS,
+  COUNTRY_SELECT,
+  CREATE_BUTTON,
+  UPDATE_BUTTON,
+  DELETE_BUTTON,
+  CANCEL_BUTTON,
+}
+
+export enum ERegionSetupItem {
+  SELECTOR_BUTTON,
+  REGION,
+  SNO,
+  COUNTRY,
+  STATUS,
+}

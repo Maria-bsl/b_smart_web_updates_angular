@@ -46,24 +46,23 @@ import { AppConfigService } from 'src/app/core/services/app-config/app-config.se
 import { OtpFormPipe } from 'src/app/core/pipes/otp-form-pipe/otp-form.pipe';
 import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
 import { TranslateModule } from '@ngx-translate/core';
-import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
+import { OnGenericComponent } from 'src/app/core/interfaces/on-generic-component';
 
 @Component({
-  selector: 'app-otp-form',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    NgOtpInputModule,
-    MatIconModule,
-    MatButtonModule,
-    OtpFormPipe,
-    TranslateModule,
-  ],
-  templateUrl: './otp-form.component.html',
-  styleUrls: ['./otp-form.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
-  animations: [inOutAnimation],
+    selector: 'app-otp-form',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        NgOtpInputModule,
+        MatIconModule,
+        MatButtonModule,
+        OtpFormPipe,
+        TranslateModule,
+    ],
+    templateUrl: './otp-form.component.html',
+    styleUrls: ['./otp-form.component.scss'],
+    encapsulation: ViewEncapsulation.Emulated,
+    animations: [inOutAnimation]
 })
 export class OtpFormComponent
   implements OnInit, AfterViewInit, OnGenericComponent

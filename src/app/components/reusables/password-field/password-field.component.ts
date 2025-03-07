@@ -5,16 +5,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'app-password-field',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatInputModule,
-    MatIconModule,
-  ],
-  templateUrl: './password-field.component.html',
-  styleUrl: './password-field.component.scss',
+    selector: 'app-password-field',
+    imports: [
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatInputModule,
+        MatIconModule,
+    ],
+    templateUrl: './password-field.component.html',
+    styleUrl: './password-field.component.scss'
 })
 export class PasswordFieldComponent {
   @Input() passwordControl: FormControl = new FormControl();

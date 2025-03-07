@@ -25,7 +25,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
-import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
+import { OnGenericComponent } from 'src/app/core/interfaces/on-generic-component';
 import { map, Observable, of } from 'rxjs';
 import {
   ElementDomManipulationService,
@@ -64,31 +64,30 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
-  selector: 'app-payment-details-form',
-  standalone: true,
-  imports: [
-    CommonModule,
-    TranslateModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatButtonModule,
-    MatTableModule,
-    MatTableModule,
-    MatSortModule,
-    MatIconModule,
-    MatDividerModule,
-  ],
-  providers: [
-    DatePipe,
-    provideNativeDateAdapter(),
-    provideMomentDateAdapter(DATE_PICKER_FORMATS),
-  ],
-  templateUrl: './payment-details-form.component.html',
-  styleUrl: './payment-details-form.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-payment-details-form',
+    imports: [
+        CommonModule,
+        TranslateModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatButtonModule,
+        MatTableModule,
+        MatTableModule,
+        MatSortModule,
+        MatIconModule,
+        MatDividerModule,
+    ],
+    providers: [
+        DatePipe,
+        provideNativeDateAdapter(),
+        provideMomentDateAdapter(DATE_PICKER_FORMATS),
+    ],
+    templateUrl: './payment-details-form.component.html',
+    styleUrl: './payment-details-form.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentDetailsFormComponent
   implements OnGenericComponent, AfterViewInit

@@ -20,19 +20,18 @@ import { BehaviorSubject } from 'rxjs';
 import { HtmlSelectOption } from 'src/app/core/interfaces/helpers/data/html-select-option';
 
 @Component({
-  selector: 'app-add-school-group-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatRadioModule,
-    MatButtonModule,
-    CommonModule,
-    MatListModule,
-  ],
-  templateUrl: './add-school-group-form.component.html',
-  styleUrl: './add-school-group-form.component.scss',
+    selector: 'app-add-school-group-form',
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatRadioModule,
+        MatButtonModule,
+        CommonModule,
+        MatListModule,
+    ],
+    templateUrl: './add-school-group-form.component.html',
+    styleUrl: './add-school-group-form.component.scss'
 })
 export class AddSchoolGroupFormComponent {}
 // export class AddSchoolGroupFormComponent implements OnInit {

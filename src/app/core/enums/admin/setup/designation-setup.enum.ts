@@ -1,0 +1,13 @@
+export enum EDesignationSetup {
+  DESIGNATION_TEXTFIELD,
+  CREATE_BUTTON,
+  UPDATE_BUTTON,
+  DELETE_BUTTON,
+  CANCEL_BUTTON,
+}
+
+export enum EDesignationSetupItem {
+  RADIO_BUTTON,
+  DESIGNATION_NAME,
+  DESIGNATION_SNO,
+}

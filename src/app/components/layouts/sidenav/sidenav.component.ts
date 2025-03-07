@@ -54,28 +54,27 @@ import {
 } from 'src/app/core/pipes/sidenav-pipe/sidenav-item-pipe.pipe';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { AppConst } from 'src/app/utilities/app-consts';
-import { OnGenericComponent } from 'src/app/core/interfaces/essentials/on-generic-component';
+import { OnGenericComponent } from 'src/app/core/interfaces/on-generic-component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from 'src/app/core/services/language-service/language.service';
 
 @Component({
-  selector: 'app-sidenav',
-  standalone: true,
-  imports: [
-    MatListModule,
-    MatIconModule,
-    CommonModule,
-    MatTreeModule,
-    MatButtonModule,
-    MatSidenavModule,
-    SidenavItemPipePipe,
-    IsActiveSidenavLinkPipe,
-    TranslateModule,
-  ],
-  templateUrl: './sidenav.component.html',
-  styleUrl: './sidenav.component.scss',
-  animations: [sidenavAnimation],
-  encapsulation: ViewEncapsulation.Emulated,
+    selector: 'app-sidenav',
+    imports: [
+        MatListModule,
+        MatIconModule,
+        CommonModule,
+        MatTreeModule,
+        MatButtonModule,
+        MatSidenavModule,
+        SidenavItemPipePipe,
+        IsActiveSidenavLinkPipe,
+        TranslateModule,
+    ],
+    templateUrl: './sidenav.component.html',
+    styleUrl: './sidenav.component.scss',
+    animations: [sidenavAnimation],
+    encapsulation: ViewEncapsulation.Emulated
 })
 export class SidenavComponent
   implements AfterViewInit, OnChanges, OnGenericComponent
@@ -107,6 +106,9 @@ export class SidenavComponent
     private _sidenavService: SidenavService,
     private languageService: LanguageService
   ) {
+    this.languageService.changeLanguage(
+      localStorage.getItem('currentLang') ?? 'en'
+    );
     this.registerIcons();
   }
   private literalsTextChanged(change: SimpleChange) {

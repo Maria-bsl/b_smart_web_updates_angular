@@ -15,10 +15,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import {
-  TableFormat,
-  TableHeader,
-} from 'src/app/core/interfaces/essentials/table-format';
+import { TableFormat, TableHeader } from 'src/app/core/interfaces/table-format';
 import { TableDataService } from 'src/app/core/services/table-data/table-data.service';
 import { MatTableModule } from '@angular/material/table';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -33,31 +30,29 @@ import {
 } from '@angular/material/dialog';
 import { AddSchoolGroupFormComponent } from '../../forms/admin/add-school-group-form/add-school-group-form.component';
 import { TooltipPosition, MatTooltipModule } from '@angular/material/tooltip';
-import { ViewRegisteredSchoolsOfSchoolGroupsComponent } from '../../forms/admin/view-registered-schools-of-school-groups/view-registered-schools-of-school-groups.component';
 import { EditSchoolGroupFormComponent } from '../../forms/admin/edit-school-group-form/edit-school-group-form.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRippleModule } from '@angular/material/core';
 
 @Component({
-  selector: 'app-school-groups-table-view',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatTableModule,
-    MatIconModule,
-    MatButtonModule,
-    MatSortModule,
-    ReactiveFormsModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatTooltipModule,
-    MatCheckboxModule,
-    MatRippleModule,
-  ],
-  templateUrl: './school-groups-table-view.component.html',
-  styleUrl: './school-groups-table-view.component.scss',
+    selector: 'app-school-groups-table-view',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatTableModule,
+        MatIconModule,
+        MatButtonModule,
+        MatSortModule,
+        ReactiveFormsModule,
+        MatPaginatorModule,
+        MatDialogModule,
+        MatTooltipModule,
+        MatCheckboxModule,
+        MatRippleModule,
+    ],
+    templateUrl: './school-groups-table-view.component.html',
+    styleUrl: './school-groups-table-view.component.scss'
 })
 export class SchoolGroupsTableViewComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['select', '1', '3'];
@@ -173,18 +168,18 @@ export class SchoolGroupsTableViewComponent implements AfterViewInit, OnInit {
     });
   }
   openViewGroupRegisteredSchools() {
-    let dialogRef = this.dialog.open(
-      ViewRegisteredSchoolsOfSchoolGroupsComponent,
-      {
-        width: '700px',
-        height: '450px',
-        data: {
-          schoolsListView: document.getElementById(
-            this.schoolsListView
-          ) as HTMLSelectElement,
-        },
-      }
-    );
+    // let dialogRef = this.dialog.open(
+    //   ViewRegisteredSchoolsOfSchoolGroupsComponent,
+    //   {
+    //     width: '700px',
+    //     height: '450px',
+    //     data: {
+    //       schoolsListView: document.getElementById(
+    //         this.schoolsListView
+    //       ) as HTMLSelectElement,
+    //     },
+    //   }
+    // );
   }
   hasAtLeastOneSelection() {
     return this.selection.selected.length > 0;

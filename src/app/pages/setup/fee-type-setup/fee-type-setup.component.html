@@ -1,0 +1,210 @@
+<section class="flex flex-col w-full divide-y">
+  <h6 class="text-2xl">
+    {{ "setupPages.fee.labels.fee" | translate }}
+  </h6>
+  <div class="flex flex-col space-y-8 w-full py-2">
+    <form
+      [@inOutAnimation]
+      id="academic-setup-form"
+      class="w-full flex flex-col"
+      [formGroup]="formGroup"
+      (ngSubmit)="submitForm($event)"
+    >
+      <div class="grid grid-cols-1 lg:grid-cols-2 w-full gap-3">
+        <div class="flex flex-col space-y-0.5 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "setupPages.fee.form.labels.fee" | translate }}
+          </h6>
+          <mat-form-field>
+            <input
+              type="text"
+              [placeholder]="'setupPages.fee.form.placeholders.fee' | translate"
+              matInput
+              [formControl]="feeType"
+            />
+            <mat-error>
+              {{ "setupPages.fee.form.errors.fee" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col space-y-0.5 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "setupPages.fee.form.labels.feeDescription" | translate }}
+          </h6>
+          <mat-form-field>
+            <input
+              type="text"
+              [placeholder]="
+                'setupPages.fee.form.placeholders.feeDescription' | translate
+              "
+              matInput
+              [formControl]="feeTypeDescription"
+            />
+            <mat-error>
+              {{ "setupPages.fee.form.errors.feeDescription" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-col space-y-0.5 w-full">
+          <h6 class="text-left text-xs font-bold">
+            {{ "defaults.status" | translate }}
+          </h6>
+          <mat-radio-group class="!space-x-2" [formControl]="feeTypeStatus">
+            <mat-radio-button class="radio-button" [value]="'Active'">{{
+              "defaults.active" | translate
+            }}</mat-radio-button>
+            <mat-radio-button [value]="'InActive'">{{
+              "defaults.inactive" | translate
+            }}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div class="flex flex-row items-center justify-end space-x-2">
+        <button
+          (click)="resetForm($event)"
+          color="warn"
+          mat-button
+          type="button"
+        >
+          {{ "defaults.reset" | translate }}
+        </button>
+        <button
+          type="submit"
+          form="academic-setup-form"
+          color="primary"
+          mat-flat-button
+        >
+          @if ((tableService.dataSource.data | tableSelected)) {
+          {{ "defaults.update" | translate }}
+          } @else {
+          {{ "defaults.create" | translate }}
+          }
+        </button>
+      </div>
+    </form>
+    <div *ngIf="!tableService.isEmpty" class="flex flex-col w-full">
+      <div class="flex flex-row flex-wrap items-center w-full justify-between">
+        <label
+          class="input input-sm input-bordered flex items-center gap-2 w-auto"
+        >
+          <input
+            #searchInput
+            [formControl]="tableService.searchControl"
+            type="text"
+            class="grow"
+            [placeholder]="'defaults.search' | translate"
+          />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            class="h-4 w-4 opacity-70"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </label>
+        <div
+          class="flex flex-row items-center space-x-1"
+          *ngIf="tableService.dataSource.data | tableSelected"
+        >
+          <button
+            (click)="deselectedAllRows.emit()"
+            type="button"
+            mat-flat-button
+            color="accent"
+          >
+            {{ "defaults.cancel" | translate }}
+          </button>
+          <button
+            (click)="deleteRow.emit()"
+            type="button"
+            mat-flat-button
+            color="warn"
+          >
+            {{ "defaults.delete" | translate }}
+          </button>
+        </div>
+      </div>
+      <div class="relative w-full overflow-x-auto">
+        <table
+          mat-table
+          [dataSource]="tableService.dataSource"
+          class="!w-full custom-table"
+          matSort
+        >
+          <ng-container matColumnDef="selector">
+            <th mat-header-cell *matHeaderCellDef>
+              <!-- <mat-checkbox
+                [checked]="this.tableService.selection.hasValue()"
+                (change)="$event ? deselectedAllRows.emit() : null"
+              >
+              </mat-checkbox> -->
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                (change)="this.tableService.onCheckboxChange(row)"
+                #checkbox
+                [checked]="row | isSelectedItem"
+                [disabled]="checkbox.checked"
+                [aria-label]="this.tableService.checkboxLabel(row)"
+                [disabledInteractive]="false"
+              >
+              </mat-checkbox>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="feeType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ "setupPages.fee.form.labels.fee" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.feeType }}</td>
+          </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ "setupPages.fee.form.labels.description" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.description }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ "defaults.status" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <app-active-inactive
+                [label]="element.status"
+              ></app-active-inactive>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="headers$ | async"></tr>
+          <tr
+            class="!cursor-pointer"
+            mat-row
+            *matRowDef="let row; columns: headers$ | async"
+            (click)="
+              !row.selector.checked && this.tableService.onCheckboxChange(row)
+            "
+          ></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">
+              {{ "defaults.errors.noDataMatchingFilter" | translate }}
+              <span class="!font-semibold"> "{{ searchInput.value }}" </span>
+            </td>
+          </tr>
+        </table>
+        <mat-paginator
+          class="pt-2"
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          aria-label="Select page of users"
+          #paginator
+          showFirstLastButtons
+        ></mat-paginator>
+      </div>
+    </div>
+  </div>
+</section>

@@ -27,19 +27,18 @@ import { MatListModule } from '@angular/material/list';
 import { AppUtilities } from 'src/app/utilities/app-utilities';
 
 @Component({
-  selector: 'app-edit-school-group-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatRadioModule,
-    MatButtonModule,
-    CommonModule,
-    MatListModule,
-  ],
-  templateUrl: './edit-school-group-form.component.html',
-  styleUrl: './edit-school-group-form.component.scss',
+    selector: 'app-edit-school-group-form',
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatRadioModule,
+        MatButtonModule,
+        CommonModule,
+        MatListModule,
+    ],
+    templateUrl: './edit-school-group-form.component.html',
+    styleUrl: './edit-school-group-form.component.scss'
 })
 export class EditSchoolGroupFormComponent {}
 // export class EditSchoolGroupFormComponent implements OnInit {

@@ -1,3 +1,5 @@
+@use "@angular/material" as mat;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -48,4 +50,26 @@
 .mat-error {
   background-color: #fee2e2;
   color: #ffffff;
+}
+
+.custom-table {
+  @include mat.table-overrides(
+    (
+      //header-headline-color: #374151,
+      header-headline-color: gray
+    )
+  );
+}
+
+table th {
+  //@apply bg-slate-100;
+  background-color: theme("colors.base-100") !important;
+}
+
+table tr:nth-child(odd) {
+  background-color: theme("colors.neutral") !important;
+}
+
+table tr:nth-child(even) {
+  background-color: #fefefe !important;
 }

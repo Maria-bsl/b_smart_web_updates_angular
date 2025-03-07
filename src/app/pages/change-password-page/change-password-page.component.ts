@@ -12,12 +12,11 @@ import { MatInputModule } from '@angular/material/input';
 import { ChangePasswordFormComponent } from 'src/app/components/forms/admin/change-password-form/change-password-form.component';
 
 @Component({
-  selector: 'app-change-password-page',
-  standalone: true,
-  imports: [ChangePasswordFormComponent, ChangePasswordFormComponent],
-  templateUrl: './change-password-page.component.html',
-  styleUrl: './change-password-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-change-password-page',
+    imports: [ChangePasswordFormComponent, ChangePasswordFormComponent],
+    templateUrl: './change-password-page.component.html',
+    styleUrl: './change-password-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChangePasswordPageComponent {
   @Input('password-expired-label')

@@ -1,0 +1,588 @@
+{
+  "defaults": {
+    "warning": "Warning",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "pleaseFill": "Please fill",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "InActive",
+    "search": "Search",
+    "month": "Month",
+    "noUsersFound": "No users found",
+    "seconds": "Seconds",
+    "minutes": "Minutes",
+    "saveChanges": "Save changes?",
+    "line": "Line",
+    "update": "Update",
+    "create": "Create",
+    "delete": "Delete",
+    "thisCannotBeUndone": "This cannot be undone.",
+    "forms": {
+      "labels": {
+        "phoneNumber": "Phone number"
+      },
+      "placeholders": {
+        "emailAddress": "Ex. toswaki@hotmail.com",
+        "phoneNumber": "xxx-xxx-xxx"
+      },
+      "errors": {
+        "cannotBeBlank": "Cannot be blank",
+        "invalidEmailAddress": "Invalid email address",
+        "phoneNumber": "Invalid phone number"
+      }
+    },
+    "errors": {
+      "noDataMatchingFilter": "No data matching the filter",
+      "pleaseSpecify": "Please, specify"
+    }
+  },
+  "sideNavItems": {
+    "Dashboard": "Dashboard",
+    "Setup": "Setup",
+    "EmailResend": "Email Resend",
+    "SchoolGroup": "School Group",
+    "ChangePassword": "Change Password",
+    "AccessRights": "Access Rights",
+    "ResetPassword": "Reset Password",
+    "Block/UnBlockUser": "Block/UnBlock User",
+    "Notifications": "Notifications",
+    "SendSMSToParents": "Send SMS to Parents",
+    "Schools": "Schools",
+    "Approvals": "Approvals",
+    "Returns": "Returns",
+    "Reports": "Reports",
+    "AuditTrail": "Audit Trail",
+    "Academic": "Academic",
+    "Designation": "Designation",
+    "Zone": "Zone",
+    "Region": "Region",
+    "District": "District",
+    "Ward": "Ward",
+    "Medium": "Medium",
+    "Term": "Term",
+    "BankBranches": "Bank Branches",
+    "Fee": "Fee",
+    "Questions": "Questions",
+    "CreateUser": "Create User",
+    "AccessModules": "Access Modules",
+    "Packages": "Packages",
+    "PackagePrice": "Package Price",
+    "PasswordAging": "Password Aging",
+    "SMTPConfiguration": "SMTP Configuration",
+    "SMSConfiguration": "SMS Configuration",
+    "EmailText": "Email Text",
+    "SMSText": "SMS Text",
+    "SchoolRegistration": "School Registration",
+    "UpdateSchool Info": "Update School Info",
+    "FeeReverseInbox": "Fee Reverse Inbox",
+    "SchoolModification": "School Modification",
+    "SchoolDeletion": "School Deletion",
+
+    "RegisteredSchool": "Registered School",
+    "SchoolFeeAllocation": "School Fee Allocation",
+    "StudentDetails": "Student Details",
+    "AcademicStudentDetails": "Academic Student Details",
+    "IdleSchools": "Idle Schools",
+    "FeeDetails": "Fee Details",
+    "FeeDetailsSummary": "Fee Details Summary",
+    "AdmissionFeeDetails": "Admission Fee Details",
+    "PaymentDetails": "Payment Details",
+    "FeeBalance": "Fee Balance",
+    "FeeBalanceSummary": "Fee Balance Summary",
+    "PaymentSummary": "Payment Summary",
+    "SchoolInvoices": "School Invoices",
+    "UsersBankList": "Users (Bank) List",
+    "UsersSchoolsList": "Users (Schools) List",
+    "ParentDetails": "Parent Details",
+    "SchoolLogs": "School Logs",
+
+    "Class": "Class",
+    "Section": "Section",
+    "Allocation": "Allocation",
+    "SchoolUsers": "School Users",
+    "Students": "Students",
+    "FeeData": "Fee Data"
+  },
+  "loginForm": {
+    "labels": {
+      "username": "Username",
+      "password": "Password",
+      "verificationCode": "Verification code",
+      "captcha": "Captcha",
+      "slogan": "Managing your school's information with ease.",
+      "mobileAppComingSoon": "Our new app coming soon",
+      "paymentMethodsText": "Track your child’s school fees and pay with mobile services including M-PESA or AIRTEL MONEY.",
+      "schoolPerformanceText": "Get up to date with your child’s activities and school performance.",
+      "schoolSentimentText": "Stay connected with your child’s school and teacher sentiments."
+    },
+    "placeholders": {
+      "username": "Enter username",
+      "password": "Enter password",
+      "captcha": "Enter captcha code"
+    },
+    "errors": {
+      "username": "Please enter username",
+      "password": "Please fill"
+    },
+    "actions": {
+      "logIn": "Log In",
+      "forgotPassword": "Forgot password?",
+      "admission": "Sign Up for Admission Here!",
+      "downloadMobileApp": "Download mobile app (parents)",
+      "poweredBy": "Powered by"
+    }
+  },
+  "otpForm": {
+    "labels": {
+      "otpCode": "Otp Code",
+      "resendCode": "Resend code",
+      "verify": "Verify",
+      "backHome": "Back home",
+      "resendCodeIn": "Resend code in"
+    },
+    "errors": {
+      "invalidFormMessage": "Please enter the 6 digit code that has been sent to you."
+    }
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "labels": {
+      "passwordExpired": "Your password has expired. Please change it.",
+      "passwordUpdate": "Your password has not been updated in the last 90 days. Please change your password."
+    },
+    "form": {
+      "labels": {
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm Password"
+      },
+      "placeholders": {
+        "currentPassword": "Your current password",
+        "newPassword": "Enter new password",
+        "confirmPassword": "Confirm password"
+      },
+      "errors": {
+        "passwordsNotMatch": "Passwords do not match.",
+        "passwordRequirements": "Use 8-14 characters with at least one number, special character, lowercase, and uppercase letter.",
+        "emptyPassword": "Please fill."
+      },
+      "dialog": {
+        "errors": {
+          "passwordsNotMatch": "The passwords you entered did not match.",
+          "passwordRequirements": "Password must be 8-14 characters with one digit, special character, lowercase, and uppercase.",
+          "emptyPassword": "A password field is empty."
+        }
+      }
+    }
+  },
+  "cpass": {
+    "title": "Update Your Information",
+    "completeForm": "Please, complete the form below to continue.",
+    "form": {
+      "labels": {
+        "secretQuestion": "Secret question",
+        "answer": "Answer",
+        "capcha": "Capcha"
+      },
+      "placeholders": {
+        "secretQuestion": "Pick a secret question",
+        "selectSecretQuestion": "Please, select a question",
+        "answer": "Write your answer",
+        "capcha": "Enter below code"
+      },
+      "errors": {
+        "secretQuestion": "Please, select a question.",
+        "answer": "Please, provide an answer.",
+        "capcha": "Missing capcha"
+      },
+      "dialog": {
+        "errors": {
+          "secretQuestion": "You must select a secret question.",
+          "answer": "Please provide an answer to the secret question.",
+          "capcha": "The capcha code you provided was invalid."
+        }
+      }
+    }
+  },
+  "blockUnblockUser": {
+    "title": "Block/Unblock User",
+    "blockUser": "Block User",
+    "unblockUser": "Unblock User",
+    "block": "Block",
+    "unblock": "Unblock",
+    "blockUserForm": {
+      "labels": {
+        "userType": "User type",
+        "institution": "Institution",
+        "enterInstitution": "Enter institution",
+        "fullName": "Full name",
+        "reasonForBlock": "Reason for block",
+        "blockedUsers": "Blocked users",
+        "unblockUsers": "Unblock users"
+      },
+      "placeholders": {
+        "userType": "Select user type",
+        "institution": "Educational institution",
+        "fullName": "Enter user's full name",
+        "reasonForBlock": "Your reason",
+        "action": "Block/Unblock User",
+        "selectAction": "Select action",
+        "selectUser": "Select user",
+        "writeHere": "Write here"
+      },
+      "errors": {
+        "userType": "Please, select a user type",
+        "institution": "Missing institution",
+        "fullName": "Please select an institution",
+        "reasonForBlock": "Please provide a reason for the block",
+        "missingAction": "Please, select an action"
+      }
+    },
+    "unblockUserForm": {
+      "labels": {
+        "blockedUsers": "Blocked users"
+      },
+      "placeholders": {
+        "blockedUsers": "Select a user"
+      }
+    }
+  },
+  "registerSchool": {
+    "labels": {
+      "AddNewSchool": "Add a new school",
+      "schoolInformation": "School Information",
+      "contactDetails": "Contact details",
+      "accountDetails": "Account details",
+      "accountNo": "Account No.",
+      "updateSchool": "Edit school",
+      "deleteSchool": "Delete school info"
+    },
+    "form": {
+      "labels": {
+        "schoolAcronym": "School Acronym",
+        "schoolName": "School name",
+        "branch": "Branch",
+        "institutionId": "Institution Id",
+        "schoolRegNo": "Registration number",
+        "authorizedUser": "Authorized user",
+        "emailAddress": "Barua pepe",
+        "country": "Country",
+        "region": "Region",
+        "district": "District",
+        "ward": "Ward",
+        "residentialAddress": "Residential address",
+        "website": "Website",
+        "schoolNames": "Available schools"
+      },
+      "placeholders": {
+        "schoolAcronym": "Enter school short name",
+        "schoolName": "Enter school name",
+        "branch": "Please, select a branch",
+        "institutionId": "Enter institution Id",
+        "schoolRegNo": "Enter the school's registration number",
+        "authorizedUser": "Enter authorized user",
+        "emailAddress": "Ingiza barua pepe",
+        "country": "Please, select a country",
+        "region": "Please, select a region",
+        "district": "Please, select a district",
+        "ward": "Please, select a ward",
+        "residentialAddress": "The school address",
+        "website": "Enter website link",
+        "accountNo": "Enter account number",
+        "accountName": "Enter account name",
+        "currency": "Please, select a currency",
+        "schoolNames": "Please, select a school"
+      },
+      "errors": {
+        "schoolAcronymLimit": "Acronyms may be 3 characters long.",
+        "schoolName": "Missing school name",
+        "branch": "You have not selected a branch",
+        "institutionId": "Institution Id is missing",
+        "schoolRegNo": "Missing school registration number",
+        "authorizedUser": "Missing authorized user",
+        "country": "No country selected",
+        "schoolNames": "You must select a school"
+      }
+    }
+  },
+  "schoolGroups": {
+    "title": "School Groups",
+    "welcomeMessage": "Welcome back to the school groups page.",
+    "actions": {
+      "addSchoolGroup": "Add School Group"
+    },
+    "forms": {
+      "labels": {
+        "schoolGroup": "School Group"
+      },
+      "placeholders": {
+        "schoolGroup": "Enter school group"
+      },
+      "errors": {}
+    },
+    "schoolGroupsTable": [
+      {
+        "label": "Group"
+      },
+      {
+        "label": "Status"
+      }
+    ]
+  },
+  "sidenavItems": [
+    {
+      "name": "Dashboard",
+      "icon": "dashboard",
+      "link": "/main",
+      "children": []
+    },
+    {
+      "name": "User Management",
+      "icon": "groups",
+      "link": "/main/user",
+      "children": [
+        {
+          "name": "Access Rights"
+        }
+      ]
+    },
+    {
+      "name": "School Management",
+      "icon": "school",
+      "link": "/main/school",
+      "children": [
+        {
+          "name": "Add New School"
+        },
+        {
+          "name": "Update School Info"
+        }
+      ]
+    },
+    {
+      "name": "Notifications Management",
+      "icon": "schedule_send",
+      "link": "/main/notifications",
+      "children": []
+    },
+    {
+      "name": "Approvals Management",
+      "icon": "fact_check",
+      "link": "/main/approvals",
+      "children": [
+        {
+          "name": "School Registration"
+        },
+        {
+          "name": "School Modification"
+        }
+      ]
+    },
+    {
+      "name": "Returns Management",
+      "icon": "assignment_return",
+      "link": "/main/returns"
+    }
+  ],
+  "dashboardPage": {
+    "labels": {
+      "welcomeText": "Welcome",
+      "totalSchools": "Total School(s)",
+      "activeSchools": "Active School(s)",
+      "billsIssued": "Bills issued",
+      "students": "Students",
+      "users": "Users",
+      "bankUsers": "Bank users",
+      "schoolUsers": "School users",
+      "collectedAmount": "Collected Amount",
+      "overview": "Overview",
+      "lastYear": "Last year",
+      "paidInvoices": "Paid invoices",
+      "pendingInvoices": "Pending invoices"
+    }
+  },
+  "patDetReport": {
+    "title": "Payment details report",
+    "noDataFound": "No data found",
+    "form": {
+      "labels": {
+        "zone": "Zone",
+        "school": "School",
+        "fee": "Fee",
+        "class": "Class",
+        "steamCombination": "Stream/Combination",
+        "admissionNo": "Admission No.",
+        "referenceNo": "Reference No.",
+        "currency": "Currency",
+        "dateFrom": "Date from",
+        "dateTo": "Date to"
+      },
+      "placeholders": {
+        "zone": "Select zone",
+        "school": "Select school",
+        "fee": "Select fee",
+        "class": "Select class",
+        "steamCombination": "Select stream/combination",
+        "admissionNo": "Enter admission No.",
+        "referenceNo": "Enter reference No.",
+        "currency": "Specify Currency",
+        "dateFrom": "Choose a date",
+        "dateTo": "Choose a date"
+      },
+      "errors": {
+        "dateFrom": "Please select a starting date",
+        "dateTo": "Please select an ending date"
+      }
+    },
+    "tableColumns": {
+      "sno": "SNO",
+      "class": "Class",
+      "stream": "Stream/Combination",
+      "date": "Date",
+      "admission": "Admission",
+      "studentName": "Student name",
+      "payerName": "Payer name",
+      "fee": "Fee",
+      "term": "Term",
+      "paidAmount": "Paid Amount",
+      "referenceNo": "Reference No.",
+      "transactionChannel": "Transaction channel",
+      "receiptNo": "Receipt No.",
+      "currency": "Currency"
+    },
+    "actions": {
+      "viewReport": "View report",
+      "downloadPdf": "Download PDF",
+      "downloadExcel": "Download Excel"
+    }
+  },
+  "setupPages": {
+    "academic": {
+      "labels": {
+        "academic": "Academic(s)",
+        "addAcademicYear": "Insert",
+        "updateAcademicYear": "Update",
+        "removeAcademicYear": "Delete",
+        "tableColumns": {
+          "radioButton": "",
+          "academicYear": "Academic Year",
+          "academicStatus": "Status"
+        }
+      },
+      "form": {
+        "labels": {
+          "academic": "Academic"
+        },
+        "placeholders": {
+          "academic": "Enter academic year"
+        },
+        "errors": {
+          "academic": "Please select a year"
+        }
+      }
+    },
+    "designation": {
+      "labels": {
+        "designation": "Designation",
+        "tableColumns": {
+          "designation": "Designation"
+        }
+      },
+      "form": {
+        "placeholders": {
+          "designation": "Enter designation"
+        },
+        "errors": {
+          "designation": "Please, enter designation"
+        }
+      }
+    },
+    "zone": {
+      "labels": {
+        "zone": "Zone",
+        "tableColumns": {
+          "selector": "",
+          "zone": "Zone",
+          "status": "Status"
+        }
+      },
+      "form": {
+        "labels": {
+          "zone": "Zone"
+        },
+        "placeholders": {
+          "zone": "Enter zone"
+        },
+        "errors": {
+          "zone": "Please, enter a zone"
+        }
+      }
+    },
+    "region": {
+      "labels": {
+        "region": "Region",
+        "tableColumns": {
+          "region": "Region",
+          "country": "Country",
+          "status": "Status"
+        }
+      },
+      "form": {
+        "labels": {
+          "region": "Region",
+          "country": "Country"
+        },
+        "placeholders": {
+          "region": "Enter region",
+          "country": "Please, select a country"
+        },
+        "errors": {
+          "region": "You must enter a region",
+          "country": "Please, specify"
+        }
+      }
+    },
+    "district": {
+      "labels": {
+        "district": "District(s)",
+        "tableColumns": {
+          "district": "District",
+          "region": "Region",
+          "status": "Status"
+        }
+      },
+      "form": {
+        "labels": {
+          "district": "District"
+        },
+        "placeholders": {
+          "district": "Enter district",
+          "region": "Please, select a region"
+        },
+        "errors": {
+          "district": "Please, enter district",
+          "region": "You must select a region"
+        }
+      }
+    },
+    "ward": {
+      "labels": {
+        "ward": "Ward"
+      },
+      "forms": {
+        "placeholders": {
+          "ward": "Enter ward",
+          "district": "Please, select a district",
+          "region": "Please, select a region"
+        },
+        "errors": {
+          "ward": "Please, provide a ward",
+          "district": "You must select a ward",
+          "region": "You must select a region"
+        }
+      }
+    }
+  }
+}

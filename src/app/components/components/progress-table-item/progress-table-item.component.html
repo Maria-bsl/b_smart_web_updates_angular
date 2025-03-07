@@ -1,0 +1,16 @@
+<div class="flex flex-row items-center space-x-2">
+  <ng-container *ngIf="label; else notExistLabel">
+    @if (isApproved) {
+    <h6 class="text-sm bg-green-100 text-green-600 rounded p-1 capitalize">
+      {{ label.toLocaleLowerCase() }}
+    </h6>
+    } @else {
+    <h6 class="text-sm bg-orange-100 text-orange-600 rounded p-1 capitalize">
+      {{ label.toLocaleLowerCase() }}
+    </h6>
+    }
+  </ng-container>
+  <ng-template #notExistLabel>
+    <p>N/A</p>
+  </ng-template>
+</div>
