@@ -25,26 +25,7 @@ import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/un
 import { AppUtilities } from 'src/app/utilities/app-utilities';
 
 @Component({
-<<<<<<< HEAD
-    selector: 'app-delete-school-info-form',
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatButtonModule,
-        MatInputModule,
-        MatSelectModule,
-        MatTooltipModule,
-        MatIconModule,
-        TranslateModule,
-        HasFormControlErrorPipe,
-        MatDividerModule,
-    ],
-    templateUrl: './delete-school-info-form.component.html',
-    styleUrl: './delete-school-info-form.component.scss'
-=======
   selector: 'app-delete-school-info-form',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -60,7 +41,6 @@ import { AppUtilities } from 'src/app/utilities/app-utilities';
   ],
   templateUrl: './delete-school-info-form.component.html',
   styleUrl: './delete-school-info-form.component.scss',
->>>>>>> eb465d57eeec39fca151ad86e20fd4337434531a
 })
 export class DeleteSchoolInfoFormComponent
   implements AfterViewInit, OnGenericComponent
