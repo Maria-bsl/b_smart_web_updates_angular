@@ -241,14 +241,11 @@ export class LoginFormComponent implements AfterViewInit, OnGenericComponent {
     this._appConfig.addIcons(icons, '../assets/assets/icons');
   }
   initIds(): void {
-    this.ids$ = new Observable((subscriber) => {
-      const ids = this.domService.getDocumentElements(
-        this.keys,
-        Object.keys(ELoginForm).filter((key) => isNaN(Number(key))).length
-      );
-      ids.size > 0 && subscriber.next(ids);
-      subscriber.complete();
-    });
+    const ids = this.domService.getDocumentElements(
+      this.keys,
+      Object.keys(ELoginForm).filter((key) => isNaN(Number(key))).length
+    );
+    ids.size > 0 && (this.ids$ = of(ids));
     this.ids$ && this.attachEventHandlers();
   }
   attachEventHandlers() {

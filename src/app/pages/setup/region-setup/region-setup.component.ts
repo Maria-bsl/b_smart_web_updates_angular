@@ -48,31 +48,7 @@ import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
 import { TableItem } from 'src/app/shared/logic/table-item';
 
 @Component({
-<<<<<<< HEAD
-    selector: 'app-region-setup',
-    imports: [
-        TranslateModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        ZoneSetupTableComponent,
-        RegionSetupTableComponent,
-        MatRadioModule,
-        CommonModule,
-        MatSelectModule,
-        MatCheckboxModule,
-        MatTableModule,
-        MatPaginatorModule,
-        ActiveInactiveComponent,
-        IsSelectedItemPipe,
-    ],
-    templateUrl: './region-setup.component.html',
-    styleUrl: './region-setup.component.scss',
-    animations: [inOutAnimation]
-=======
   selector: 'app-region-setup',
-  standalone: true,
   imports: [
     TranslateModule,
     ReactiveFormsModule,
@@ -93,7 +69,6 @@ import { TableItem } from 'src/app/shared/logic/table-item';
   templateUrl: './region-setup.component.html',
   styleUrl: './region-setup.component.scss',
   animations: [inOutAnimation],
->>>>>>> eb465d57eeec39fca151ad86e20fd4337434531a
 })
 export class RegionSetupComponent implements AfterViewInit {
   headers$: Observable<string[]> = of([

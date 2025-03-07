@@ -122,7 +122,8 @@
     },
     "errors": {
       "username": "Tafadhali ingiza jina la mtumiaji",
-      "password": "Tafadhali jaza"
+      "password": "Tafadhali ingiza neno siri",
+      "captcha": "Tafadhali andika captcha"
     },
     "actions": {
       "logIn": "Ingia",

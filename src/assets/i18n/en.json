@@ -124,7 +124,8 @@
     },
     "errors": {
       "username": "Please enter username",
-      "password": "Please enter password"
+      "password": "Please enter password",
+      "captcha": "Please enter captcha"
     },
     "actions": {
       "logIn": "Log In",

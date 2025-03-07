@@ -28,22 +28,7 @@ import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/un
 import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
 
 @Component({
-<<<<<<< HEAD
-    selector: 'app-designation-setup',
-    imports: [
-        DesignationTableComponent,
-        TranslateModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-    ],
-    templateUrl: './designation-setup.component.html',
-    styleUrl: './designation-setup.component.scss',
-    animations: [inOutAnimation]
-=======
   selector: 'app-designation-setup',
-  standalone: true,
   imports: [
     DesignationTableComponent,
     TranslateModule,
@@ -55,7 +40,6 @@ import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
   templateUrl: './designation-setup.component.html',
   styleUrl: './designation-setup.component.scss',
   animations: [inOutAnimation],
->>>>>>> eb465d57eeec39fca151ad86e20fd4337434531a
 })
 export class DesignationSetupComponent implements AfterViewInit {
   @Input('keys') keys: string = '';

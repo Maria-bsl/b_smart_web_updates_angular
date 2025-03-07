@@ -45,23 +45,7 @@ import { AppUtilities } from 'src/app/utilities/app-utilities';
 import { LanguageService } from 'src/app/core/services/language-service/language.service';
 
 @Component({
-<<<<<<< HEAD
-    selector: 'app-admission-form',
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatIconModule,
-        MatButtonModule,
-        TranslateModule,
-    ],
-    templateUrl: './admission-form.component.html',
-    styleUrl: './admission-form.component.scss'
-=======
   selector: 'app-admission-form',
-  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -74,7 +58,6 @@ import { LanguageService } from 'src/app/core/services/language-service/language
   ],
   templateUrl: './admission-form.component.html',
   styleUrl: './admission-form.component.scss',
->>>>>>> eb465d57eeec39fca151ad86e20fd4337434531a
 })
 export class AdmissionFormComponent
   implements AfterViewInit, OnGenericComponent
