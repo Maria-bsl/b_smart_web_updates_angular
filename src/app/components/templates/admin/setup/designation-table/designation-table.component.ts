@@ -30,6 +30,7 @@ import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/un
 import { TableItem } from 'src/app/shared/logic/table-item';
 
 @Component({
+<<<<<<< HEAD
     selector: 'app-designation-table',
     imports: [
         MatTableModule,
@@ -45,6 +46,24 @@ import { TableItem } from 'src/app/shared/logic/table-item';
     ],
     templateUrl: './designation-table.component.html',
     styleUrl: './designation-table.component.scss'
+=======
+  selector: 'app-designation-table',
+  standalone: true,
+  imports: [
+    MatTableModule,
+    CommonModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    FormsModule,
+    TranslateModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
+    IsSelectedItemPipe,
+  ],
+  templateUrl: './designation-table.component.html',
+  styleUrl: './designation-table.component.scss',
+>>>>>>> eb465d57eeec39fca151ad86e20fd4337434531a
 })
 export class DesignationTableComponent implements AfterViewInit {
   headers$: Observable<string[]> = of(['selector', 'designation']);

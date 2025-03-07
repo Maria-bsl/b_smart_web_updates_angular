@@ -55,22 +55,22 @@ import { HasFormControlErrorPipe } from 'src/app/core/pipes/has-form-control-err
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
-    selector: 'app-update-school-info-form',
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatButtonModule,
-        MatInputModule,
-        MatSelectModule,
-        MatTooltipModule,
-        MatIconModule,
-        TranslateModule,
-        HasFormControlErrorPipe,
-        MatDividerModule,
-    ],
-    templateUrl: './update-school-info-form.component.html',
-    styleUrl: './update-school-info-form.component.scss'
+  selector: 'app-update-school-info-form',
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+    MatTooltipModule,
+    MatIconModule,
+    TranslateModule,
+    HasFormControlErrorPipe,
+    MatDividerModule,
+  ],
+  templateUrl: './update-school-info-form.component.html',
+  styleUrl: './update-school-info-form.component.scss',
 })
 export class UpdateSchoolInfoFormComponent
   implements AfterViewInit, OnGenericComponent

@@ -47,6 +47,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { AppConfigService } from 'src/app/core/services/app-config/app-config.service';
 
 @Component({
+<<<<<<< HEAD
     selector: 'app-academic-setup',
     imports: [
         ReactiveFormsModule,
@@ -63,6 +64,25 @@ import { AppConfigService } from 'src/app/core/services/app-config/app-config.se
     templateUrl: './academic-setup.component.html',
     styleUrl: './academic-setup.component.scss',
     animations: [inOutAnimation]
+=======
+  selector: 'app-academic-setup',
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    TranslateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    HasFormControlErrorPipe,
+    MatRadioModule,
+    MatButtonModule,
+    CommonModule,
+    AcademicTableComponent,
+    MatDividerModule,
+  ],
+  templateUrl: './academic-setup.component.html',
+  styleUrl: './academic-setup.component.scss',
+  animations: [inOutAnimation],
+>>>>>>> eb465d57eeec39fca151ad86e20fd4337434531a
 }) //, OnGenericComponent
 export class AcademicSetupComponent implements AfterViewInit {
   @Input('keys') keys: string = '';

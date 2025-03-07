@@ -26,6 +26,7 @@ import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/un
 import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
 
 @Component({
+<<<<<<< HEAD
     selector: 'app-zone-setup',
     imports: [
         TranslateModule,
@@ -40,6 +41,23 @@ import { inOutAnimation } from 'src/app/shared/animations/in-out-animation';
     templateUrl: './zone-setup.component.html',
     styleUrl: './zone-setup.component.scss',
     animations: [inOutAnimation]
+=======
+  selector: 'app-zone-setup',
+  standalone: true,
+  imports: [
+    TranslateModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    ZoneSetupTableComponent,
+    MatRadioModule,
+    CommonModule,
+  ],
+  templateUrl: './zone-setup.component.html',
+  styleUrl: './zone-setup.component.scss',
+  animations: [inOutAnimation],
+>>>>>>> eb465d57eeec39fca151ad86e20fd4337434531a
 })
 export class ZoneSetupComponent implements AfterViewInit {
   @Input('keys') keys: string = '';

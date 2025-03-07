@@ -66,22 +66,22 @@ import { LanguageService } from 'src/app/core/services/language-service/language
 import { RegisterSchoolFormData } from 'src/app/core/interfaces/register-school-form-data';
 
 @Component({
-    selector: 'app-register-school-form',
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatButtonModule,
-        MatInputModule,
-        MatSelectModule,
-        MatTooltipModule,
-        MatIconModule,
-        HasFormControlErrorPipe,
-        TranslateModule,
-    ],
-    templateUrl: './register-school-form.component.html',
-    styleUrl: './register-school-form.component.scss',
-    animations: [inOutAnimation]
+  selector: 'app-register-school-form',
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+    MatTooltipModule,
+    MatIconModule,
+    HasFormControlErrorPipe,
+    TranslateModule,
+  ],
+  templateUrl: './register-school-form.component.html',
+  styleUrl: './register-school-form.component.scss',
+  animations: [inOutAnimation],
 })
 export class RegisterSchoolFormComponent
   implements AfterViewInit, OnGenericComponent

@@ -30,6 +30,7 @@ import { TableItem } from 'src/app/shared/logic/table-item';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
+<<<<<<< HEAD
     selector: 'app-academic-table',
     imports: [
         MatTableModule,
@@ -46,6 +47,25 @@ import { MatButtonModule } from '@angular/material/button';
     ],
     templateUrl: './academic-table.component.html',
     styleUrl: './academic-table.component.scss'
+=======
+  selector: 'app-academic-table',
+  standalone: true,
+  imports: [
+    MatTableModule,
+    CommonModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    FormsModule,
+    IsSelectedRowPipe,
+    TranslateModule,
+    ActiveInactiveComponent,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
+  ],
+  templateUrl: './academic-table.component.html',
+  styleUrl: './academic-table.component.scss',
+>>>>>>> eb465d57eeec39fca151ad86e20fd4337434531a
 })
 export class AcademicTableComponent implements AfterViewInit {
   headers$: Observable<string[]> = of([

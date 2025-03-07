@@ -29,6 +29,7 @@ import { UnsubscribeService } from 'src/app/core/services/unsubscribe-service/un
 import { TableItem } from 'src/app/shared/logic/table-item';
 
 @Component({
+<<<<<<< HEAD
     selector: 'app-zone-setup-table',
     imports: [
         MatTableModule,
@@ -45,6 +46,25 @@ import { TableItem } from 'src/app/shared/logic/table-item';
     ],
     templateUrl: './zone-setup-table.component.html',
     styleUrl: './zone-setup-table.component.scss'
+=======
+  selector: 'app-zone-setup-table',
+  standalone: true,
+  imports: [
+    MatTableModule,
+    CommonModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    FormsModule,
+    TranslateModule,
+    ActiveInactiveComponent,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
+    IsSelectedItemPipe,
+  ],
+  templateUrl: './zone-setup-table.component.html',
+  styleUrl: './zone-setup-table.component.scss',
+>>>>>>> eb465d57eeec39fca151ad86e20fd4337434531a
 })
 export class ZoneSetupTableComponent implements AfterViewInit {
   headers$: Observable<string[]> = of(['selector', 'zoneName', 'zoneStatus']);

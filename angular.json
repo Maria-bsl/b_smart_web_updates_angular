@@ -17,9 +17,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+<<<<<<< HEAD
             "outputPath": {
               "base": "C:/Users/scott/Documents/DEV/asp_net/NMB_WEBP/NMB_WEBP/Scripts/Angular"
             },
+=======
+            "outputPath": "C:/Users/scott/Documents/DEV/asp_net/NMB_WEBP/NMB_WEBP/Scripts/Angular",
+>>>>>>> eb465d57eeec39fca151ad86e20fd4337434531a
             "index": "src/index.html",
             "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
